@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cards.Web", "Cards.Web\Cards.Web.csproj", "{600D03FB-112D-40AE-ABE9-D821E7FC741D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cards.Domain", "Cards.Domain\Cards.Domain.csproj", "{E12F0203-FC64-42CB-A25F-353CFACD8006}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{600D03FB-112D-40AE-ABE9-D821E7FC741D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{600D03FB-112D-40AE-ABE9-D821E7FC741D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{600D03FB-112D-40AE-ABE9-D821E7FC741D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E12F0203-FC64-42CB-A25F-353CFACD8006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E12F0203-FC64-42CB-A25F-353CFACD8006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E12F0203-FC64-42CB-A25F-353CFACD8006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E12F0203-FC64-42CB-A25F-353CFACD8006}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
