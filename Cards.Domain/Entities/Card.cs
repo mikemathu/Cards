@@ -6,13 +6,13 @@ namespace Cards.Domain.Entities
     public class Card//todo: attribute to addd length of each filed
     {
         private string? _color;
-        public Guid Id { get; set; }
+        public int CardId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public DateTime DateOfCreation { get; set; }
-        public Guid StatusId { get; set; } 
+        public int StatusId { get; set; } 
         public Status Status { get; set; } = null!;
-        public Guid AppUserId { get; set; }
+        public int AppUserId { get; set; }
         public AppUser AppUser { get; set; } = null!; 
         public string? Color
         {
@@ -29,12 +29,12 @@ namespace Cards.Domain.Entities
                         }
                         else
                         {
-                            throw new ValidationException("Six alphanumeric characters are required for the color code.");//TODO: Confirm if its the right exception to throw
+                            throw new ValidationException("Mike!!! => Six alphanumeric characters are required for the color code.");//TODO: Confirm if its the right exception to throw
                         }
                     }
                     else
                     {
-                        throw new ArgumentException("The color code should Start with #");//TODO: Confirm if its the right exception to throw
+                        throw new ArgumentException("Mike!!! => The color code should Start with #");//TODO: Confirm if its the right exception to throw
                     }
                 }
             }
