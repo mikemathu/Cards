@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Cards.Persistence.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
-    [Migration("20240304193853_Data Seeding")]
-    partial class DataSeeding
+    [Migration("20240305151205_Initial Database creation")]
+    partial class InitialDatabasecreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,10 +27,12 @@ namespace Cards.Persistence.Migrations
 
             modelBuilder.Entity("Cards.Domain.Entities.AppUser", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("AppUserId");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -42,8 +44,8 @@ namespace Cards.Persistence.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("character varying(60)");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -57,36 +59,38 @@ namespace Cards.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
+                            Id = 1,
                             Email = "john@gmail.com",
                             Password = "johnP@ssword",
-                            RoleId = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870")
+                            RoleId = 1
                         },
                         new
                         {
-                            Id = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
+                            Id = 2,
                             Email = "kev@gmail.com",
                             Password = "kevP@ssword",
-                            RoleId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3")
+                            RoleId = 2
                         },
                         new
                         {
-                            Id = new Guid("021ca3c1-0deb-4afd-ae94-2159a8479811"),
+                            Id = 3,
                             Email = "sue@gmail.com",
                             Password = "sueP@ssword",
-                            RoleId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3")
+                            RoleId = 2
                         });
                 });
 
             modelBuilder.Entity("Cards.Domain.Entities.Card", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("CardId");
 
-                    b.Property<Guid>("AppUserId")
-                        .HasColumnType("uuid");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Color")
                         .HasMaxLength(255)
@@ -104,8 +108,8 @@ namespace Cards.Persistence.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("character varying(60)");
 
-                    b.Property<Guid>("StatusId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -121,32 +125,34 @@ namespace Cards.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c9d4c059-49b6-410c-bc78-2d54a9991870"),
-                            AppUserId = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
+                            Id = 1,
+                            AppUserId = 2,
                             Color = "#000000",
                             DateOfCreation = new DateTime(2024, 1, 20, 20, 37, 19, 0, DateTimeKind.Utc),
                             Description = "The system has bags to be fixed",
                             Name = "Fix bugs",
-                            StatusId = new Guid("d9d4c053-49b6-410c-bc78-2d54a9991870")
+                            StatusId = 1
                         },
                         new
                         {
-                            Id = new Guid("c9d4c057-49b6-410c-bc78-2d54a9991870"),
-                            AppUserId = new Guid("86dba8c0-d178-41e7-938c-ed49778fb52a"),
+                            Id = 2,
+                            AppUserId = 2,
                             Color = "#000000",
                             DateOfCreation = new DateTime(2024, 1, 15, 20, 37, 19, 0, DateTimeKind.Utc),
                             Description = "Installation of system to the new client.",
                             Name = "System Installation",
-                            StatusId = new Guid("d8d4c053-49b6-410c-bc78-2d54a9991870")
+                            StatusId = 2
                         });
                 });
 
             modelBuilder.Entity("Cards.Domain.Entities.Role", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("RoleId");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -163,22 +169,24 @@ namespace Cards.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
+                            Id = 1,
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
+                            Id = 2,
                             Name = "Member"
                         });
                 });
 
             modelBuilder.Entity("Cards.Domain.Entities.Status", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("StatusId");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -195,17 +203,17 @@ namespace Cards.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d9d4c053-49b6-410c-bc78-2d54a9991870"),
+                            Id = 1,
                             Name = "Todo"
                         },
                         new
                         {
-                            Id = new Guid("d8d4c053-49b6-410c-bc78-2d54a9991870"),
+                            Id = 2,
                             Name = "In Progress"
                         },
                         new
                         {
-                            Id = new Guid("d7d4c053-49b6-410c-bc78-2d54a9991870"),
+                            Id = 3,
                             Name = "Done"
                         });
                 });

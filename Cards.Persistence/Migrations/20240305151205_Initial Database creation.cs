@@ -1,12 +1,15 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace Cards.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDatabaseCreation : Migration
+    public partial class InitialDatabasecreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +18,9 @@ namespace Cards.Persistence.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    RoleId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,8 +31,9 @@ namespace Cards.Persistence.Migrations
                 name: "Status",
                 columns: table => new
                 {
-                    StatusId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    StatusId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,10 +44,11 @@ namespace Cards.Persistence.Migrations
                 name: "AppUsers",
                 columns: table => new
                 {
-                    AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: false)
+                    AppUserId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Email = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
+                    Password = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
+                    RoleId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,13 +65,14 @@ namespace Cards.Persistence.Migrations
                 name: "Cards",
                 columns: table => new
                 {
-                    CardId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    CardId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
+                    Description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     DateOfCreation = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    StatusId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Color = table.Column<string>(type: "text", nullable: true)
+                    StatusId = table.Column<int>(type: "integer", nullable: false),
+                    AppUserId = table.Column<int>(type: "integer", nullable: false),
+                    Color = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -82,6 +89,44 @@ namespace Cards.Persistence.Migrations
                         principalTable: "Status",
                         principalColumn: "StatusId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "RoleId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "Member" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Status",
+                columns: new[] { "StatusId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Todo" },
+                    { 2, "In Progress" },
+                    { 3, "Done" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AppUsers",
+                columns: new[] { "AppUserId", "Email", "Password", "RoleId" },
+                values: new object[,]
+                {
+                    { 1, "john@gmail.com", "johnP@ssword", 1 },
+                    { 2, "kev@gmail.com", "kevP@ssword", 2 },
+                    { 3, "sue@gmail.com", "sueP@ssword", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Cards",
+                columns: new[] { "CardId", "AppUserId", "Color", "DateOfCreation", "Description", "Name", "StatusId" },
+                values: new object[,]
+                {
+                    { 1, 2, "#000000", new DateTime(2024, 1, 20, 20, 37, 19, 0, DateTimeKind.Utc), "The system has bags to be fixed", "Fix bugs", 1 },
+                    { 2, 2, "#000000", new DateTime(2024, 1, 15, 20, 37, 19, 0, DateTimeKind.Utc), "Installation of system to the new client.", "System Installation", 2 }
                 });
 
             migrationBuilder.CreateIndex(

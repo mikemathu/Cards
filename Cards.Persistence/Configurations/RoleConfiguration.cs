@@ -9,11 +9,11 @@ namespace Cards.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.HasKey(role => role.Id);
+            builder.HasKey(role => role.RoleId);
 
-            builder.Property(role => role.Id).HasColumnName("RoleId");
+            builder.Property(role => role.RoleId).HasColumnName("RoleId");
 
-            builder.Property(role => role.Id).ValueGeneratedOnAdd();
+            builder.Property(role => role.RoleId).ValueGeneratedOnAdd();
 
             builder.Property(role => role.Name).IsRequired().HasMaxLength(60);
 
@@ -29,12 +29,12 @@ namespace Cards.Persistence.Configurations
                 (
                     new Role
                     {
-                        Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
+                        RoleId = 1,
                         Name = "Admin"
                     },
                     new Role
                     {
-                        Id = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
+                        RoleId = 2,
                         Name = "Member"
                     }
                 );

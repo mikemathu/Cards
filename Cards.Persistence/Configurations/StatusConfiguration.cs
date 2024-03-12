@@ -8,11 +8,11 @@ namespace Cards.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Status> builder)
         {
-            builder.HasKey(status => status.Id);
+            builder.HasKey(status => status.StatusId);
 
-            builder.Property(status => status.Id).HasColumnName("StatusId");
+            builder.Property(status => status.StatusId).HasColumnName("StatusId");
 
-            builder.Property(status => status.Id).ValueGeneratedOnAdd();
+            builder.Property(status => status.StatusId).ValueGeneratedOnAdd();
 
             builder.Property(status => status.Name).IsRequired().HasMaxLength(60);
 
@@ -29,17 +29,17 @@ namespace Cards.Persistence.Configurations
               (
                   new Status
                   {
-                      Id = new Guid("d9d4c053-49b6-410c-bc78-2d54a9991870"),
+                      StatusId = 1,
                       Name = "Todo"
                   },
                   new Status
                   {
-                      Id = new Guid("d8d4c053-49b6-410c-bc78-2d54a9991870"),
+                      StatusId = 2,
                       Name = "In Progress"
                   },
                     new Status
                     {
-                        Id = new Guid("d7d4c053-49b6-410c-bc78-2d54a9991870"),
+                        StatusId = 3,
                         Name = "Done"
                     }
               );
