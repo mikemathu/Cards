@@ -23,6 +23,6 @@ namespace Cards.Persistence
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Status> Status { get; set; }
+        public DbSet<CardStatus> Status { get; set; }
     }
 }

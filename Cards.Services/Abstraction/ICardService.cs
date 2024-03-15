@@ -9,8 +9,8 @@ namespace Cards.Services.Abstraction
             int appUserId, CardParameters cardParameters, bool trackChanges);
 
         public abstract Task<CardDto> GetCardByIdAsync(int appUserId, int cardId, bool trackChanges);
-        public abstract Task<CardDto> CreateCardAsync(int appUserId, CardDto cardDto, bool trackChanges);
-        public abstract Task UpdateCardAsync(int appUserId, int cardId, CardDto cardDto, 
+        public abstract Task<CardDto> CreateCardAsync(int appUserId, CardForCreationDto cardForCreationDto, bool trackChanges);
+        public abstract Task UpdateCardAsync(int appUserId, int cardId, CardForUpdateDto cardForUpdateDto, 
             bool appUserTrackChanges, bool cardTrackChanges);
         public abstract Task DeleteCardAsync(int appUserId, int cardId, bool trackChanges);
     }

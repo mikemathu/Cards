@@ -39,17 +39,17 @@ namespace Cards.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCard(int appUserId, [FromBody] CardDto cardDto)
+        public async Task<IActionResult> CreateCard(int appUserId, [FromBody] CardForCreationDto cardForCreationDto)
         {
-            CardDto response = await _cardService.CreateCardAsync(appUserId, cardDto, trackChanges: false);
+            CardDto response = await _cardService.CreateCardAsync(appUserId, cardForCreationDto, trackChanges: false);
 
-            return CreatedAtAction(nameof(GetCardById), new { appUserId = response.AppUserId, cardId = response.CardId }, response);
+            return CreatedAtAction(nameof(GetCardById), new { appUserId, cardId = response.CardId }, response);
         }
 
         [HttpPut("{cardId}")]
-        public async Task<IActionResult> UpdateCard(int appUserId, int cardId, [FromBody] CardDto cardDto)
+        public async Task<IActionResult> UpdateCard(int appUserId, int cardId, [FromBody] CardForUpdateDto cardForUpdateDto)
         {
-            await _cardService.UpdateCardAsync(appUserId, cardId, cardDto, 
+            await _cardService.UpdateCardAsync(appUserId, cardId, cardForUpdateDto, 
                 appUserTrackChanges: false, cardTrackChanges: true);
 
             return NoContent();

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Cards.Domain.Constants;
 
 namespace Cards.Domain.Entities
 {
@@ -9,33 +9,36 @@ namespace Cards.Domain.Entities
         public int CardId { get; set; }
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
-        public DateTime DateOfCreation { get; set; }
-        public int StatusId { get; set; } 
-        public Status Status { get; set; } = null!;
+        public DateTime DateOfCreation { get; set; } = DateTime.UtcNow;
+        public int StatusId { get; set; } = (int)StatusEnum.ToDo;
+        public CardStatus CardStatus { get; set; } = null!;
         public int AppUserId { get; set; }
-        public AppUser AppUser { get; set; } = null!; 
+        public AppUser AppUser { get; set; } = null!;
         public string? Color
         {
             get { return _color; }
             set
             {
-                if (value != null && value != string.Empty)
+                if (string.IsNullOrEmpty(value))
                 {
-                    if (value.StartsWith("#"))
+                    _color = null; 
+                    return;
+                }
+
+                if (value.StartsWith("#"))
+                {
+                    if (value.Length == 7) 
                     {
-                        if (value.ToArray().Skip(1).Count() == 6)
-                        {
-                            _color = value;
-                        }
-                        else
-                        {
-                            throw new ValidationException("Mike!!! => Six alphanumeric characters are required for the color code.");//TODO: Confirm if its the right exception to throw
-                        }
+                        _color = value; 
                     }
                     else
                     {
-                        throw new ArgumentException("Mike!!! => The color code should Start with #");//TODO: Confirm if its the right exception to throw
+                        throw new ValidationException("Six alphanumeric characters are required for the color code.");
                     }
+                }
+                else
+                {
+                    throw new ArgumentException("The color code should start with '#'.");
                 }
             }
         }

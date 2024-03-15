@@ -16,6 +16,8 @@ namespace Cards.Persistence.Repositories
             bool trackChanges, Dictionary<string, object> cardQueryFilters)
         {
             PagedList<Card> pagedCards = await InitializeQueryWithTrackingPreference(trackChanges)
+                .Include(card => card.CardStatus)
+                .Include(card => card.AppUser)
                 .FilterByCardQueryFilters(cardQueryFilters)
                 .OrderBy(card => card.CardId)
                 .ToPagedListAsync(cardParameters.PageNumber, cardParameters.PageSize);//todo: add sorting
@@ -26,6 +28,8 @@ namespace Cards.Persistence.Repositories
            bool trackChanges, Dictionary<string, object> cardQueryFilters)
         {
             PagedList<Card> pagedCards = await InitializeQueryWithTrackingPreference(trackChanges)
+           .Include(card => card.CardStatus)
+           .Include(card => card.AppUser)
            .Where(card => card.AppUserId == appUserId)
            .FilterByCardQueryFilters(cardQueryFilters)
            .OrderBy(card => card.CardId)
@@ -35,7 +39,10 @@ namespace Cards.Persistence.Repositories
         }
         public async Task<Card?> GetCardByIdAsync(int cardId, bool trackChanges)
         {
-            return await GetByCondition(card => card.CardId.Equals(cardId), trackChanges).SingleOrDefaultAsync();
+            return await GetByCondition(card => card.CardId.Equals(cardId), trackChanges)
+                .Include(card => card.CardStatus)
+                .Include(card => card.AppUser)
+                .SingleOrDefaultAsync();
         }
 
         public async Task CreateCardAsync(Card card) => await CreateAsync(card);   

@@ -1,4 +1,5 @@
-﻿using Cards.Domain.Entities;
+﻿using Cards.Domain.Constants;
+using Cards.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -32,7 +33,7 @@ namespace Cards.Persistence.Configurations
                         Name = "Fix bugs",
                         Description = "The system has bags to be fixed",
                         DateOfCreation = new DateTime(2024, 1, 20, 20, 37, 19, 0, DateTimeKind.Utc),
-                        StatusId = 1,
+                        StatusId = (int)StatusEnum.ToDo,
                         AppUserId = 2,
                         Color = "#000000"
                     },
@@ -42,7 +43,7 @@ namespace Cards.Persistence.Configurations
                         Name = "System Installation",
                         Description = "Installation of system to the new client.",
                         DateOfCreation = new DateTime(2024, 1, 15, 20, 37, 19, 0, DateTimeKind.Utc),
-                        StatusId = 2,
+                        StatusId = (int)StatusEnum.ToDo,
                         AppUserId = 2,
                         Color = "#000000"
                     }

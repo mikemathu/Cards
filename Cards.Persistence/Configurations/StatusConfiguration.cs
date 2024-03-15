@@ -1,12 +1,13 @@
-﻿using Cards.Domain.Entities;
+﻿using Cards.Domain.Constants;
+using Cards.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Cards.Persistence.Configurations
 {
-    internal sealed class StatusConfiguration : IEntityTypeConfiguration<Status>
+    internal sealed class StatusConfiguration : IEntityTypeConfiguration<CardStatus>
     {
-        public void Configure(EntityTypeBuilder<Status> builder)
+        public void Configure(EntityTypeBuilder<CardStatus> builder)
         {
             builder.HasKey(status => status.StatusId);
 
@@ -19,7 +20,7 @@ namespace Cards.Persistence.Configurations
             builder.HasIndex(appUser => appUser.Name).IsUnique();
 
             builder.HasMany<Card>()
-                .WithOne(e => e.Status)
+                .WithOne(e => e.CardStatus)
                 .HasForeignKey(e => e.StatusId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
@@ -27,20 +28,20 @@ namespace Cards.Persistence.Configurations
 
             builder.HasData
               (
-                  new Status
+                  new CardStatus
                   {
                       StatusId = 1,
-                      Name = "Todo"
+                      Name = StatusName.ToDo
                   },
-                  new Status
+                  new CardStatus
                   {
                       StatusId = 2,
-                      Name = "In Progress"
+                      Name = StatusName.InProgress
                   },
-                    new Status
+                    new CardStatus
                     {
                         StatusId = 3,
-                        Name = "Done"
+                        Name = StatusName.Done
                     }
               );
         }

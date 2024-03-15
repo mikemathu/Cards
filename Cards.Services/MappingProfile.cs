@@ -8,13 +8,13 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<CardDto, Card >()
-            .ForMember(dest => dest.CardId, opt => opt.Ignore()) 
-            .ForMember(dest => dest.Status, opt => opt.Ignore()) 
-            .ForMember(dest => dest.AppUser, opt => opt.Ignore());
+        CreateMap<Card, CardDto>()
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.CardStatus.Name))
+            .ForMember(dest => dest.CreatedByAppUser, opt => opt.MapFrom(src => src.AppUser.Email));
 
-        CreateMap<Card, CardDto>();
+        CreateMap<CardForCreationDto, Card>();
 
-        CreateMap<AppUser, AppUserDto>();
+        CreateMap<CardForUpdateDto, Card>();
+
     }
 }

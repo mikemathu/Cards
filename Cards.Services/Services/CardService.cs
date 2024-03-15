@@ -87,11 +87,13 @@ namespace Cards.Services.Services
             return cardDto;
         }
 
-        public async Task<CardDto> CreateCardAsync(int appUserId, CardDto cardDto, bool trackChanges)
+        public async Task<CardDto> CreateCardAsync(int appUserId, CardForCreationDto cardForCreationDto, bool trackChanges)
         {
             AppUser appUserFromDb = await GetAppUserByIdAndCheckIfItExistsAsync(appUserId, trackChanges);
 
-            Card cardEntity = _mapper.Map<Card>(cardDto);
+
+            Card cardEntity = _mapper.Map<Card>(cardForCreationDto);
+
 
             cardEntity.AppUserId = appUserFromDb.AppUserId;
 
@@ -101,22 +103,26 @@ namespace Cards.Services.Services
 
             _cardRepository.DetatchCard(cardEntity);
 
-            CardDto cardToReturn = _mapper.Map<CardDto>(cardEntity);
+            Card cardfromDb = await GetCardByIdAndCHeckIfItExistsAsync(cardEntity.CardId, trackChanges);
+
+            CardDto cardToReturn = _mapper.Map<CardDto>(cardfromDb);
 
             return cardToReturn;
         }
 
-        public async Task UpdateCardAsync(int appUserId, int cardId, CardDto cardDto,
+        public async Task UpdateCardAsync(int appUserId, int cardId, CardForUpdateDto cardForUpdateDto,
             bool appUserTrackChanges, bool cardTrackChanges)
         {
             AppUser appUserFromDb = await GetAppUserByIdAndCheckIfItExistsAsync(appUserId, appUserTrackChanges);
 
             Card cardfromDb = await GetCardByIdAndCHeckIfItExistsAsync(cardId, cardTrackChanges);
 
+            //Todo: check whether the status exists before maping
+
             if (cardfromDb.AppUserId != appUserFromDb.AppUserId)
                 throw new CardDoesNotBelongToAppUserException(appUserFromDb.AppUserId, cardfromDb.CardId);
 
-            _mapper.Map(cardDto, cardfromDb);
+            _mapper.Map(cardForUpdateDto, cardfromDb);
 
             await _unitOfWork.SaveAsync();
 
