@@ -7,7 +7,7 @@ namespace Cards.Domain.Entities
     {
         private string? _color;
         public int CardId { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public DateTime DateOfCreation { get; set; }
         public int StatusId { get; set; } 

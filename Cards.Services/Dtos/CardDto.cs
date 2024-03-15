@@ -6,7 +6,7 @@ namespace Cards.Services.Dtos
     public class CardDto
     {
         public int CardId { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public DateTime DateOfCreation { get; set; }
         public int StatusId { get; set; }
