@@ -8,6 +8,6 @@ namespace Cards.Services.Abstraction
     {
         public abstract Task<IdentityResult> RegisterUserAsync(UserForRegistrationDto userForRegistrationDto);
         public abstract ValueTask<bool> ValidateUserAsync(UserForAuthenticationDto userForAuthenticationDto);
-        public abstract string CreateToken();
+        public abstract Task<string> CreateToken();
     }
 }

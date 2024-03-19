@@ -33,7 +33,7 @@ namespace Cards.Presentation.Controllers
             if (!isUserValid)
                 return Unauthorized();
 
-            string token =  _authenticationService.CreateToken();
+            string token =await  _authenticationService.CreateToken();
 
             return Ok(new { Token = token });
         }

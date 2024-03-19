@@ -11,7 +11,7 @@ namespace Cards.Domain.Entities
         public string? Description { get; set; }
         public DateTime DateOfCreation { get; set; } = DateTime.UtcNow;
         public string StatusId { get; set; } = StatusDetails.StatusNameToIdMappings[StatusDetails.ToDo];
-        public CardStatus CardStatus { get; set; } = null!;
+        public Status Status { get; set; } = null!;
         public string AppUserId { get; set; } = null!;
         public AppUser AppUser { get; set; } = null!;
         public string? Color

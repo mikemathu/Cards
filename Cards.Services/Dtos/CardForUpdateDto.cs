@@ -11,24 +11,30 @@ namespace Cards.Services.Dtos
 
         [Required(ErrorMessage = "Status is a required field.")]
         [MaxLength(50, ErrorMessage = "Maximum length for the Status is 50 characters.")]
+
+
+
         public string Status
         {
-            get { return _status; }
+            //get { return _status; }
             set
             {
-                _status = value.ToLower();
+               // _status = value.Trim();
+                _status = value;
 
                 if (_status != null)
                 {
-                    if (_status == StatusDetails.ToDo.ToLower())
+                    StringComparison stringComparison = StringComparison.InvariantCultureIgnoreCase;
+
+                    if (_status.Equals(StatusDetails.ToDo, stringComparison))
                     {
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.ToDo];
                     }
-                    else if (_status == StatusDetails.InProgress.ToLower())
+                    else if (_status.Equals(StatusDetails.InProgress, stringComparison))
                     {
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.InProgress];
                     }
-                    else if (_status == StatusDetails.Done.ToLower())
+                    else if (_status.Equals(StatusDetails.Done, stringComparison))
                     {
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.Done]; ;
                     }
@@ -39,6 +45,35 @@ namespace Cards.Services.Dtos
                 }
             }
         }
+
+        /*   public string Status
+           {
+               //get { return _status; }
+               set
+               {
+                   _status = value.ToLower();
+
+                   if (_status != null)
+                   {
+                       if (_status == StatusDetails.ToDo.ToLower())
+                       {
+                           StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.ToDo];
+                       }
+                       else if (_status == StatusDetails.InProgress.ToLower())
+                       {
+                           StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.InProgress];
+                       }
+                       else if (_status == StatusDetails.Done.ToLower())
+                       {
+                           StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.Done]; ;
+                       }
+                       else
+                       {
+                           throw new ArgumentException($"Status name '{value}' does not exist.");
+                       }
+                   }
+               }
+           }*/
     }
 
 }

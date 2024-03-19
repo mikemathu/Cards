@@ -21,11 +21,23 @@ namespace Cards.Presentation.Controllers
             _cardService = cardService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetCards(string appUserId, [FromQuery] CardParameters cardParameters )
+        [HttpGet("all")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllCards(string appUserId, [FromQuery] CardParameters cardParameters )
         {
             (IEnumerable<CardDto> cards, MetaData metaData) = 
-                await _cardService.GetCardsAsync(appUserId, cardParameters, trackChanges: false);
+                await _cardService.GetAllCardsAsync(appUserId, cardParameters, trackChanges: false);
+
+            Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
+
+            return Ok(cards);
+        }
+        [HttpGet("forUser")]
+        [Authorize(Roles = "Member")]
+        public async Task<IActionResult> GetCardsForUserAsync(string appUserId, [FromQuery] CardParameters cardParameters )
+        {
+            (IEnumerable<CardDto> cards, MetaData metaData) = 
+                await _cardService.GetCardsForUserAsync(appUserId, cardParameters, trackChanges: false);
 
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
 

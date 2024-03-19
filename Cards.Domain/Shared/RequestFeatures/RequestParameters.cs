@@ -14,7 +14,7 @@
             set => _pagesize = value > maxPageSize ? maxPageSize : value;
         }
 
-        public string? OrderBy { get; set; }
+        public string OrderBy { get; set; } = null!;
 
     }
 }

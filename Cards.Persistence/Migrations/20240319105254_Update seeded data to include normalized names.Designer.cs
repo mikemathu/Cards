@@ -3,6 +3,7 @@ using System;
 using Cards.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Cards.Persistence.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
-    partial class RepositoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240319105254_Update seeded data to include normalized names")]
+    partial class Updateseededdatatoincludenormalizednames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,16 +104,16 @@ namespace Cards.Persistence.Migrations
                         {
                             Id = "admin46d-9e9f-44d3-8425-263ba67509aa",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f127bd5a-666e-41d4-bd3e-c2b80d735645",
+                            ConcurrencyStamp = "99643f8b-ea99-48aa-b6c2-12235ea11a12",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAePdReFst0++ptiYB3+e5LQsAekQrqyQ4sFY7TpbAzCkQ/NTiwlzX7Uge252qOw6w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOsG5Zl6lTxrkhILjJiMBQiqUwXj8GN4XnSja8ACOlaS3Ap4T15AWlRftrcgQ/rYzA==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Adminf86-5601-41eb-a871-a660b2f0f449",
-                            SecurityStamp = "7a850996-98bc-477f-92d5-c37aa929f242",
+                            SecurityStamp = "063a8389-ecf2-42df-a7ee-01af431c7dcc",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -118,16 +121,16 @@ namespace Cards.Persistence.Migrations
                         {
                             Id = "kev5f943-112f-4d49-888d-c671e210b8b8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c03ed726-c556-42f2-8f9f-7eea70a12ca3",
+                            ConcurrencyStamp = "59081216-c53a-42a2-a1e9-f1a960e18536",
                             Email = "kev@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "KEV@GMAIL.COM",
                             NormalizedUserName = "KEV@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAMvv4j9lqEEUQa0lZPrb2r4n+vq3JTYG84ZjVLH/juE4gt7J+NKjz7WHTy7/MyZqQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDcwDt0XLgutdor5Th6DsubX3duZeVplAS6mB8X230oqttFNm1iz0k5xk+cIz6JPyw==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Member8a-19f1-430e-aba5-9082dacfa9dd",
-                            SecurityStamp = "c15be853-9568-4d14-9b32-8149df658ae7",
+                            SecurityStamp = "789b1fbc-a19d-46a9-bd1c-a116ebce141b",
                             TwoFactorEnabled = false,
                             UserName = "kev@gmail.com"
                         },
@@ -135,16 +138,16 @@ namespace Cards.Persistence.Migrations
                         {
                             Id = "suee8ebc-7959-4591-b86c-da19d3630419",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6d2e0819-8469-4dc1-b296-c06b7ba87018",
+                            ConcurrencyStamp = "2df21b62-d365-4fcd-943e-a8c500a65fe7",
                             Email = "sue@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SUE@GMAIL.COM",
                             NormalizedUserName = "SUE@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOXMNS592htiImnmHoxNFdb2+z2aJsd/SoO+PQYz5VeET7A/73Cc2y7qCWabfXsi0g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGRuW8rPYJgB7szrSHTNlgWePkPUq6HWpb1CDOkgTIQ0KtRAufOsTBIixS1dWVxTuQ==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Member8a-19f1-430e-aba5-9082dacfa9dd",
-                            SecurityStamp = "a399d6e3-53eb-4df4-b528-e96cb7004f1d",
+                            SecurityStamp = "ee3c3ea4-5122-46a7-8992-e43a3e672a34",
                             TwoFactorEnabled = false,
                             UserName = "sue@gmail.com"
                         },
@@ -152,16 +155,16 @@ namespace Cards.Persistence.Migrations
                         {
                             Id = "sam172c6-46e5-4b40-a0a7-54f2424c7791",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6a43a81b-ad78-45fc-b1a2-a209dd77d82e",
+                            ConcurrencyStamp = "39f9e3fd-2ff8-4c7e-b0b5-c0141414de53",
                             Email = "sam@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SAM@GMAIL.COM",
                             NormalizedUserName = "SAM@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGRu2GWXPXr6Rxl3f+ZrZeyZZhRfMQosGuLIyLg1RVbxrLvnqJB4X9JLFbVrMDBdKA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEETUXSZPK1Px9LTaebFGmbq2RYpMVHXBWTYCDhmCi/M+sekUPGdbyW+pBYQIRyVCOQ==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Member8a-19f1-430e-aba5-9082dacfa9dd",
-                            SecurityStamp = "b1d77394-be51-49c1-836b-400d76e10fdf",
+                            SecurityStamp = "95c934e8-39c8-44e6-a7ad-73040eb239a3",
                             TwoFactorEnabled = false,
                             UserName = "sam@gmail.com"
                         },
@@ -169,16 +172,16 @@ namespace Cards.Persistence.Migrations
                         {
                             Id = "ben8c400-aa14-4fb9-868e-1202d25bff95",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "075992e2-6777-45f5-943c-113dd148d903",
+                            ConcurrencyStamp = "9b0ad2b9-421e-471b-8ce2-cd7fae22e022",
                             Email = "ben@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "BEN@GMAIL.COM",
                             NormalizedUserName = "BEN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHdxD2f+cargF0YBlnsj6S62lsXkRvxxOkr8vGRS8//EeS23YR3d6WMj0+U0VSjU2A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELbsbsuXX5Aj/cBMjB8ApD+WuK1Z43YRdM0k9x9BzyAL0eB3L/ufxglJCWhvUU1XHQ==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Member8a-19f1-430e-aba5-9082dacfa9dd",
-                            SecurityStamp = "aa21b882-e17c-4e29-98d0-fee8d2c6fc08",
+                            SecurityStamp = "303e045f-11fc-4a51-a368-36ae231c6750",
                             TwoFactorEnabled = false,
                             UserName = "ben@gmail.com"
                         },
@@ -186,16 +189,16 @@ namespace Cards.Persistence.Migrations
                         {
                             Id = "elide650-28ea-4df1-bfc4-6b3e9a03d0de",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f2377286-5ec3-405f-b816-08a1592bf69f",
+                            ConcurrencyStamp = "6140b6c7-917d-4620-a22c-f62f3ccf5126",
                             Email = "elie@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ELI@GMAIL.COM",
                             NormalizedUserName = "ELI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEww/SpInE6WIGQ8LdEZfwbVZhY/yvGPKzkJ6GHOV7emfCXP2frpctNoNQjELwInkw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG+jJFZXa2nofcyhwYWnwpUyIlFAIOKUXajXW4fF0dDMlIZBc8niTa+u5ecdHwNSFQ==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Member8a-19f1-430e-aba5-9082dacfa9dd",
-                            SecurityStamp = "808634c4-3479-436b-b766-42a259d6952e",
+                            SecurityStamp = "7df7d330-a377-40f6-aa76-a7d22edf21e9",
                             TwoFactorEnabled = false,
                             UserName = "elie@gmail.com"
                         });
@@ -233,7 +236,7 @@ namespace Cards.Persistence.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Cards", (string)null);
+                    b.ToTable("Cards");
                 });
 
             modelBuilder.Entity("Cards.Domain.Entities.CardStatus", b =>
@@ -254,7 +257,7 @@ namespace Cards.Persistence.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Status", (string)null);
+                    b.ToTable("Status");
 
                     b.HasData(
                         new

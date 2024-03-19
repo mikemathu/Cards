@@ -2,7 +2,7 @@
 
 namespace Cards.Domain.Entities
 {
-    public class CardStatus
+    public class Status
     {
         public string StatusId { get; set; } = null!;
         public string Name { get; set; } = StatusDetails.ToDo;

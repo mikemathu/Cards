@@ -1,11 +1,14 @@
-﻿using Cards.Domain.Shared.RequestFeatures;
+﻿using Cards.Domain.Entities;
+using Cards.Domain.Shared.RequestFeatures;
 using Cards.Services.Dtos;
 
 namespace Cards.Services.Abstraction
 {
     public interface ICardService
     {
-        public abstract Task<(IEnumerable<CardDto> cards, MetaData metaData)>GetCardsAsync(
+        public abstract Task<(IEnumerable<CardDto> cards, MetaData metaData)>GetAllCardsAsync(
+            string appUserId, CardParameters cardParameters, bool trackChanges);
+        public abstract Task<(IEnumerable<CardDto> cards, MetaData metaData)>GetCardsForUserAsync(
             string appUserId, CardParameters cardParameters, bool trackChanges);
 
         public abstract Task<CardDto> GetCardByIdAsync(string appUserId, string cardId, bool trackChanges);

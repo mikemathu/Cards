@@ -73,7 +73,7 @@ namespace Cards.Web.Extensions
                 {
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    ValidateLifetime = true,
+                    ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
 
                     ValidIssuer = jwtSettings["validIssuer"],

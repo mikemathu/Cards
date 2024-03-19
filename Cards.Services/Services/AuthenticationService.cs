@@ -12,9 +12,10 @@ using System.Text;
 
 namespace Cards.Services.Services
 {
-    public class AuthenticationService(UserManager<AppUser> userManager, IConfiguration configuration, IMapper mapper) : IAuthenticationService
+    public class AuthenticationService(UserManager<AppUser> userManager, RoleManager<Role> roleManager, IConfiguration configuration, IMapper mapper) : IAuthenticationService
     {
         private readonly UserManager<AppUser> _userManager = userManager;
+        private readonly RoleManager<Role> _roleManager = roleManager;
         private readonly IConfiguration _configuration = configuration;
         private readonly IMapper _mapper = mapper;
 
@@ -49,11 +50,11 @@ namespace Cards.Services.Services
             return isPasswordValid;
         }
 
-        public string CreateToken()
+        public async Task<string> CreateToken()
         {
             SigningCredentials signingCredentials = GetSigningCredentials();
 
-            List<Claim> claims = GetClaims();
+            List<Claim> claims = await GetClaims();
 
             JwtSecurityToken tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 
@@ -73,17 +74,26 @@ namespace Cards.Services.Services
             return new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         }
 
-        private List<Claim> GetClaims()
+        private async Task<List<Claim>> GetClaims()
         {
-            List<Claim> claims = [];
+            var claims = new List<Claim>();
 
-            if (_appUser != null && _appUser.Email != null)
-            {
+            if (_appUser == null)
+                return claims;
+
+            if (!string.IsNullOrEmpty(_appUser.Email))
                 claims.Add(new Claim(ClaimTypes.Email, _appUser.Email));
+
+            if (!string.IsNullOrEmpty(_appUser.RoleId))
+            {
+                var role = await _roleManager.FindByIdAsync(_appUser.RoleId);
+
+                if (role != null && !string.IsNullOrEmpty(role.Name))
+                    claims.Add(new Claim(ClaimTypes.Role, role.Name));
             }
+
             return claims;
         }
-
 
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
@@ -94,7 +104,7 @@ namespace Cards.Services.Services
                 issuer: jwtSettings["validIssuer"],
                 audience: jwtSettings["validAudience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["expires"])),
+                //expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["expires"])),
                 signingCredentials: signingCredentials
             );
 

@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Cards.Persistence.Configurations
 {
-    internal sealed class StatusConfiguration : IEntityTypeConfiguration<CardStatus>
+    internal sealed class StatusConfiguration : IEntityTypeConfiguration<Status>
     {
-        public void Configure(EntityTypeBuilder<CardStatus> builder)
+        public void Configure(EntityTypeBuilder<Status> builder)
         {
             builder.HasKey(status => status.StatusId);
 
@@ -22,7 +22,7 @@ namespace Cards.Persistence.Configurations
             builder.HasIndex(appUser => appUser.Name).IsUnique();
 
             builder.HasMany<Card>()
-                .WithOne(e => e.CardStatus)
+                .WithOne(e => e.Status)
                 .HasForeignKey(e => e.StatusId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
@@ -30,17 +30,17 @@ namespace Cards.Persistence.Configurations
 
             builder.HasData
               (
-                  new CardStatus
+                  new Status
                   {
                       StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.ToDo],
                       Name = StatusDetails.ToDo
                   },
-                  new CardStatus
+                  new Status
                   {
                       StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.InProgress],
                       Name = StatusDetails.InProgress
                   },
-                    new CardStatus
+                    new Status
                     {
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.Done],
                         Name = StatusDetails.Done

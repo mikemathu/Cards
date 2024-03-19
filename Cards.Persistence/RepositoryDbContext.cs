@@ -24,6 +24,6 @@ namespace Cards.Persistence
 
         }
         public DbSet<Card> Cards { get; set; }
-        public DbSet<CardStatus> Status { get; set; }
+        public DbSet<Status> Status { get; set; }
     }
 }

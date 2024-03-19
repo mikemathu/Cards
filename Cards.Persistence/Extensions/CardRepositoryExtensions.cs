@@ -1,6 +1,8 @@
 ﻿using Cards.Domain.Entities;
 using System.Reflection;
 using System.Text;
+using System.Linq.Dynamic.Core;
+using Cards.Persistence.Extensions.Utility;
 
 namespace Cards.Persistence.Extensions
 {
@@ -22,11 +24,8 @@ namespace Cards.Persistence.Extensions
                     case "StatusId":
                         cardQuery = cardQuery.Where(card => card.StatusId == (string)key.Value);
                         break;
-                    case "StartDate":
-                        cardQuery = cardQuery.Where(card => card.DateOfCreation >= (DateTime)key.Value);
-                        break;
-                    case "EndDate":
-                        cardQuery = cardQuery.Where(card => card.DateOfCreation <= (DateTime)key.Value);
+                    case "DateOfCreation":
+                        cardQuery = cardQuery.Where(card => card.DateOfCreation == (DateTime)key.Value);
                         break;
                     default:
                         break;
@@ -35,7 +34,22 @@ namespace Cards.Persistence.Extensions
             return cardQuery;
         }
 
-       
+
+        public static IQueryable<Card> Sort(this IQueryable<Card> cards, string orderByQueryString)
+        {
+            if (string.IsNullOrWhiteSpace(orderByQueryString))
+                return cards.OrderBy(card => card.Name);
+
+            string? orderQuery = OrderQueryBuilder.CreateOrderQuery<Card>(orderByQueryString);
+
+            if (string.IsNullOrWhiteSpace(orderQuery))
+                return cards.OrderBy(card => card.Name);
+
+            IOrderedQueryable<Card> sortedCards = cards.OrderBy(orderQuery);
+
+            return sortedCards;
+        }
+
 
         public static IQueryable<Card> Search(this IQueryable<Card> cards, string searchTerm)
         {
@@ -44,31 +58,6 @@ namespace Cards.Persistence.Extensions
             var lowerCaseTerm = searchTerm.Trim().ToLower();
             return cards.Where(e => e.Name.ToLower().Contains(lowerCaseTerm));
         }
-
-      /*  public static IQueryable<Card> Sort(this IQueryable<Card> employees, string orderByQueryString)
-        {
-            if (string.IsNullOrWhiteSpace(orderByQueryString))
-                return employees.OrderBy(e => e.Name);
-            var orderParams = orderByQueryString.Trim().Split(',');
-            var propertyInfos = typeof(Card).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var orderQueryBuilder = new StringBuilder();
-            foreach (var param in orderParams)
-            {
-                if (string.IsNullOrWhiteSpace(param))
-                    continue;
-                var propertyFromQueryName = param.Split(" ")[0];
-                var objectProperty = propertyInfos.FirstOrDefault(pi =>
-               pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
-                if (objectProperty == null)
-                    continue;
-                var direction = param.EndsWith(" desc") ? "descending" : "ascending";
-                orderQueryBuilder.Append($"{objectProperty.Name.ToString()} {direction}, ");
-            }
-            var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');
-            if (string.IsNullOrWhiteSpace(orderQuery))
-                return employees.OrderBy(e => e.Name);
-            return employees.OrderBy(orderQuery);
-        }*/
 
 
     }
