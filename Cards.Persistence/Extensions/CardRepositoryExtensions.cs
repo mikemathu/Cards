@@ -34,29 +34,17 @@ namespace Cards.Persistence.Extensions
             return cardQuery;
         }
 
-
-        public static IQueryable<Card> Sort(this IQueryable<Card> cards, string orderByQueryString)
+        public static IQueryable<Card> Sort(this IQueryable<Card> employees, string orderByQueryString)
         {
             if (string.IsNullOrWhiteSpace(orderByQueryString))
-                return cards.OrderBy(card => card.Name);
+                return employees.OrderBy(e => e.Name);
 
-            string? orderQuery = OrderQueryBuilder.CreateOrderQuery<Card>(orderByQueryString);
+            var orderQuery = OrderQueryBuilder.CreateOrderQuery<Card>(orderByQueryString);
 
             if (string.IsNullOrWhiteSpace(orderQuery))
-                return cards.OrderBy(card => card.Name);
+                return employees.OrderBy(e => e.Name);
 
-            IOrderedQueryable<Card> sortedCards = cards.OrderBy(orderQuery);
-
-            return sortedCards;
-        }
-
-
-        public static IQueryable<Card> Search(this IQueryable<Card> cards, string searchTerm)
-        {
-            if (string.IsNullOrWhiteSpace(searchTerm))
-                return cards;
-            var lowerCaseTerm = searchTerm.Trim().ToLower();
-            return cards.Where(e => e.Name.ToLower().Contains(lowerCaseTerm));
+            return employees.OrderBy(orderQuery);
         }
 
 

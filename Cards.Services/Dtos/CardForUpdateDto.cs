@@ -16,11 +16,10 @@ namespace Cards.Services.Dtos
 
         public string Status
         {
-            //get { return _status; }
+            get { return _status; }
             set
             {
-               // _status = value.Trim();
-                _status = value;
+                _status = value.Trim();
 
                 if (_status != null)
                 {
@@ -44,36 +43,7 @@ namespace Cards.Services.Dtos
                     }
                 }
             }
-        }
-
-        /*   public string Status
-           {
-               //get { return _status; }
-               set
-               {
-                   _status = value.ToLower();
-
-                   if (_status != null)
-                   {
-                       if (_status == StatusDetails.ToDo.ToLower())
-                       {
-                           StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.ToDo];
-                       }
-                       else if (_status == StatusDetails.InProgress.ToLower())
-                       {
-                           StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.InProgress];
-                       }
-                       else if (_status == StatusDetails.Done.ToLower())
-                       {
-                           StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.Done]; ;
-                       }
-                       else
-                       {
-                           throw new ArgumentException($"Status name '{value}' does not exist.");
-                       }
-                   }
-               }
-           }*/
+           }
     }
 
 }

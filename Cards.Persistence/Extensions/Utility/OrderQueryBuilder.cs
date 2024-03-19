@@ -18,7 +18,7 @@ namespace Cards.Persistence.Extensions.Utility
                 if (string.IsNullOrWhiteSpace(param))
                     continue;
 
-                var propertyFromQueryName = param.Split(" ")[0];
+                string propertyFromQueryName = param.Split(" ")[0];
 
                 PropertyInfo? objectProperty = propertyInfos.FirstOrDefault(pi => 
                 pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));

@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Cards.Persistence/Extensions/CardRepositoryExtensions.cs
+/Cards.Services/Dtos/CardForUpdateDto.cs
+/.gitignore
