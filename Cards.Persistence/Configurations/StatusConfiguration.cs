@@ -13,9 +13,11 @@ namespace Cards.Persistence.Configurations
 
             builder.Property(status => status.StatusId).HasColumnName("StatusId");
 
+            builder.Property(status => status.StatusId).HasMaxLength(50);
+
             builder.Property(status => status.StatusId).ValueGeneratedOnAdd();
 
-            builder.Property(status => status.Name).IsRequired().HasMaxLength(60);
+            builder.Property(status => status.Name).IsRequired().HasMaxLength(50);
 
             builder.HasIndex(appUser => appUser.Name).IsUnique();
 
@@ -30,18 +32,18 @@ namespace Cards.Persistence.Configurations
               (
                   new CardStatus
                   {
-                      StatusId = 1,
-                      Name = StatusName.ToDo
+                      StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.ToDo],
+                      Name = StatusDetails.ToDo
                   },
                   new CardStatus
                   {
-                      StatusId = 2,
-                      Name = StatusName.InProgress
+                      StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.InProgress],
+                      Name = StatusDetails.InProgress
                   },
                     new CardStatus
                     {
-                        StatusId = 3,
-                        Name = StatusName.Done
+                        StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.Done],
+                        Name = StatusDetails.Done
                     }
               );
         }

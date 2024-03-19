@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cards.Domain.Constants;
 using Cards.Domain.Contracts;
 using Cards.Domain.Entities;
 using Cards.Domain.Exceptions;
@@ -10,19 +11,19 @@ namespace Cards.Services.Services
 {
     public class CardService : ICardService
     {
-        private readonly ICardRepository _cardRepository;
         private readonly IAppUserRepository _appUserRepository;
+        private readonly ICardRepository _cardRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public CardService(ICardRepository cardRepository, IAppUserRepository appUserRepository, 
+        public CardService(IAppUserRepository appUserRepository, ICardRepository cardRepository,  
             IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _cardRepository = cardRepository;
             _appUserRepository = appUserRepository;
+            _cardRepository = cardRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<(IEnumerable<CardDto> cards, MetaData metaData)> GetCardsAsync(int appUserId,
+        public async Task<(IEnumerable<CardDto> cards, MetaData metaData)> GetCardsAsync(string appUserId,
             CardParameters cardParameters, bool trackChanges)
         {
             if (!cardParameters.IsDateOfCreationValid)
@@ -32,9 +33,11 @@ namespace Cards.Services.Services
 
             Dictionary<string, object> cardQueryFilters = GetCardFiterParameters(cardParameters);
 
-            PagedList<Card> cardsWithMetaData;            
+            PagedList<Card> cardsWithMetaData;
 
-            if (appUserfromDb.Role.Name == "Admin")
+            string admin = RoleDetails.RoleNameToIdMappings[RoleDetails.Admin];
+
+            if (appUserfromDb.Role.Name == admin)
             {
                 cardsWithMetaData = await _cardRepository.GetAllCardsAsync(
                     cardParameters, trackChanges, cardQueryFilters);               
@@ -51,7 +54,7 @@ namespace Cards.Services.Services
             return (cards: cardsDto, metaData: cardsWithMetaData.MetaData);
         }
 
-        private Dictionary<string, object> GetCardFiterParameters(CardParameters cardFilterParameters)
+        private static Dictionary<string, object> GetCardFiterParameters(CardParameters cardFilterParameters)
         {
             Dictionary<string, object> cardQueryFilters = new Dictionary<string, object>();
 
@@ -73,21 +76,21 @@ namespace Cards.Services.Services
             return cardQueryFilters;
         }
 
-        public async Task<CardDto> GetCardByIdAsync(int appUserId, int cardId, bool trackChanges)
+        public async Task<CardDto> GetCardByIdAsync(string appUserId, string cardId, bool trackChanges)
         {
             AppUser appUserFromDb = await GetAppUserByIdAndCheckIfItExistsAsync(appUserId, trackChanges);
 
             Card cardfromDb = await GetCardByIdAndCHeckIfItExistsAsync(cardId, trackChanges);
 
-            if (cardfromDb.AppUserId != appUserFromDb.AppUserId)
-                throw new CardDoesNotBelongToAppUserException(appUserFromDb.AppUserId, cardfromDb.CardId);
+            if (cardfromDb.AppUserId != appUserFromDb.Id)
+                throw new CardDoesNotBelongToAppUserException(appUserFromDb.Id, cardfromDb.CardId);
 
             CardDto cardDto = _mapper.Map<CardDto>(cardfromDb);
 
             return cardDto;
         }
 
-        public async Task<CardDto> CreateCardAsync(int appUserId, CardForCreationDto cardForCreationDto, bool trackChanges)
+        public async Task<CardDto> CreateCardAsync(string appUserId, CardForCreationDto cardForCreationDto, bool trackChanges)
         {
             AppUser appUserFromDb = await GetAppUserByIdAndCheckIfItExistsAsync(appUserId, trackChanges);
 
@@ -95,7 +98,7 @@ namespace Cards.Services.Services
             Card cardEntity = _mapper.Map<Card>(cardForCreationDto);
 
 
-            cardEntity.AppUserId = appUserFromDb.AppUserId;
+            cardEntity.AppUserId = appUserFromDb.Id;
 
             await _cardRepository.CreateCardAsync(cardEntity);
 
@@ -110,17 +113,15 @@ namespace Cards.Services.Services
             return cardToReturn;
         }
 
-        public async Task UpdateCardAsync(int appUserId, int cardId, CardForUpdateDto cardForUpdateDto,
+        public async Task UpdateCardAsync(string appUserId, string cardId, CardForUpdateDto cardForUpdateDto,
             bool appUserTrackChanges, bool cardTrackChanges)
         {
             AppUser appUserFromDb = await GetAppUserByIdAndCheckIfItExistsAsync(appUserId, appUserTrackChanges);
 
             Card cardfromDb = await GetCardByIdAndCHeckIfItExistsAsync(cardId, cardTrackChanges);
 
-            //Todo: check whether the status exists before maping
-
-            if (cardfromDb.AppUserId != appUserFromDb.AppUserId)
-                throw new CardDoesNotBelongToAppUserException(appUserFromDb.AppUserId, cardfromDb.CardId);
+            if (cardfromDb.AppUserId != appUserFromDb.Id)
+                throw new CardDoesNotBelongToAppUserException(appUserFromDb.Id, cardfromDb.CardId);
 
             _mapper.Map(cardForUpdateDto, cardfromDb);
 
@@ -129,28 +130,28 @@ namespace Cards.Services.Services
             _cardRepository.DetatchCard(cardfromDb);
         }
 
-        public async Task DeleteCardAsync(int appUserId, int cardId, bool trackChanges)
+        public async Task DeleteCardAsync(string appUserId, string cardId, bool trackChanges)
         {
 
             AppUser appUserFromDb = await GetAppUserByIdAndCheckIfItExistsAsync(appUserId, trackChanges);
 
             Card cardfromDb = await GetCardByIdAndCHeckIfItExistsAsync(cardId, trackChanges);
 
-            if (cardfromDb.AppUserId != appUserFromDb.AppUserId)
-                throw new CardDoesNotBelongToAppUserException(appUserFromDb.AppUserId, cardfromDb.CardId);
+            if (cardfromDb.AppUserId != appUserFromDb.Id)
+                throw new CardDoesNotBelongToAppUserException(appUserFromDb.Id, cardfromDb.CardId);
 
             _cardRepository.DeleteCard(cardfromDb);
 
             await _unitOfWork.SaveAsync();
         }
-        private async Task<AppUser> GetAppUserByIdAndCheckIfItExistsAsync(int appUserId, bool trackChanges)
+        private async Task<AppUser> GetAppUserByIdAndCheckIfItExistsAsync(string appUserId, bool trackChanges)
         {
             AppUser? appUserfromDb = await _appUserRepository.GetAppUserByIdAsync(appUserId, trackChanges)
                 ?? throw new AppUserNotFoundException(appUserId);
 
             return appUserfromDb;
         }
-        private async Task<Card> GetCardByIdAndCHeckIfItExistsAsync(int cardId, bool trackChanges)
+        private async Task<Card> GetCardByIdAndCHeckIfItExistsAsync(string cardId, bool trackChanges)
         {
             Card? cardfromDb = await _cardRepository.GetCardByIdAsync(cardId, trackChanges)
                 ?? throw new CardNotFoundException(cardId);

@@ -1,4 +1,6 @@
 ﻿using Cards.Domain.Entities;
+using System.Reflection;
+using System.Text;
 
 namespace Cards.Persistence.Extensions
 {
@@ -18,7 +20,7 @@ namespace Cards.Persistence.Extensions
                         cardQuery = cardQuery.Where(card => card.Color == (string)key.Value);
                         break;
                     case "StatusId":
-                        cardQuery = cardQuery.Where(card => card.StatusId == (int)key.Value);
+                        cardQuery = cardQuery.Where(card => card.StatusId == (string)key.Value);
                         break;
                     case "StartDate":
                         cardQuery = cardQuery.Where(card => card.DateOfCreation >= (DateTime)key.Value);
@@ -43,7 +45,7 @@ namespace Cards.Persistence.Extensions
             return cards.Where(e => e.Name.ToLower().Contains(lowerCaseTerm));
         }
 
-     /*   public static IQueryable<Card> Sort(this IQueryable<Card> employees, string orderByQueryString)
+      /*  public static IQueryable<Card> Sort(this IQueryable<Card> employees, string orderByQueryString)
         {
             if (string.IsNullOrWhiteSpace(orderByQueryString))
                 return employees.OrderBy(e => e.Name);

@@ -2,6 +2,7 @@
 using Cards.Presentation.Filters;
 using Cards.Services.Abstraction;
 using Cards.Services.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -10,7 +11,8 @@ namespace Cards.Presentation.Controllers
 {
     [Route("api/appUsers/{appUserId}/cards")]
     [ApiController]
-    [HandleException]
+    [Authorize]
+    [ValidateModel]
     public class CardsController : ControllerBase
     {
         private readonly ICardService _cardService;
@@ -20,7 +22,7 @@ namespace Cards.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCards(int appUserId, [FromQuery] CardParameters cardParameters )
+        public async Task<IActionResult> GetCards(string appUserId, [FromQuery] CardParameters cardParameters )
         {
             (IEnumerable<CardDto> cards, MetaData metaData) = 
                 await _cardService.GetCardsAsync(appUserId, cardParameters, trackChanges: false);
@@ -31,7 +33,7 @@ namespace Cards.Presentation.Controllers
         }
 
         [HttpGet("{cardId}")]
-        public async Task<IActionResult> GetCardById(int appUserId, int cardId)
+        public async Task<IActionResult> GetCardById(string appUserId, string cardId)
         {
             CardDto cardsDto = await _cardService.GetCardByIdAsync(appUserId, cardId, trackChanges: false);
 
@@ -39,7 +41,7 @@ namespace Cards.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCard(int appUserId, [FromBody] CardForCreationDto cardForCreationDto)
+        public async Task<IActionResult> CreateCard(string appUserId, [FromBody] CardForCreationDto cardForCreationDto)
         {
             CardDto response = await _cardService.CreateCardAsync(appUserId, cardForCreationDto, trackChanges: false);
 
@@ -47,7 +49,7 @@ namespace Cards.Presentation.Controllers
         }
 
         [HttpPut("{cardId}")]
-        public async Task<IActionResult> UpdateCard(int appUserId, int cardId, [FromBody] CardForUpdateDto cardForUpdateDto)
+        public async Task<IActionResult> UpdateCard(string appUserId, string cardId, [FromBody] CardForUpdateDto cardForUpdateDto)
         {
             await _cardService.UpdateCardAsync(appUserId, cardId, cardForUpdateDto, 
                 appUserTrackChanges: false, cardTrackChanges: true);
@@ -56,7 +58,7 @@ namespace Cards.Presentation.Controllers
         }
 
         [HttpDelete("{cardId}")]
-        public async Task<IActionResult> DeleteCard(int appUserId, int cardId)
+        public async Task<IActionResult> DeleteCard(string appUserId, string cardId)
         {
             await _cardService.DeleteCardAsync(appUserId, cardId, trackChanges: false);
             return NoContent();

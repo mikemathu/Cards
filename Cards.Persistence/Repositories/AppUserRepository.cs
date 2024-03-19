@@ -1,22 +1,37 @@
 ﻿using Cards.Domain.Contracts;
 using Cards.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cards.Persistence.Repositories
 {
-    public class AppUserRepository : RepositoryBase<AppUser>, IAppUserRepository 
+    public class AppUserRepository : IAppUserRepository 
     {
-        public AppUserRepository(RepositoryDbContext repositoryDbContext)
-            :base(repositoryDbContext)
-        {            
-        }
-        public async Task<AppUser?> GetAppUserByIdAsync(int appUserId, bool trackChanges)
+        private readonly UserManager<AppUser> _userManager;
+        public AppUserRepository(UserManager<AppUser> userManager)
         {
-            var user = await GetByCondition(appUser => appUser.AppUserId == appUserId, trackChanges)
-                .Include(x => x.Role)
-                .FirstOrDefaultAsync();
+            _userManager = userManager;
+        }
 
-            return user;
+        public async Task<AppUser?> GetAppUserByIdAsync(string appUserId, bool trackChanges)
+        {
+            AppUser? appUser;
+
+            if (trackChanges)
+            {
+                appUser = await _userManager.Users
+                        .Include(appUser => appUser.Role)
+                        .FirstOrDefaultAsync(appUser => appUser.Id == appUserId);
+            }
+            else
+            {
+                appUser = await _userManager.Users
+                        .AsNoTracking()
+                        .Include(appUser => appUser.Role)
+                        .FirstOrDefaultAsync(appUser => appUser.Id == appUserId);
+            }
+
+            return appUser;
         }
     }
 }

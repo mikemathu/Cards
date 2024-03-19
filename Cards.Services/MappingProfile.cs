@@ -16,5 +16,8 @@ public class MappingProfile : Profile
 
         CreateMap<CardForUpdateDto, Card>();
 
+        CreateMap<UserForRegistrationDto, AppUser>()
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using Cards.Domain.Entities;
+﻿using Cards.Domain.Constants;
+using Cards.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.CodeDom.Compiler;
@@ -7,35 +8,34 @@ namespace Cards.Persistence.Configurations
 {
     internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
+        public void Configure(EntityTypeBuilder<Role> roleConfiguration)
         {
-            builder.HasKey(role => role.RoleId);
 
-            builder.Property(role => role.RoleId).HasColumnName("RoleId");
+            roleConfiguration.Property(role => role.Id).HasColumnName("RoleId");
 
-            builder.Property(role => role.RoleId).ValueGeneratedOnAdd();
+            roleConfiguration.Property(role => role.Id).HasMaxLength(50);
 
-            builder.Property(role => role.Name).IsRequired().HasMaxLength(60);
+            roleConfiguration.Property(role => role.Name).IsRequired().HasMaxLength(50);
 
-            builder.HasIndex(appUser => appUser.Name).IsUnique();
+            roleConfiguration.HasIndex(role => role.Name).IsUnique();
 
-            builder.HasMany<AppUser>()
+            roleConfiguration.HasMany<AppUser>()
                   .WithOne(e => e.Role)
                   .HasForeignKey(e => e.RoleId)
                   .IsRequired()
                   .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasData
+            roleConfiguration.HasData
                 (
                     new Role
                     {
-                        RoleId = 1,
-                        Name = "Admin"
+                        Id = RoleDetails.RoleNameToIdMappings[RoleDetails.Admin],
+                        Name = RoleDetails.Admin
                     },
                     new Role
                     {
-                        RoleId = 2,
-                        Name = "Member"
+                        Id = RoleDetails.RoleNameToIdMappings[RoleDetails.Member],
+                        Name = RoleDetails.Member
                     }
                 );
         }

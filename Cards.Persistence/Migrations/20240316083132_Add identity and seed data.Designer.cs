@@ -3,6 +3,7 @@ using System;
 using Cards.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Cards.Persistence.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
-    partial class RepositoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240316083132_Add identity and seed data")]
+    partial class Addidentityandseeddata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,8 +28,8 @@ namespace Cards.Persistence.Migrations
             modelBuilder.Entity("Cards.Domain.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("AppUserId");
 
                     b.Property<int>("AccessFailedCount")
@@ -38,8 +41,8 @@ namespace Cards.Persistence.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
@@ -71,7 +74,7 @@ namespace Cards.Persistence.Migrations
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -101,84 +104,84 @@ namespace Cards.Persistence.Migrations
                         {
                             Id = "admin46d-9e9f-44d3-8425-263ba67509aa",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "842d0d33-5555-4c18-b871-0dfb76e5ca46",
+                            ConcurrencyStamp = "4ce43708-3fba-4284-a349-9b8d45f03191",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAECKxteV7I+hxq/qr/90e42nqzlneyDISf3onCtW5x6ZaJE8nxFt0I4FFOa/zNpGl5A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKmkkbKdQY9suPtXJHrWdSMI0mK9UKDVYAQYCL++ToOgW2n1fYK7Si+3piumX5KUgA==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Adminf86-5601-41eb-a871-a660b2f0f449",
-                            SecurityStamp = "62d2f7e1-fb47-424b-b7ec-3dc0ca839f45",
+                            SecurityStamp = "aae18be6-0f24-40ac-8ab2-021dee8d60aa",
                             TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = "kev5f943-112f-4d49-888d-c671e210b8b8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d696173e-c9e6-4a13-ba24-cf4b8e85acf1",
+                            ConcurrencyStamp = "48d28b9c-d595-4616-ab03-17015f8127fd",
                             Email = "kev@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEMSt2T2eDIedgycUqPFqYRqIoH2eZ2XeegWYFdXp24jnCYXmiv7+AJ9cK1Y1Zv/fyg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMd84zxDbGLqRm9IJwpan4wNXJo/7AaUpZ012TW3eFf2qtEa7WjgneIaQwGcQ7FPaA==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Member8a-19f1-430e-aba5-9082dacfa9dd",
-                            SecurityStamp = "ad3d9db9-ed10-4327-a77e-b500bf28f75d",
+                            SecurityStamp = "8e5f8973-507e-497a-b4b1-b8e9ad86834a",
                             TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = "suee8ebc-7959-4591-b86c-da19d3630419",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3a904fa3-2c26-4b1a-a921-0fc25b084c44",
+                            ConcurrencyStamp = "3b25b401-a269-4030-bc5e-689418c7917d",
                             Email = "sue@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEOKCenc0USRwMThcv4lXFUfV1iS7klRXC0eL+pX734TEcWCwP2q+qVa3LuqLmuX7FQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECMAU2AMY0kG0XcxI9chhMaS4/XjEfMAq0tgjpAIipmFFo3aT7hTarVr6H3R8tvc/g==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Member8a-19f1-430e-aba5-9082dacfa9dd",
-                            SecurityStamp = "9e866649-8cd9-4371-8e93-d75633a17b06",
+                            SecurityStamp = "be39bb8d-cfbe-4370-9a3d-f2225601d85b",
                             TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = "sam172c6-46e5-4b40-a0a7-54f2424c7791",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "26dc4482-4714-40bb-b63f-b84c1805107c",
+                            ConcurrencyStamp = "7ba02dc4-7464-46b1-95d5-abfece6545b5",
                             Email = "sam@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEIyjJE3L3JvmUtL/nV2oA/au9qcDlQrX9adikRxRS731Xy4GupU5nClNCG+W7Tk9BQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOjfrVQ64Myn/aQleLbluD6saiD159fUwHKKPXFEOgJHAzURr+QNzEDTbrSzM1BMtQ==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Member8a-19f1-430e-aba5-9082dacfa9dd",
-                            SecurityStamp = "6a9e0bcb-c75e-40e8-9f8f-3ed7fd9cbb5d",
+                            SecurityStamp = "608dd3bc-a780-44ed-9014-045fe8e07dc8",
                             TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = "ben8c400-aa14-4fb9-868e-1202d25bff95",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "582df46d-f661-4234-93b3-1522a51a9fc9",
+                            ConcurrencyStamp = "02b8a7cf-29b2-4c78-87f6-8c8f57134603",
                             Email = "ben@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEH8kLtLi/MpV/R47gNZiwIx2TDcrJMK8+psxmWb+Td8pnsD2Y7VBMMZ+ns/X9XTTbQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKfCc9PwnhXMnPdUyRprlvm/vkSqH3P/FkZ75hOJswiiZByQEvnvT78BFS91Guf6ow==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Member8a-19f1-430e-aba5-9082dacfa9dd",
-                            SecurityStamp = "eaa8b332-2e2c-40bc-8f4e-4b63941c26b2",
+                            SecurityStamp = "74e6ed42-9cde-4eca-a725-c8405617f028",
                             TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = "elide650-28ea-4df1-bfc4-6b3e9a03d0de",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "df2fd2a5-e214-47b4-8db6-2c9399fce6f9",
+                            ConcurrencyStamp = "162d235a-2f40-4ec7-a411-75a5031a5d8e",
                             Email = "elie@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEKVYcHQ1Qfd+END7C9iJArKPvUpjTjtUeFbl5/ckAKFPfCrH1huMg5rlHac/bCgz8A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB1YGXAyy0sKztUhqEpTWEtdsubhALH1ZorwstEJJ/snaqG4fhFaitDzCa9EAI4p0w==",
                             PhoneNumberConfirmed = false,
                             RoleId = "Member8a-19f1-430e-aba5-9082dacfa9dd",
-                            SecurityStamp = "fdc979ba-fd4d-4bd2-9ae3-fcde97240adb",
+                            SecurityStamp = "dd0d3138-cc54-4942-812f-d12613bad781",
                             TwoFactorEnabled = false
                         });
                 });
@@ -187,17 +190,17 @@ namespace Cards.Persistence.Migrations
                 {
                     b.Property<string>("CardId")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("CardId");
 
                     b.Property<string>("AppUserId")
                         .IsRequired()
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Color")
-                        .HasMaxLength(7)
-                        .HasColumnType("character varying(7)");
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("timestamp with time zone");
@@ -208,12 +211,12 @@ namespace Cards.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("StatusId")
                         .IsRequired()
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("CardId");
 
@@ -300,14 +303,14 @@ namespace Cards.Persistence.Migrations
                 {
                     b.Property<string>("StatusId")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("StatusId");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)");
 
                     b.HasKey("StatusId");
 
@@ -337,8 +340,8 @@ namespace Cards.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("RoleId");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -352,8 +355,8 @@ namespace Cards.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
@@ -388,7 +391,7 @@ namespace Cards.Persistence.Migrations
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -413,7 +416,7 @@ namespace Cards.Persistence.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -435,7 +438,7 @@ namespace Cards.Persistence.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -447,10 +450,10 @@ namespace Cards.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -462,7 +465,7 @@ namespace Cards.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text");

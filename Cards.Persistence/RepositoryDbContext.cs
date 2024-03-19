@@ -1,11 +1,13 @@
 ﻿using Cards.Domain.Entities;
 using Cards.Persistence.Configurations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 
 namespace Cards.Persistence
 {
-    public class RepositoryDbContext : DbContext
+    public class RepositoryDbContext : IdentityDbContext<AppUser>
     {
         public RepositoryDbContext(DbContextOptions<RepositoryDbContext> options)
             : base(options)
@@ -13,16 +15,15 @@ namespace Cards.Persistence
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
-            modelBuilder.ApplyConfiguration(new CardConfiguration());
+           // modelBuilder.ApplyConfiguration(new CardConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new StatusConfiguration());
 
-            //modelBuilder.Entity<Card>.
         }
-        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Card> Cards { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<CardStatus> Status { get; set; }
     }
 }

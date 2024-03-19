@@ -7,9 +7,9 @@ namespace Cards.Domain.Contracts
     {
         public abstract Task<PagedList<Card>> GetAllCardsAsync(CardParameters cardParameters, 
             bool trackChanges, Dictionary<string, object> cardQueryFilters);
-        public abstract Task<PagedList<Card>> GetCardsForUserAsync(int appUserId,CardParameters cardParameters,
+        public abstract Task<PagedList<Card>> GetCardsForUserAsync(string appUserId,CardParameters cardParameters,
             bool trackChanges, Dictionary<string, object> cardQueryFilters);
-        public abstract Task<Card?> GetCardByIdAsync(int cardId, bool trackChanges);
+        public abstract Task<Card?> GetCardByIdAsync(string cardId, bool trackChanges);
         public abstract Task CreateCardAsync(Card card);
         public abstract void DeleteCard(Card card);        
         public abstract void DetatchCard(Card card);        
