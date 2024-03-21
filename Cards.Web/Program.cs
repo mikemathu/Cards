@@ -9,8 +9,7 @@ builder.Services.AddControllers()
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.ConfigureSwagger();
 
 builder.Services.ConfigureNpgsqlContext(builder.Configuration);
 builder.Services.ConfigureAutoMapper();
@@ -31,7 +30,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(s =>
+    {
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Card API v1");
+    });
+
 }
 
 app.UseHttpsRedirection();

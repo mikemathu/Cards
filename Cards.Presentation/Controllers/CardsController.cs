@@ -21,6 +21,10 @@ namespace Cards.Presentation.Controllers
             _cardService = cardService;
         }
 
+        /// <summary>
+        /// Gets the list of all cards
+        /// </summary>
+        /// <returns>The cards list</returns>
         [HttpGet("all")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllCards(string appUserId, [FromQuery] CardParameters cardParameters )
@@ -32,6 +36,7 @@ namespace Cards.Presentation.Controllers
 
             return Ok(cards);
         }
+
         [HttpGet("forUser")]
         [Authorize(Roles = "Member")]
         public async Task<IActionResult> GetCardsForUserAsync(string appUserId, [FromQuery] CardParameters cardParameters )
@@ -52,7 +57,21 @@ namespace Cards.Presentation.Controllers
             return Ok(cardsDto);
         }
 
+
+        /// <summary>
+        /// Creates a newly created card.
+        /// </summary>
+        /// <param name="appUserId">The ID of the user creating the card.</param>
+        /// <param name="cardForCreationDto">The data for creating the card.</param>
+        /// <returns>A newly created card.</returns>
+        /// <response code="201">Returns the newly created card.</response>
+        /// <response code="400">If the color code is invalid.</response>
+        /// <response code="401">If unauthorised.</response>
+        /// <response code="404">If the specified member (user) is not found.</response>
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> CreateCard(string appUserId, [FromBody] CardForCreationDto cardForCreationDto)
         {
             CardDto response = await _cardService.CreateCardAsync(appUserId, cardForCreationDto, trackChanges: false);

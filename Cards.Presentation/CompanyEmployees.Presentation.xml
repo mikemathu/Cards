@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cards.Presentation</name>
+    </assembly>
+    <members>
+        <member name="M:Cards.Presentation.Controllers.CardsController.GetAllCards(System.String,Cards.Domain.Shared.RequestFeatures.CardParameters)">
+            <summary>
+            Gets the list of all cards
+            </summary>
+            <returns>The cards list</returns>
+        </member>
+    </members>
+</doc>

@@ -8,9 +8,10 @@ using Cards.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 namespace Cards.Web.Extensions
@@ -31,7 +32,7 @@ namespace Cards.Web.Extensions
            services.AddScoped<ICardRepository, CardRepository>();
 
         public static void ConfigureAppUserRepository(this IServiceCollection services) =>
-           services.AddScoped<IAppUserRepository, AppUserRepository>(); 
+           services.AddScoped<IAppUserRepository, AppUserRepository>();
 
         public static void ConfigureUnitOfWorkRepository(this IServiceCollection services) =>
            services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -53,7 +54,7 @@ namespace Cards.Web.Extensions
             })
             .AddEntityFrameworkStores<RepositoryDbContext>()
             .AddDefaultTokenProviders();
-        }      
+        }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
@@ -82,6 +83,50 @@ namespace Cards.Web.Extensions
                 };
             });
         }
+
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Cards API",
+                    Version = "v1",
+                    Description = "An ASP.NET Core Web API for managing tasks",
+                });
+
+                var xmlFile = $"{typeof(Presentation.Controllers.CardsController).Assembly.GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                s.IncludeXmlComments(xmlPath);
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Place to add JWT with Bearer",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                 {
+                     {
+                         new OpenApiSecurityScheme
+                         {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Name = "Bearer",
+                         },
+                         new List<string>()
+                     }
+                 });
+            });
+        }
+
 
     }
 }
