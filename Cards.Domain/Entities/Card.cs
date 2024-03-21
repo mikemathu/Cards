@@ -5,7 +5,7 @@ namespace Cards.Domain.Entities
     public class Card//todo: attribute to addd length of each filed
     {
         private string? _color;
-        public string CardId { get; set; } = null!;
+        public string CardId { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public DateTime DateOfCreation { get; set; } = DateTime.UtcNow;
