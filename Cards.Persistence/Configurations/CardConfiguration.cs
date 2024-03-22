@@ -15,8 +15,6 @@ namespace Cards.Persistence.Configurations
 
             builder.Property(card => card.CardId).HasMaxLength(50);
 
-            builder.Property(card => card.CardId).ValueGeneratedOnAdd();
-
             builder.Property(card => card.Name).IsRequired().HasMaxLength(50);
 
             builder.Property(card => card.Description).IsRequired(false).HasMaxLength(255);
@@ -36,7 +34,7 @@ namespace Cards.Persistence.Configurations
                         DateOfCreation = new DateTime(2024, 1, 20, 20, 37, 19, 0, DateTimeKind.Utc),
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.ToDo],
                         AppUserId = "kev5f943-112f-4d49-888d-c671e210b8b8",
-                        Color = "#ADD8E6"//Light Blue
+                        Color = "#ADD8E6"
                     },
                     new Card
                     {
@@ -46,7 +44,7 @@ namespace Cards.Persistence.Configurations
                         DateOfCreation = new DateTime(2024, 1, 15, 20, 37, 19, 0, DateTimeKind.Utc),
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.InProgress],
                         AppUserId = "kev5f943-112f-4d49-888d-c671e210b8b8",
-                        Color = "#FF7F50" //Coral
+                        Color = "#FF7F50" 
                     },
                     new Card
                     {
@@ -56,7 +54,7 @@ namespace Cards.Persistence.Configurations
                         DateOfCreation = new DateTime(2024, 2, 5, 15, 20, 0, DateTimeKind.Utc),
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.InProgress],
                         AppUserId = "kev5f943-112f-4d49-888d-c671e210b8b8",
-                        Color = "#32CD32" // Lime Green
+                        Color = "#32CD32" 
                     },
                     new Card
                     {
@@ -66,7 +64,7 @@ namespace Cards.Persistence.Configurations
                         DateOfCreation = new DateTime(2024, 2, 10, 9, 0, 0, DateTimeKind.Utc),
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.ToDo],
                         AppUserId = "kev5f943-112f-4d49-888d-c671e210b8b8",
-                        Color = "#800080" // Purple
+                        Color = "#800080" 
                     },
                     new Card
                     {
@@ -76,7 +74,7 @@ namespace Cards.Persistence.Configurations
                         DateOfCreation = new DateTime(2024, 2, 20, 10, 15, 0, DateTimeKind.Utc),
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.ToDo],
                         AppUserId = "suee8ebc-7959-4591-b86c-da19d3630419",
-                        Color = "#FFA500" // Orange
+                        Color = "#FFA500" 
                     },
                     new Card
                     {
@@ -86,7 +84,7 @@ namespace Cards.Persistence.Configurations
                         DateOfCreation = new DateTime(2024, 2, 25, 14, 30, 0, DateTimeKind.Utc),
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.InProgress],
                         AppUserId = "suee8ebc-7959-4591-b86c-da19d3630419",
-                        Color = "#4682B4" // Steel Blue
+                        Color = "#4682B4" 
                     },
                     new Card
                     {
@@ -96,10 +94,8 @@ namespace Cards.Persistence.Configurations
                         DateOfCreation = new DateTime(2024, 3, 5, 11, 0, 0, DateTimeKind.Utc),
                         StatusId = StatusDetails.StatusNameToIdMappings[StatusDetails.ToDo],
                         AppUserId = "suee8ebc-7959-4591-b86c-da19d3630419",
-                        Color = "#8A2BE2" // Blue Violet
+                        Color = "#8A2BE2" 
                     }
-
-
                 );
         }
     }

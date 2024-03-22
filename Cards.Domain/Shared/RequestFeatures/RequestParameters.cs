@@ -15,6 +15,5 @@
         }
 
         public string OrderBy { get; set; } = null!;
-
     }
 }

@@ -8,9 +8,8 @@ using Cards.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace Cards.Web.Extensions
@@ -31,7 +30,7 @@ namespace Cards.Web.Extensions
            services.AddScoped<ICardRepository, CardRepository>();
 
         public static void ConfigureAppUserRepository(this IServiceCollection services) =>
-           services.AddScoped<IAppUserRepository, AppUserRepository>(); 
+           services.AddScoped<IAppUserRepository, AppUserRepository>();
 
         public static void ConfigureUnitOfWorkRepository(this IServiceCollection services) =>
            services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -48,19 +47,19 @@ namespace Cards.Web.Extensions
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 10;
+                options.Password.RequiredLength = 6;
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<RepositoryDbContext>()
             .AddDefaultTokenProviders();
-        }      
+        }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
 
-            //var secret = Encoding.UTF8.GetBytes(configuration.GetSection("JwtSettings:Secret").Value);
-            byte[] secret = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("CardAPISecret"));
+            var secret = Encoding.UTF8.GetBytes(configuration.GetSection("JwtSettings:Secret").Value);
+            //byte[] secret = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("CardAPISecret"));
 
             services.AddAuthentication(opt =>
             {
@@ -83,5 +82,47 @@ namespace Cards.Web.Extensions
             });
         }
 
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Cards API",
+                    Version = "v1",
+                    Description = "An ASP.NET Core Web API for managing tasks",
+                });
+
+                var xmlFile = $"{typeof(Presentation.Controllers.CardsController).Assembly.GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                s.IncludeXmlComments(xmlPath);
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Place to add JWT with Bearer",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                 {
+                     {
+                         new OpenApiSecurityScheme
+                         {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Name = "Bearer",
+                         },
+                         new List<string>()
+                     }
+                 });
+            });
+        }
     }
 }

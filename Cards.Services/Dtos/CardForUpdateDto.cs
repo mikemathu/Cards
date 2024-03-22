@@ -11,15 +11,14 @@ namespace Cards.Services.Dtos
 
         [Required(ErrorMessage = "Status is a required field.")]
         [MaxLength(50, ErrorMessage = "Maximum length for the Status is 50 characters.")]
-
-
-
         public string Status
         {
-            get { return _status; }
             set
             {
-                _status = value.Trim();
+                if (value != null)
+                    _status = value.Trim();
+                else
+                    _status = null!;
 
                 if (_status != null)
                 {

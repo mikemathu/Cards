@@ -13,7 +13,7 @@ namespace Cards.Persistence.Extensions
                 .Take(pageSize)
                 .ToListAsync();
 
-            PagedList<T> pagedList = new PagedList<T>
+            PagedList<T> pagedList = new()
             {
                 Items = items,
                 MetaData = new MetaData

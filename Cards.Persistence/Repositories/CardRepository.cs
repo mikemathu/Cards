@@ -20,7 +20,7 @@ namespace Cards.Persistence.Repositories
                 .Include(card => card.AppUser)
                 .FilterByCardQueryFilters(cardQueryFilters)
                 .Sort(cardParameters.OrderBy)
-                .ToPagedListAsync(cardParameters.PageNumber, cardParameters.PageSize);//todo: add sorting
+                .ToPagedListAsync(cardParameters.PageNumber, cardParameters.PageSize);
 
             return pagedCards;
         }
@@ -33,7 +33,7 @@ namespace Cards.Persistence.Repositories
            .Where(card => card.AppUserId == appUserId)
            .FilterByCardQueryFilters(cardQueryFilters)
            .Sort(cardParameters.OrderBy)
-           .ToPagedListAsync(cardParameters.PageNumber, cardParameters.PageSize);//todo: add sorting
+           .ToPagedListAsync(cardParameters.PageNumber, cardParameters.PageSize);
 
             return pagedCards;
         }
@@ -48,7 +48,5 @@ namespace Cards.Persistence.Repositories
         public async Task CreateCardAsync(Card card) => await CreateAsync(card);   
 
         public void DeleteCard(Card card) => Delete(card);
-
-        public void DetatchCard(Card card) => Detach(card);
     }
 }

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cards.Persistence", "Cards.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cards.Services", "Cards.Services\Cards.Services.csproj", "{D032DFB2-A310-4746-80BE-E84617F0EF3D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cards.Presentation", "Cards.Presentation\Cards.Presentation.csproj", "{24E2F17E-B7D8-42D3-9025-11EC315D0363}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cards.Presentation", "Cards.Presentation\Cards.Presentation.csproj", "{24E2F17E-B7D8-42D3-9025-11EC315D0363}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

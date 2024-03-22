@@ -1,7 +1,6 @@
 ﻿using Cards.Domain.ErrorModel;
 using Cards.Domain.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using System.ComponentModel.DataAnnotations;
 
 namespace Cards.Web
 {
@@ -17,31 +16,34 @@ namespace Cards.Web
             if (contextFeature != null)
             {
 
-                switch (contextFeature.Error)
+                if (contextFeature.Error is BadRequestException)
                 {
-
-                    case BadRequestException or ArgumentException:
-                        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                        break;
-                    case NotFoundException:
-                        httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                        break;
-                    case EmailAlreadyExistsException:
-                        httpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-                        break;
-                    case CreateUserFailedException:
-                        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                        break;
-                    default:
-                        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                        break;
+                    httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
                 }
+                else if (contextFeature.Error is NotFoundException)
+                {
+                    httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                }
+                else if (contextFeature.Error is EmailAlreadyExistsException)
+                {
+                    httpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+                }
+                else if (contextFeature.Error.InnerException is not null &&
+                         contextFeature.Error.InnerException.Message.Contains("color"))
+                {
+                    httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                }
+                else
+                {
+                    httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                }
+
 
                 ErrorDetails errorDetails;
 
                 if (exception.InnerException is not null)
                 {
-                    errorDetails  = new ErrorDetails
+                    errorDetails = new ErrorDetails
                     {
                         StatusCode = httpContext.Response.StatusCode,
                         Message = exception.InnerException.Message
@@ -55,8 +57,7 @@ namespace Cards.Web
                         Message = exception.Message
                     };
                 }
-
-                await httpContext.Response.WriteAsync(errorDetails.ToString());
+                await httpContext.Response.WriteAsync(errorDetails.ToString(), cancellationToken: cancellationToken);
             }
 
             return true;

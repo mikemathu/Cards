@@ -2,16 +2,11 @@
 
 namespace Cards.Persistence.Repositories
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork(RepositoryDbContext repositoryDbContext) : IUnitOfWork
     {
-        private readonly RepositoryDbContext _repositoryDbContext;
-        public UnitOfWork(RepositoryDbContext repositoryDbContext)
-        {
-                _repositoryDbContext = repositoryDbContext;
-        }
         public async Task SaveAsync()
         {
-            await _repositoryDbContext.SaveChangesAsync();
+            await repositoryDbContext.SaveChangesAsync();
         }
     }
 }

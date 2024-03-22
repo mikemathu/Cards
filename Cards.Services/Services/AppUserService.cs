@@ -1,6 +1,4 @@
-﻿using Cards.Services.Abstraction;
-
-namespace Cards.Services.Services
+﻿namespace Cards.Services.Services
 {
     public class AppUserService
     {

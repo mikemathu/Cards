@@ -9,12 +9,7 @@ namespace Cards.Presentation.Filters
         public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
             if (!actionContext.ModelState.IsValid)
-            {
-                actionContext.Result = new BadRequestObjectResult(
-                  "Invalid inputs.Please check your input fields and ensure they are all filled.");
-            }
-            /*  if (!context.ModelState.IsValid)
-                  context.Result = new UnprocessableEntityObjectResult(context.ModelState);*/
+                actionContext.Result = new UnprocessableEntityObjectResult(actionContext.ModelState);
 
         }
     }

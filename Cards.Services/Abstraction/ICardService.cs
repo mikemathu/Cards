@@ -1,5 +1,4 @@
-﻿using Cards.Domain.Entities;
-using Cards.Domain.Shared.RequestFeatures;
+﻿using Cards.Domain.Shared.RequestFeatures;
 using Cards.Services.Dtos;
 
 namespace Cards.Services.Abstraction
