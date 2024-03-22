@@ -1,6 +1,4 @@
-﻿using Cards.Domain.Entities;
-
-namespace Cards.Domain.Contracts
+﻿namespace Cards.Domain.Contracts
 {
     public interface IUnitOfWork
     {

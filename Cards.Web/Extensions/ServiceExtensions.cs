@@ -8,10 +8,8 @@ using Cards.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using System.Text;
 
 namespace Cards.Web.Extensions
@@ -60,8 +58,8 @@ namespace Cards.Web.Extensions
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
 
-            //var secret = Encoding.UTF8.GetBytes(configuration.GetSection("JwtSettings:Secret").Value);
-            byte[] secret = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("CardAPISecret"));
+            var secret = Encoding.UTF8.GetBytes(configuration.GetSection("JwtSettings:Secret").Value);
+            //byte[] secret = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("CardAPISecret"));
 
             services.AddAuthentication(opt =>
             {
@@ -126,7 +124,5 @@ namespace Cards.Web.Extensions
                  });
             });
         }
-
-
     }
 }

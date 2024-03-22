@@ -1,5 +1,4 @@
-﻿using Cards.Domain.Entities;
-using Cards.Services.Dtos;
+﻿using Cards.Services.Dtos;
 using Microsoft.AspNetCore.Identity;
 
 namespace Cards.Services.Abstraction

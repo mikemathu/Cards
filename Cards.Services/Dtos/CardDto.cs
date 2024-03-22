@@ -1,6 +1,4 @@
-﻿using Cards.Domain.Entities;
-
-namespace Cards.Services.Dtos
+﻿namespace Cards.Services.Dtos
 {
     public class CardDto
     {

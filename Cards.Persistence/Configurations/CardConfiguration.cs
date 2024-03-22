@@ -15,8 +15,6 @@ namespace Cards.Persistence.Configurations
 
             builder.Property(card => card.CardId).HasMaxLength(50);
 
-            builder.Property(card => card.CardId).ValueGeneratedOnAdd();
-
             builder.Property(card => card.Name).IsRequired().HasMaxLength(50);
 
             builder.Property(card => card.Description).IsRequired(false).HasMaxLength(255);

@@ -3,8 +3,7 @@
   
     public class PagedList<T>
     {
-        public List<T> Items { get; set; }
-        public MetaData MetaData { get; set; }
+        public List<T> Items { get; set; } = [];
+        public MetaData MetaData { get; set; } = null!;
     }
-
 }

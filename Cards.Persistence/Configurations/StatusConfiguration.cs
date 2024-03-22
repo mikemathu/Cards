@@ -15,8 +15,6 @@ namespace Cards.Persistence.Configurations
 
             builder.Property(status => status.StatusId).HasMaxLength(50);
 
-            builder.Property(status => status.StatusId).ValueGeneratedOnAdd();
-
             builder.Property(status => status.Name).IsRequired().HasMaxLength(50);
 
             builder.HasIndex(appUser => appUser.Name).IsUnique();

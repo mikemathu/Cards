@@ -11,7 +11,6 @@ namespace Cards.Domain.Contracts
             bool trackChanges, Dictionary<string, object> cardQueryFilters);
         public abstract Task<Card?> GetCardByIdAsync(string cardId, bool trackChanges);
         public abstract Task CreateCardAsync(Card card);
-        public abstract void DeleteCard(Card card);        
-        public abstract void DetatchCard(Card card);        
+        public abstract void DeleteCard(Card card);         
     }
 }

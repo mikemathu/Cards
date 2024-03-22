@@ -27,7 +27,8 @@ namespace Cards.Persistence.Configurations
 
             var hasher = new PasswordHasher<AppUser>();
 
-            appUserConfiguration.HasData
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+            _ = appUserConfiguration.HasData
                 (
                    new AppUser
                    {
@@ -66,7 +67,7 @@ namespace Cards.Persistence.Configurations
                         NormalizedUserName = "SAM@GMAIL.COM",
                         Email = "sam@gmail.com",
                         NormalizedEmail = "SAM@GMAIL.COM",
-                        PasswordHash = hasher.HashPassword(null, "samP@ssword1"),
+                        PasswordHash = hasher.HashPassword(null, password: "samP@ssword1"),
                         RoleId = RoleDetails.RoleNameToIdMappings[RoleDetails.Member]
                     },
                     new AppUser
@@ -90,6 +91,7 @@ namespace Cards.Persistence.Configurations
                         RoleId = RoleDetails.RoleNameToIdMappings[RoleDetails.Member]
                     }
                 );
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         }
     }
 }

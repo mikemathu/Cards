@@ -65,8 +65,8 @@ namespace Cards.Services.Services
 
         private SigningCredentials GetSigningCredentials()
         {
-            //var secret = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtSettings:Secret").Value);
-            byte[] secret = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("CardAPISecret"));
+            byte[] secret = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtSettings:Secret").Value);
+            //byte[] secret = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("CardAPISecret"));
 
 
             SymmetricSecurityKey key = new(secret);

@@ -1,5 +1,6 @@
 using Cards.Web;
 using Cards.Web.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,9 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
 .AddApplicationPart(Assembly.Load(new AssemblyName("Cards.Presentation")));
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.ConfigureNpgsqlContext(builder.Configuration);
 builder.Services.ConfigureAutoMapper();
@@ -26,16 +31,18 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(s =>
-    {
-        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Card API v1");
-    });
-
+    //app.UseDeveloperExceptionPage();
 }
+app.UseExceptionHandler("/Home/Error");
+
+app.UseSwagger();
+app.UseSwaggerUI(s =>
+{
+    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Card API v1");
+});
 
 app.UseHttpsRedirection();
 

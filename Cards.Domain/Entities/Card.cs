@@ -2,7 +2,7 @@
 
 namespace Cards.Domain.Entities
 {
-    public class Card//todo: attribute to addd length of each filed
+    public class Card
     {
         private string? _color;
         public string CardId { get; set; } = Guid.NewGuid().ToString();
@@ -24,7 +24,9 @@ namespace Cards.Domain.Entities
                     return;
                 }
 
-                if (value.StartsWith("#"))
+                const string prefixValue = "#";
+
+                if (value.StartsWith(prefixValue))
                 {
                     if (value.Length == 7) 
                     {

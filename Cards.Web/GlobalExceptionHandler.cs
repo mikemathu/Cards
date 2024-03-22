@@ -17,31 +17,19 @@ namespace Cards.Web
             if (contextFeature != null)
             {
 
-                switch (contextFeature.Error)
+                httpContext.Response.StatusCode = contextFeature.Error switch
                 {
-
-                    case BadRequestException or ArgumentException:
-                        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                        break;
-                    case NotFoundException:
-                        httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                        break;
-                    case EmailAlreadyExistsException:
-                        httpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-                        break;
-                    case CreateUserFailedException:
-                        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                        break;
-                    default:
-                        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                        break;
-                }
-
+                    BadRequestException or ArgumentException => StatusCodes.Status400BadRequest,
+                    NotFoundException => StatusCodes.Status404NotFound,
+                    EmailAlreadyExistsException => StatusCodes.Status409Conflict,
+                    CreateUserFailedException => StatusCodes.Status500InternalServerError,
+                    _ => StatusCodes.Status500InternalServerError,
+                };
                 ErrorDetails errorDetails;
 
                 if (exception.InnerException is not null)
                 {
-                    errorDetails  = new ErrorDetails
+                    errorDetails = new ErrorDetails
                     {
                         StatusCode = httpContext.Response.StatusCode,
                         Message = exception.InnerException.Message
@@ -55,8 +43,7 @@ namespace Cards.Web
                         Message = exception.Message
                     };
                 }
-
-                await httpContext.Response.WriteAsync(errorDetails.ToString());
+                await httpContext.Response.WriteAsync(errorDetails.ToString(), cancellationToken: cancellationToken);
             }
 
             return true;

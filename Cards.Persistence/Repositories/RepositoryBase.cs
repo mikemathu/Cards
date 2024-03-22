@@ -4,13 +4,10 @@ using System.Linq.Expressions;
 
 namespace Cards.Persistence.Repositories
 {
-    public class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public class RepositoryBase<T>(RepositoryDbContext repositoryDbContext) : IRepositoryBase<T> where T : class
     {
-        protected readonly RepositoryDbContext _repositoryDbContext;
-        public RepositoryBase(RepositoryDbContext repositoryDbContext)
-        {
-            _repositoryDbContext = repositoryDbContext;
-        }
+        protected readonly RepositoryDbContext _repositoryDbContext = repositoryDbContext;
+
         public IQueryable<T> InitializeQueryWithTrackingPreference(bool trackChanges)
         {
             if (trackChanges)
@@ -41,10 +38,6 @@ namespace Cards.Persistence.Repositories
         public void Delete(T entity)
         {
             _repositoryDbContext.Set<T>().Remove(entity);
-        }
-        public void Detach(T entity)
-        {
-            _repositoryDbContext.Entry(entity).State = EntityState.Detached;
         }
     }
 }
