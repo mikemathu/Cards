@@ -10,7 +10,7 @@
 
 Set a database connection string,`DefaultConnection`, in the **Cards.Web** project's appsettings.json or use [Secrets](https://blogs.msdn.microsoft.com/mihansen/2017/09/10/managing-secrets-in-net-core-2-0-apps/)
 
-Example config setting in appsettings.json for a database called `Accounts`:
+Example config setting in appsettings.json for a database called `Cards`:
 
 ```json
    "ConnectionStrings": {
