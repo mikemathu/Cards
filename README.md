@@ -25,7 +25,7 @@ Method 1
 - Select the "Cards.Persistence" project from the dropdown as shown below.
 - Run command "update-database" to create the database and seed the data.
 
-<img src="https://github.com/mikemathu/Point-Of-Sale-System/blob/main/PointOfSaleSystem.Web/wwwroot/AppData/images/ERDiagrams/Cards_Persistence.PNG">
+<img src="https://github.com/mikemathu/Cards/blob/master/AppData/Cards_Persistence.PNG">
 
 Method 2
 
