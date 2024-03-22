@@ -20,7 +20,7 @@ namespace Cards.Persistence
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new StatusConfiguration());
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
-            modelBuilder.ApplyConfiguration(new CardConfiguration());          
+            //modelBuilder.ApplyConfiguration(new CardConfiguration());          
 
         }
         public DbSet<Card> Cards { get; set; }

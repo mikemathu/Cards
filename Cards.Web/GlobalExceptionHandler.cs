@@ -1,7 +1,6 @@
 ﻿using Cards.Domain.ErrorModel;
 using Cards.Domain.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using System.ComponentModel.DataAnnotations;
 
 namespace Cards.Web
 {
@@ -17,14 +16,29 @@ namespace Cards.Web
             if (contextFeature != null)
             {
 
-                httpContext.Response.StatusCode = contextFeature.Error switch
+                if (contextFeature.Error is BadRequestException)
                 {
-                    BadRequestException or ArgumentException => StatusCodes.Status400BadRequest,
-                    NotFoundException => StatusCodes.Status404NotFound,
-                    EmailAlreadyExistsException => StatusCodes.Status409Conflict,
-                    CreateUserFailedException => StatusCodes.Status500InternalServerError,
-                    _ => StatusCodes.Status500InternalServerError,
-                };
+                    httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                }
+                else if (contextFeature.Error is NotFoundException)
+                {
+                    httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                }
+                else if (contextFeature.Error is EmailAlreadyExistsException)
+                {
+                    httpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+                }
+                else if (contextFeature.Error.InnerException is not null &&
+                         contextFeature.Error.InnerException.Message.Contains("color"))
+                {
+                    httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                }
+                else
+                {
+                    httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                }
+
+
                 ErrorDetails errorDetails;
 
                 if (exception.InnerException is not null)

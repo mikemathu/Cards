@@ -21,16 +21,17 @@ namespace Cards.Presentation.Controllers
         /// Retrieves all cards for Admin.
         /// </summary>
         /// <param name="appUserId">The Admin ID.</param>
-        /// <param name="cardParameters">Parameters for pagination and filtering.</param>
+        /// <param name="cardParameters">Parameters for pagination,filtering and sorting.</param>
         /// <returns>A list of cards and pagination metadata.</returns>
         /// <remarks>
         /// Sample request:
-        ///
+        /// 
+        ///     GET /api/appUsers/admin46d-9e9f-44d3-8425-263ba67509aa/cards/all
         ///
         /// </remarks>
         /// <response code="200">Returns the list of cards and pagination metadata.</response>
-        /// <response code="401">If the user is not authorized to access this endpoint.</response>
-        /// <response code="404">If the specified user is not found.</response>
+        /// <response code="401">Unauthorized: If the user is not authorized to access this endpoint.</response>
+        /// <response code="404">Not Found: If the specified user is not found.</response>
         [HttpGet("all")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -50,16 +51,17 @@ namespace Cards.Presentation.Controllers
         /// Retrieves cards for a specific user.
         /// </summary>
         /// <param name="appUserId">The ID of the user for whom the cards are retrieved.</param>
-        /// <param name="cardParameters">Parameters for pagination and filtering.</param>
+        /// <param name="cardParameters">Parameters for pagination, filtering and soring.</param>
         /// <returns>A list of cards and pagination metadata.</returns>
         /// <remarks>
         /// Sample request:
         ///
+        /// GET /api/appUsers/kev5f943-112f-4d49-888d-c671e210b8b8/cards/forUser
         ///
         /// </remarks>
-        /// <response code="200">Returns the list of cards and pagination metadata.</response>
-        /// <response code="401">If the user is not authorized to access this endpoint.</response>
-        /// <response code="404">If the specified user is not found.</response>
+        /// <response code="200">Returns the list of cards for specified user and pagination metadata.</response>
+        /// <response code="401">Unauthorized: If the user is not authorized to access this endpoint.</response>
+        /// <response code="404">Not Found: If the specified user is not found.</response>
         [HttpGet("forUser")]
         [Authorize(Roles = "Member")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -84,13 +86,17 @@ namespace Cards.Presentation.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /api/appUsers/kev5f943-112f-4d49-888d-c671e210b8b8/cards/fixbugs2-cd1d-43cd-b997-71a7f2a20096
+        ///     GET /api/appUsers/kev5f943-112f-4d49-888d-c671e210b8b8/cards/updateDatabase-f8a1-49e2-b7ab-2f5c6d73c93d
         ///
         /// </remarks>
         /// <response code="200">Returns the card with the specified ID.</response>
-        /// <response code="404">If the specified user or card is not found.</response>
+        /// <response code="400">Bad Request: If the request data is invalid.</response>
+        /// <response code="401">Unauthorized: If the specified user is not authorized to access this endpoint.</response>
+        /// <response code="404">Not Found: If the specified user or card is not found.</response>
         [HttpGet("{cardId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCardById(string appUserId, string cardId)
         {
@@ -109,22 +115,25 @@ namespace Cards.Presentation.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST /api/appUsers/userId/cards
+        ///     POST /api/appUsers/kev5f943-112f-4d49-888d-c671e210b8b8/cards/
         ///     {
-        ///         "name": "New Card",
-        ///         "color": "Red",
-        ///         "status": "ToDo",
-        ///         "dateOfCreation": "2022-01-01T00:00:00"
+        ///         "Name": "Client Meeting",
+        ///         "description": "Discuss project milestone.",
+        ///         "color": "#00FF00"
         ///     }
         ///
         /// </remarks>
         /// <response code="201">Returns the newly created card.</response>
-        /// <response code="400">If the request data is invalid.</response>
-        /// <response code="401">If the user is not authorized to access this endpoint.</response>
+        /// <response code="400">Bad Request: If the request color code data is invalid.</response>
+        /// <response code="401">Unauthorized: If the user is not authorized to access this endpoint.</response>
+        /// <response code="404">Not Found: If the specified user is not found.</response>
+        /// <response code="422">Unprocessable Entity: If the required fields are missing in the request data.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> CreateCard(string appUserId, [FromBody] CardForCreationDto cardForCreationDto)
         {
             CardDto response = await cardService.CreateCardAsync(appUserId, cardForCreationDto, trackChanges: false);
@@ -142,23 +151,26 @@ namespace Cards.Presentation.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     PUT /api/appUsers/userId/cards/cardId
+        ///     PUT /api/appUsers/kev5f943-112f-4d49-888d-c671e210b8b8/cards/updateDatabase-f8a1-49e2-b7ab-2f5c6d73c93d
         ///     {
-        ///         "name": "Updated Card",
-        ///         "color": "Blue",
-        ///         "status": "InProgress"
+        ///         "name": "Update Database",
+        ///         "status": "Done",	
+        ///         "description": "Discuss project milestones with the client.",
+        ///         "color": "#00FF00"
         ///     }
         ///
         /// </remarks>
         /// <response code="204">Indicates the card was successfully updated.</response>
-        /// <response code="400">If the request data is invalid.</response>
-        /// <response code="401">If the user is not authorized to access this endpoint.</response>
-        /// <response code="404">If the specified user or card is not found.</response>
+        /// <response code="400">Bad Request: If the specified card does not belong to the user doing the update.</response>
+        /// <response code="401">Unauthorized: If the user is not authorized to access this endpoint.</response>
+        /// <response code="404">Not Found: If the specified user or card is not found.</response>
+        /// <response code="422">Unprocessable Entity: If the required fields are missing in the request data.</response>
         [HttpPut("{cardId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> UpdateCard(string appUserId, string cardId, [FromBody] CardForUpdateDto cardForUpdateDto)
         {
             await cardService.UpdateCardAsync(appUserId, cardId, cardForUpdateDto, 
@@ -176,14 +188,16 @@ namespace Cards.Presentation.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     DELETE /api/appUsers/userId/cards/cardId
+        ///     DELETE /api/appUsers/kev5f943-112f-4d49-888d-c671e210b8b8/cards/clientMeeting-2f9e-4681-a499-4a2d1b2e36e4
         ///
         /// </remarks>
         /// <response code="204">Indicates the card was successfully deleted.</response>
-        /// <response code="401">If the user is not authorized to access this endpoint.</response>
-        /// <response code="404">If the specified user or card is not found.</response>
+        ///<response code = "400">Bad Request: If the specified card id does not belong to the specified user.</response>
+        /// <response code="401">Unauthorized: If the user is not authorized to access this endpoint.</response>
+        /// <response code="404">Not Found: If the specified user or card is not found.</response>
         [HttpDelete("{cardId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCard(string appUserId, string cardId)

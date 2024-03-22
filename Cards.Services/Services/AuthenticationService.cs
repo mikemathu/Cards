@@ -32,9 +32,6 @@ namespace Cards.Services.Services
 
             IdentityResult result = await _userManager.CreateAsync(appUser, userForRegistration.Password);
 
-            if (!result.Succeeded)
-                throw new CreateUserFailedException();
-
             return result;
         }
 

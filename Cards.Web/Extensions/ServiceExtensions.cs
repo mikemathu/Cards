@@ -47,7 +47,7 @@ namespace Cards.Web.Extensions
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 10;
+                options.Password.RequiredLength = 6;
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<RepositoryDbContext>()

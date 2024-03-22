@@ -1,4 +1,5 @@
 ﻿using Cards.Domain.Constants;
+using Cards.Domain.Exceptions;
 
 namespace Cards.Domain.Entities
 {

@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cards.Persistence", "Cards.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cards.Services", "Cards.Services\Cards.Services.csproj", "{D032DFB2-A310-4746-80BE-E84617F0EF3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cards.Presentation", "Cards.Presentation\Cards.Presentation.csproj", "{24E2F17E-B7D8-42D3-9025-11EC315D0363}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cards.Presentation", "Cards.Presentation\Cards.Presentation.csproj", "{24E2F17E-B7D8-42D3-9025-11EC315D0363}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BEB04B54-4FA3-4481-A0AD-01E256982239}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
