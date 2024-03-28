@@ -1,0 +1,140 @@
+﻿
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/poppins/poppins-v5-latin-regular.eot');
+    src: local('Poppins Regular'),local('Poppins-Regular'),url('/fonts/poppins/poppins-v5-latin-regular.eot?#iefix') format('embedded-opentype'),url('/fonts/poppins/poppins-v5-latin-regular.woff2') format('woff2'),url('/fonts/poppins/poppins-v5-latin-regular.woff') format('woff'),url('/fonts/poppins/poppins-v5-latin-regular.ttf') format('truetype'),url('/fonts/poppins/poppins-v5-latin-regular.#Poppins') format('svg')
+}
+
+.pos .actionpad .button .fa-object-group, .fa-files-o {
+    position: absolute;
+    left: 13px;
+    top: 13px;
+    margin-right: 8px;
+    font-size: 18px;
+    background: rgba(255,255,255,0.5);
+    line-height: 30px;
+    width: 30px;
+    border-radius: 100%
+}
+
+.pos .actionpad .button .fa-chevron-right {
+    position: absolute;
+    left: 13px;
+    top: 13px;
+    margin-right: 8px;
+    font-size: 18px;
+    background: rgba(255,255,255,0.5);
+    line-height: 30px;
+    width: 30px;
+    border-radius: 100%
+}
+
+a.button.small {
+    padding: 1px 5px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    border-radius: 3px !important
+}
+
+    a.button.small:hover {
+        text-decoration: none;
+        color: #fff;
+        background-color: #808080
+    }
+
+.pos .payment-numpad .numpad button {
+    width: 95px !important
+}
+
+.pos .payment-numpad {
+    width: 100% !important
+}
+
+
+.modal-header {
+    padding: 2px 16px
+}
+
+.modal-body {
+    padding: 2px 16px
+}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4)
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold
+}
+
+    .close:hover, .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer
+    }
+
+.pos .searchbox select {
+    width: 180px;
+    border: 1px solid #cecbcb;
+    padding: 10px 20px;
+    margin: 5px;
+    margin-right: 185px;
+    background-color: white;
+    border-radius: 20px;
+    font-family: "Lato","Lucida Grande",Helvetica,Verdana,Arial;
+    font-size: 13px
+}
+
+

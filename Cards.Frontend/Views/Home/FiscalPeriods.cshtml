@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Fiscal Periods";    
+}
+<div class=row>
+    <div class=col-md-9>
+        <div class="panel panel-default">
+            <div class=panel-heading>
+                <h6 class=panel-title>Fiscal Period Details</h6>
+            </div>
+            <div class=panel-body>
+                <form method=post id=FiscalPeriodForm>
+                    <div class=row>
+                        <div class=col-sm-6>
+                            <input hidden type=number data-val=true data-val-required="The FiscalPeriodID field is required." id=FiscalPeriodID name=FiscalPeriodID>
+                            <input id=FiscalHash hidden>
+                            <div class=form-group>
+                                <label>
+                                    <small>Period ID</small>
+                                </label>
+                                <input class="form-control input-sm" readonly type=number data-val=true data-val-required="The FiscalPeriodNo field is required." id=FiscalPeriodNo name=FiscalPeriodNo>
+                            </div>
+                            <div class=form-group>
+                                <label>
+                                    <small>Open Date</small>
+                                </label>
+                                <input class="form-control input-sm" type=date data-val=true data-val-required="The OpenDate field is required." id=OpenDate name=OpenDate>
+                            </div>
+                        </div>
+                        <div class=col-sm-6>
+                            <div class=form-group>
+                                <label>
+                                    <small>Close Date</small>
+                                </label>
+                                <input class="form-control input-sm" type=date data-val=true data-val-required="The CloseDate field is required." id=CloseDate name=CloseDate>
+                            </div>
+                            <div class=form-group>
+                                <div class=col-md-6>
+                                    <div class=checkbox>
+                                        <label class=checkbox>
+                                            <input type=checkbox id=IsActive>Is Active
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class=col-md-6>
+                                    <div class=checkbox>
+                                        <label class=checkbox>
+                                            <input type=checkbox id=IsOpen disabled>Is Open
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id=update hidden>
+                                <div class="btn-group pull-right">
+                                    <button id=btnupdateperiod class="btn btn-primary btn-sm ladda-button" data-style=expand-right data-size=s>Update</button>
+                                    <a id=btnCreateNew class="btn btn-primary btn-sm">New</a>
+                                </div>
+                            </div>
+                            <div id=addperiod>
+                                <button id=btnaddperiod class="btn btn-primary pull-right ladda-button" data-style=expand-right data-size=s>
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <input name=__RequestVerificationToken type=hidden value=CfDJ8D8r6CAn5wtBg7mv7kHl3cT0-21p93qtV_UStt_7HtuL_4ZH3xkjAzhFUV0Wu4fr4vUkSA89sqJeKG0z6RtK9MWbWP4bo4YuBOws4KYXPjqhE3xycfGoyU3J1rZeeYRH4hCIoLT4KDt6TyAo1BCFJCPA7iUt-X0zrCg351nPiGeyyAqlarwJFh17wlFbQRK23w>
+                </form>
+            </div>
+            <div class=panel-heading>
+                <h6 class=panel-title>View: Fiscal Periods</h6>
+            </div>
+            <div class=table-responsive id=no-more-tables>
+                <table class="col-md-12 table-striped table-condensed table-bordered cf compact" width=100% id=fiscalperiodstable>
+                    <thead class=cf>
+                        <tr>
+                            <th>
+                                <strong>Fiscal Period No</strong>
+                            <th>
+                                <strong>Open Date</strong>
+                            <th>
+                                <strong>Close Date</strong>
+                            <th>
+                                <strong>Is Active</strong>
+                            <th>
+                                <strong>Is Open</strong>
+                    <tbody>
+                </table>
+            </div>
+            <div class=panel-footer>
+                <div class=row>
+                    <div class=col-md-9>
+                        <label class=radio-inline>
+                            <input type=radio name=optPeriods value=1>Active
+                        </label>
+                        <label class=radio-inline>
+                            <input type=radio name=optPeriods value=2>Inactive
+                        </label>
+                        <label class=radio-inline>
+                            <input type=radio name=optPeriods value=3 checked>All
+                        </label>
+                    </div>
+                    <div class=col-md-3>
+                        <button id=btncloseperiod class="btn btn-primary btn-xs pull-right ladda-button" data-style=expand-right data-size=s>Close Period</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=col-md-3></div>
+</div>
+
+<script src="~/js/Shared/jquery-3.4.1.min.js"></script>
+<script src="~/js/Accounts/FiscalPeriods.js"></script>

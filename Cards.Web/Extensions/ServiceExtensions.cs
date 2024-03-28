@@ -92,7 +92,6 @@ namespace Cards.Web.Extensions
                     Version = "v1",
                     Description = "An ASP.NET Core Web API for managing tasks",
                 });
-
                 var xmlFile = $"{typeof(Presentation.Controllers.CardsController).Assembly.GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 

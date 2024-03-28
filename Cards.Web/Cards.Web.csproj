@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cards.Frontend\Cards.Frontend.csproj" />
     <ProjectReference Include="..\Cards.Persistence\Cards.Persistence.csproj" />
     <ProjectReference Include="..\Cards.Presentation\Cards.Presentation.csproj" />
     <ProjectReference Include="..\Cards.Services\Cards.Services.csproj" />

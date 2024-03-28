@@ -1,12 +1,17 @@
+using Cards.Frontend;
+using Cards.Presentation;
 using Cards.Web;
 using Cards.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers()
-.AddApplicationPart(Assembly.Load(new AssemblyName("Cards.Presentation")));
+var presentationAssembly = typeof(PresentationAssemblyReference).Assembly;
+var frontendAssembly = typeof(FrontendAssemblyReference).Assembly;
+
+builder.Services.AddMvc()
+    .AddApplicationPart(presentationAssembly)
+    .AddApplicationPart(frontendAssembly);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
@@ -45,6 +50,7 @@ app.UseSwaggerUI(s =>
 });
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
