@@ -6,34 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Website Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Custom Styles */
-        .left-section {
-            width: 390px;
-            padding: 32px 45px 60px 15px;
-        }
-
-        .right-section {
-            width: 780px;
-            padding: 32px 15px 0px 0px;
-        }
-
-
-        .card {
-            transition: box-shadow 0.3s ease;
-        }
-
-            .card:hover {
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel=stylesheet href="~/css/style.css">
 </head>
 
-<body>
+<body id="body">
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="#">Cards</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -61,11 +42,13 @@
     <div class="container-fluid mt-5">
         <div class="row">
             <!-- Left Section -->
-            <div class="col-md-4 left-section">
+            <div class="col-md-4 left-section" id="left-section">
                 <!-- Filters Section -->
                 <div class="mb-3">
                     <h5>Filters</h5>
+
                     <div class="row g-3">
+
                         <div class="col-md-12">
                             <input type="text" class="form-control" placeholder="Name">
                         </div>
@@ -153,33 +136,34 @@
 
 
             </div>
+           
+
             <!-- Right Section -->
             <div class="col-md-8 right-section">
-                <!-- Top Section with Dropdown and Sort Options -->
+                
                 <div class="mb-3">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="perPageSelect" class="form-label">Cards Per Page:</label>
+                    <div class="row justify-content-end">
+                        <div class="col-md-4">
+                            <button class="btn btn-primary bi bi-sliders" id="toggleFilterSection"> Filters</button>
+                        </div>
+                        <div class="col-md-6 text-start">
+                            <!-- Adjust column width as needed -->
+                            <!-- Top Section with Dropdown and Sort Options -->
+                          @*   <label for="perPageSelect" class="form-label">Cards Per Page:</label> *@
                             <select class="form-select" id="perPageSelect">
-                                <option selected>Show 10</option>
+                                <option selected>Cards Per Page</option>
+                                <option value="20">Show 10</option>
                                 <option value="20">Show 20</option>
                                 <option value="30">Show 30</option>
                             </select>
                         </div>
+                        
+                       
                     </div>
                 </div>
+                <div class="cardborder">
                 <!-- Cards Section -->
                 <div class="card mb-3">
-                    <h5 class="card-header">Featured</h5>
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    @RenderBody()
-                </div>
-                   <div class="card mb-3">
-                    <h5 class="card-header">Featured</h5>
                     <div class="card-body">
                         <h5 class="card-title">Special title treatment</h5>
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -188,13 +172,29 @@
                     @RenderBody()
                 </div>
                 <div class="card mb-3">
-                    <h5 class="card-header">Featured</h5>
                     <div class="card-body">
                         <h5 class="card-title">Special title treatment</h5>
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                     @RenderBody()
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    @RenderBody()
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    @RenderBody()
+                </div>
                 </div>
                 <!-- Pagination -->
                 <nav aria-label="Page navigation example">
@@ -219,7 +219,29 @@
 
 <script>
 
-    // Add event listeners to radio buttons
+   
+        const toggleButton = document.getElementById('toggleFilterSection');
+        const body = document.body;
+        const filterSection = document.getElementById('left-section');
+
+        toggleButton.addEventListener('click', function (event) {
+            filterSection.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function (event) {
+            const isClickInsideFilterSection = filterSection.contains(event.target) || event.target === toggleButton;
+
+            if (!isClickInsideFilterSection) {
+                filterSection.classList.remove('show');
+            }
+        });
+
+
+
+      
+
+
+
 
 </script>
 </body>
