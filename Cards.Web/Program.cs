@@ -1,4 +1,3 @@
-using Cards.Frontend;
 using Cards.Presentation;
 using Cards.Web;
 using Cards.Web.Extensions;
@@ -7,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 
 var presentationAssembly = typeof(PresentationAssemblyReference).Assembly;
-var frontendAssembly = typeof(FrontendAssemblyReference).Assembly;
+//var frontendAssembly = typeof(FrontendAssemblyReference).Assembly;
 
 builder.Services.AddMvc()
-    .AddApplicationPart(presentationAssembly)
-    .AddApplicationPart(frontendAssembly);
+    .AddApplicationPart(presentationAssembly);
+    //.AddApplicationPart(frontendAssembly);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
@@ -21,6 +20,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true;
 });
 
+builder.Services.ConfigureCors();
 builder.Services.ConfigureNpgsqlContext(builder.Configuration);
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureCardService();

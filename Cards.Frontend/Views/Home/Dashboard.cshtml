@@ -1,8 +1,290 @@
-﻿@* <div class="card">
-    <h5 class="card-header">Featured</h5>
-    <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-</div> *@
+﻿@* 
+<div id="cardContainer"></div>
+
+<script>
+    //const userId = 'kev5f943-112f-4d49-888d-c671e210b8b8';
+    const userId = 'admin46d-9e9f-44d3-8425-263ba67509aa';
+    const endpoint = `https://localhost:7265/api/appUsers/${userId}/cards/all`;
+
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+    function fetchData(pageSize) {
+        const url = `${endpoint}?pageSize=${pageSize}`;
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                return response.json();
+            })
+            .then(data => {
+                // Generate HTML for each card object in the data array
+                const cardHtml = data.map(card => `
+                            <div class="card mb-3" style="background-color: ${card.color}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${card.name}</h5>
+                                    <p class="card-text">${card.description}</p>
+                                    <p class="card-text">Created By: ${card.createdByAppUser}</p>
+                                    <p class="card-text">Status: ${card.status}</p>
+                                    <p class="card-text">Date of Creation: ${new Date(card.dateOfCreation).toLocaleString()}</p>
+                                </div>
+                            </div>
+                        `).join('');
+
+                // Insert the generated HTML into the cardContainer element
+                document.getElementById('cardContainer').innerHTML = cardHtml;
+            })
+            .catch(error => {
+                console.error('There was a problem fetching the data:', error);
+            });
+    }
+
+    // Fetch initial data and generate dropdown options when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+       
+        fetch(endpoint, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not okk');
+                }
+                // Get pagination data from response headers
+                const paginationData = parsePaginationHeader(response.headers.get('X-Pagination'));
+                // Dynamically generate dropdown options based on pagination data
+                generateDropdownOptions(paginationData);
+                // Fetch data with default page size
+                fetchData(paginationData.PageSize);
+            })
+            .catch(error => {
+                console.error('There was a problem fetching the initial data:', error);
+            });
+    });
+
+    // Function to parse pagination header and extract relevant data
+    function parsePaginationHeader(header) {
+        if (!header) return null;
+        return JSON.parse(header);
+    }
+
+
+    // Function to generate dropdown options based on pagination data
+    function generateDropdownOptions(paginationData) {
+        if (!paginationData || !paginationData.TotalCount || !paginationData.PageSize) return;
+        const perPageSelect = document.getElementById('perPageSelect');
+        const pageCount = Math.ceil(paginationData.TotalCount / paginationData.PageSize);
+        for (let i = 1; i <= pageCount; i++) {
+            const option = document.createElement('option');
+            option.value = paginationData.PageSize * i;
+            option.textContent = `Show ${paginationData.PageSize * i}`;
+            perPageSelect.appendChild(option);
+        }
+    }
+
+    // Event listener for dropdown change
+    document.getElementById('perPageSelect').addEventListener('change', function (event) {
+        const pageSize = event.target.value;
+        fetchData(pageSize);
+    });
+
+
+</script>  *@
+
+
+
+<div id="cardContainer"></div>
+
+<script>
+    //const userId = 'kev5f943-112f-4d49-888d-c671e210b8b8';
+    const userId = 'admin46d-9e9f-44d3-8425-263ba67509aa';
+    const endpoint = `https://localhost:7265/api/appUsers/${userId}/cards/all`;
+
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+ 
+
+    function fetchData(options) {
+        let url = `${endpoint}?`;
+
+        // Filtering
+        if (options.filter) {
+            const { name, color, status, dateOfCreation } = options.filter;
+            if (name) url += `&name=${name}`;
+            if (color) url += `&color=${color}`;
+            if (status) url += `&status=${status}`;
+            if (dateOfCreation) url += `&dateOfCreation=${dateOfCreation}`;
+        }
+
+        // Sorting
+        if (options.sort) {
+            const { sortBy, sortOrder } = options.sort;
+            if (sortBy) url += `&sortBy=${sortBy}`;
+            if (sortOrder) url += `&sortOrder=${sortOrder}`;
+        }
+
+        // Pagination
+        if (options.pagination) {
+            const { pageNumber, pageSize } = options.pagination;
+            if (pageNumber) url += `&pageNumber=${pageNumber}`;
+            if (pageSize) url += `&pageSize=${pageSize}`;
+        }
+
+        // Remove leading '&' if there are query parameters
+        if (url.endsWith('?')) {
+            url = url.slice(0, -1);
+        }
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                // Get pagination data from response headers
+                const paginationData = parsePaginationHeader(response.headers.get('X-Pagination'));
+                // Dynamically generate dropdown options based on pagination data
+                generatePaginationLinks(paginationData);
+
+                return response.json();
+            })
+            .then(data => {
+                // Generate HTML for each card object in the data array
+                const cardHtml = data.map(card => `
+                                <div class="card mb-3" style="background-color: ${card.color}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${card.name}</h5>
+                                        <p class="card-text">${card.description}</p>
+                                        <p class="card-text">Created By: ${card.createdByAppUser}</p>
+                                        <p class="card-text">Status: ${card.status}</p>
+                                        <p class="card-text">Date of Creation: ${new Date(card.dateOfCreation).toLocaleString()}</p>
+                                    </div>
+                                </div>
+                            `).join('');
+
+                // Insert the generated HTML into the cardContainer element
+                document.getElementById('cardContainer').innerHTML = cardHtml;
+
+            })
+            .catch(error => {
+                console.error('There was a problem fetching the data:', error);
+            });
+    }
+
+    // Function to generate pagination links dynamically
+    function generatePaginationLinks(paginationData) {
+        const paginationNav = document.getElementById('paginationNav');
+        paginationNav.innerHTML = ''; // Clear existing pagination links
+
+        // Add Previous page link if available
+        if (paginationData.HasPrevious) {
+            paginationNav.innerHTML += `
+                <li class="page-item">
+                   <a class="page-link" href="#" onclick="fetchData({ pagination: { pageNumber: ${paginationData.CurrentPage - 1} } })">Previous</a>
+                </li>`;
+        } else {
+            paginationNav.innerHTML += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>`;
+        }
+
+        // Add numbered page links
+        for (let i = 1; i <= paginationData.TotalPages; i++) {
+            paginationNav.innerHTML += `
+            <li class="page-item ${i === paginationData.CurrentPage ? 'active' : ''}" >
+                <a class="page-link" href = "#" onclick = "fetchData({ pagination: { pageNumber: ${i} } })" > ${ i } </a>
+             </li>`;
+        }
+
+        // Add Next page link if available
+        if (paginationData.HasNext) {
+            paginationNav.innerHTML += `
+            <li class="page-item">
+                <a class="page-link" href="#" onclick="fetchData({ pagination: { pageNumber: ${paginationData.CurrentPage + 1} } })">Next</a>
+            </li>`;
+        } else {
+            paginationNav.innerHTML += `
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+            </li>`;
+        }
+    }
+    ///////
+    //Drop Down
+    //////
+
+    // Fetch initial data and generate dropdown options when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+
+        fetch(endpoint, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not okk');
+                }
+                // Get pagination data from response headers
+                const paginationData = parsePaginationHeader(response.headers.get('X-Pagination'));
+                // Dynamically generate dropdown options based on pagination data
+                generateDropdownOptions(paginationData);
+                
+
+                // Define pagination data with only pageSize
+                const paginationPageSize = {
+                    pageSize: paginationData.PageSize // Set your desired page size here
+                };
+
+                // Call fetchData with options object containing paginationData
+                fetchData({ pagination: paginationPageSize });
+
+            })
+            .catch(error => {
+                console.error('There was a problem fetching the initial data:', error);
+            });
+    });
+
+    // Function to parse pagination header and extract relevant data
+    function parsePaginationHeader(header) {
+        if (!header) return null;
+        return JSON.parse(header);
+    }
+
+
+    // Function to generate dropdown options based on pagination data
+    function generateDropdownOptions(paginationData) {
+        if (!paginationData || !paginationData.TotalCount || !paginationData.PageSize) return;
+        const perPageSelect = document.getElementById('perPageSelect');
+        const pageCount = Math.ceil(paginationData.TotalCount / paginationData.PageSize);
+        for (let i = 1; i <= pageCount; i++) {
+            const option = document.createElement('option');
+            option.value = paginationData.PageSize * i;
+            option.textContent = `Show ${paginationData.PageSize * i}`;
+            perPageSelect.appendChild(option);
+        }
+    }
+
+    // Event listener for dropdown change
+    document.getElementById('perPageSelect').addEventListener('change', function (event) {
+        const pageSize = event.target.value;
+        fetchData({ pagination: { pageSize: pageSize } });
+    });
+
+
+
+  
+
+</script> 
