@@ -200,13 +200,49 @@
                 </li>`;
         }
 
-        // Add numbered page links
+     /*   // Add numbered page links
         for (let i = 1; i <= paginationData.TotalPages; i++) {
             paginationNav.innerHTML += `
             <li class="page-item ${i === paginationData.CurrentPage ? 'active' : ''}" >
                 <a class="page-link" href = "#" onclick = "fetchData({ pagination: { pageNumber: ${i} } })" > ${ i } </a>
              </li>`;
+        }*/
+
+        // Add first page link
+        paginationNav.innerHTML += `
+            <li class="page-item ${1 === paginationData.CurrentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="fetchData({ pagination: { pageNumber: 1 } })">1</a>
+            </li>`;
+
+        // Add ellipsis if needed
+        if (paginationData.CurrentPage > 4) {
+            paginationNav.innerHTML += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">...</a>
+                </li>`;
         }
+
+        // Add sequential pages
+        for (let i = Math.max(2, paginationData.CurrentPage - 2); i <= Math.min(paginationData.TotalPages - 1, paginationData.CurrentPage + 2); i++) {
+            paginationNav.innerHTML += `
+                <li class="page-item ${i === paginationData.CurrentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="fetchData({ pagination: { pageNumber: ${i} } })">${i}</a>
+                </li>`;
+        }
+
+        // Add ellipsis on the right side if needed
+        if (paginationData.TotalPages - paginationData.CurrentPage > 3) {
+            paginationNav.innerHTML += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">...</a>
+                </li>`;
+        }
+
+        // Add last page link
+        paginationNav.innerHTML += `
+            <li class="page-item ${paginationData.TotalPages === paginationData.CurrentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="fetchData({ pagination: { pageNumber: ${paginationData.TotalPages} } })">${paginationData.TotalPages}</a>
+            </li>`;
 
         // Add Next page link if available
         if (paginationData.HasNext) {
