@@ -40,12 +40,156 @@
     display: block;
 }
 
-#toggleFilterSection{
-    display: none;
+.ascending-label {
+    font-size: smaller;
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.5); /* Faded color */
 }
 
 
+.cs-toggleFilterSection{
+    display: none;
+}
 
+.cs-paginationInfo {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 0px;
+}
+
+/*//loader*/
+.cs-loader {
+    position: absolute;
+    top: 9%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -9999;
+}
+
+.cs-loader-inner {
+    transform: translateY(-50%);
+    top: -4%;
+    position: absolute;
+    width: calc(100% - 10px);
+   /* color: #110d0d;*/
+    padding: 0 100px;
+    text-align: center;
+}
+
+    .cs-loader-inner label {
+        font-size: 20px;
+        opacity: 0;
+        display: inline-block;
+    }
+
+  /*color picker*/
+.input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+#color {
+    flex: 1; /* This will make the input field take up remaining space */
+}
+
+#color-picker {
+    height: 100%; /* This will make the color picker button match the height of the input field */
+}
+
+ .input-group {
+        display: flex;
+        align-items: stretch;
+    }
+    #color {
+        flex: 1; /* This will make the input field take up remaining space */
+        border-right: none; /* Remove the right border */
+        border-radius: 4px 0 0 4px; /* Adjust border radius */
+    }
+    .form-control {
+        border-radius: 0; /* Remove default border radius */
+    }
+    #color-picker {
+        height: 100%; /* This will make the color picker button match the height of the input field */
+        border-radius: 0 4px 4px 0; /* Adjust border radius */
+    }
+
+
+
+
+@keyframes lol {
+    0% {
+        opacity: 0;
+        transform: translateX(-300px);
+    }
+
+    33% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+
+    66% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(300px);
+    }
+}
+
+@-webkit-keyframes lol {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(-300px);
+    }
+
+    33% {
+        opacity: 1;
+        -webkit-transform: translateX(0px);
+    }
+
+    66% {
+        opacity: 1;
+        -webkit-transform: translateX(0px);
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: translateX(300px);
+    }
+}
+
+.cs-loader-inner label:nth-child(6) {
+    -webkit-animation: lol 3s infinite ease-in-out;
+    animation: lol 3s infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(5) {
+    -webkit-animation: lol 3s 100ms infinite ease-in-out;
+    animation: lol 3s 100ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(4) {
+    -webkit-animation: lol 3s 200ms infinite ease-in-out;
+    animation: lol 3s 200ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(3) {
+    -webkit-animation: lol 3s 300ms infinite ease-in-out;
+    animation: lol 3s 300ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(2) {
+    -webkit-animation: lol 3s 400ms infinite ease-in-out;
+    animation: lol 3s 400ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(1) {
+    -webkit-animation: lol 3s 500ms infinite ease-in-out;
+    animation: lol 3s 500ms infinite ease-in-out;
+}
 /*.left-section {
     position: fixed;*/
 /*    top: 0;*/
@@ -82,11 +226,13 @@
     .right-section .justify-content-end {
         justify-content: flex-end !important;
     }
-    .right-section .card {
+
+
+    .right-section {
         width: 80vw;
     }
 
-    #toggleFilterSection {
+    .cs-toggleFilterSection {
         display: block;
         margin-bottom: 10px;
         padding: 6px 30px;

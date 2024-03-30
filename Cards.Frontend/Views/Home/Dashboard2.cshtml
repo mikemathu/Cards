@@ -20,6 +20,9 @@
     fetchData();
 
 
+    ///function fetchData({ pagination = {}, sort = {}, filter = {} }) {
+
+
     function fetchData(options = {}) {
         showLoader();
 
@@ -48,8 +51,8 @@
             }
         }
 
-        if (options.sort && sortString > 0) {
-           url += `&sortBy=${sortByString}`;
+        if (options.sort) {
+            url += `&orderBy=${sortByString}`;
        }
 
         // Filtering
@@ -135,7 +138,7 @@
         if (paginationData.HasPrevious) {
             paginationNav.innerHTML += `
                 <li class="page-item">
-                   <a class="page-link" href="#" onclick="fetchData({ pagination: { pageNumber: ${paginationData.CurrentPage - 1} } })">Previous</a>
+                       <a class="page-link" href="#" onclick="handlePerPageSelectChange({ pagination: { pageNumber: ${paginationData.CurrentPage - 1} } })">Previous</a>
                 </li>`;
         } else {
             paginationNav.innerHTML += `
@@ -147,7 +150,7 @@
         // Add first page link
         paginationNav.innerHTML += `
             <li class="page-item ${1 === paginationData.CurrentPage ? 'active' : ''}">
-                <a class="page-link" href="#" onclick="fetchData({ pagination: { pageNumber: 1 } })">1</a>
+                    <a class="page-link" href="#" onclick="handlePerPageSelectChange({ pagination: { pageNumber: 1 } })">1</a>
             </li>`;
 
         // Add ellipsis if needed
@@ -162,7 +165,7 @@
         for (let i = Math.max(2, paginationData.CurrentPage - 2); i <= Math.min(paginationData.TotalPages - 1, paginationData.CurrentPage + 2); i++) {
             paginationNav.innerHTML += `
                 <li class="page-item ${i === paginationData.CurrentPage ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="fetchData({ pagination: { pageNumber: ${i} } })">${i}</a>
+                        <a class="page-link" href="#" onclick="handlePerPageSelectChange({ pagination: { pageNumber: ${i} } })">${i}</a>
                 </li>`;
         }
 
@@ -177,7 +180,7 @@
         // Add last page link
        paginationNav.innerHTML += `
             <li class="page-item ${paginationData.TotalPages === paginationData.CurrentPage  ? 'active' : ''}">
-                <a class="page-link" href="#" onclick="fetchData({ pagination: { pageNumber: ${paginationData.TotalPages} } })">${paginationData.TotalPages}</a>
+                    <a class="page-link" href="#" onclick="handlePerPageSelectChange({ pagination: { pageNumber: ${paginationData.TotalPages} } })">${paginationData.TotalPages}</a>
             </li>`;
       
 
@@ -185,7 +188,7 @@
         if (paginationData.HasNext) {
             paginationNav.innerHTML += `
             <li class="page-item">
-                <a class="page-link" href="#" onclick="fetchData({ pagination: { pageNumber: ${paginationData.CurrentPage + 1} } })">Next</a>
+                    <a class="page-link" href="#" onclick="handlePerPageSelectChange({ pagination: { pageNumber: ${paginationData.CurrentPage + 1} } })">Next</a>
             </li>`;
         } else {
             paginationNav.innerHTML += `
@@ -242,13 +245,20 @@
 
     // Event listener for dropdown change
     document.getElementById('perPageSelect').addEventListener('change', function (event) {
-        const pageSize = event.target.value;
-        fetchData({ pagination: { pageSize: pageSize } });
+        const perPagepageSize = event.target.value;
+        //fetchData({ pagination: { pageSize: pageSize } });
+        //handlePerPageSelectChange(pageSize);
+        handlePerPageSelectChange({ pagination: { pageSize: perPagepageSize } } );
     });
 
    
+
+
+ 
+
+   
   //Sorting
-    document.querySelectorAll('input[name="sortOption"]').forEach(checkbox => {
+  /*  document.querySelectorAll('input[name="sortOption"]').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
             // Initialize options object
             const options = {
@@ -278,15 +288,51 @@
 
             // Call fetchData function with updated options
             //fetchData(options);
-            fetchData(sortString);
+            //fetchData(sortString);
+            //handlePerPageSelectChange(sortString :sortString);
+            handlePerPageSelectChange(undefined, sortString, undefined,);
+
 
             // If all checkboxes are checked, log the concatenated string
            /* if (options.sort.sortBy.length === document.querySelectorAll('input[name="sortOption"]').length) {
                 console.log(sortString);
-            }*/
+            }
+        });
+    }); 
+    */
+
+   //sorting
+    // Define a function to update the sorting values based on the checked checkboxes
+    function updateSortString() {
+        const options = {
+            sort: {
+                orderByString: []
+            }
+        };
+
+        document.querySelectorAll('input[name="sortOption"]:checked').forEach(checkedCheckbox => {
+            const value = checkedCheckbox.value;
+            const oppositeSortOption = value.endsWith(' desc') ? value.slice(0, -5) : value + ' desc';
+            const oppositeIndex = options.sort.orderByString.indexOf(oppositeSortOption);
+            if (oppositeIndex !== -1) {
+                options.sort.orderByString.splice(oppositeIndex, 1);
+            }
+            options.sort.orderByString.push(value);
+        });
+
+        return options.sort.orderByString.join(',');
+    }
+
+    // Attach event listener to checkboxes to update sorting values
+    document.querySelectorAll('input[name="sortOption"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            const sortString = updateSortString();
+            handlePerPageSelectChange(undefined, sortString);
         });
     });
 
+
+  
     //filter
     document.addEventListener('DOMContentLoaded', () => {
         // Add event listeners to filter input fields
@@ -310,15 +356,54 @@
         const dateOfCreation = document.getElementById('filterByDateOfCreation').value;
 
         // Call fetchData function with filter options
-        fetchData({
+        
             filter: {
                 name,
                 color,
                 status,
                 dateOfCreation
             }
-        });
+        
+        handlePerPageSelectChange(undefined, undefined, { filter: { name: name, color: color, status: status, dateOfCreation: dateOfCreation } });
+
     }
+
+
+    function handlePerPageSelectChange( pagination = {} , sortString = null, filterOption = {}) {
+        // Read values for pagination, sorting, and filtering options from the DOM
+        //let pageSize = pagination.pageSize;
+        let { pageSize } = pagination;
+        let name = filterOption.filter ? filterOption.filter.name : null;
+        let color = filterOption.filter ? filterOption.filter.color : null;
+        let status = filterOption.filter ? filterOption.filter.status : null;
+        let dateOfCreation = filterOption.filter ? filterOption.filter.dateOfCreation : null;
+
+        if (pagination === null || Object.keys(pagination).length === 0) {
+            pageSize = 18;
+        }
+
+        if (sortString === null) {
+            sortString = updateSortString();
+        }
+
+        if (filterOption === null || Object.keys(filterOption).length === 0) {
+            name = document.getElementById('filterByName').value;
+            color = document.getElementById('filterByColor').value;
+            status = document.getElementById('filterByStatus').value;
+            dateOfCreation = document.getElementById('filterByDateOfCreation').value;
+        }
+
+        // Create pagination, sorting, and filtering options objects
+        const paginationObj = { pageSize: pageSize };
+        const filterObj = { filter: { name, color, status, dateOfCreation } };
+
+        // Call fetchData with the collected options
+        fetchData({ ...paginationObj, sort: sortString, ...filterObj });
+    }
+
+
+
+
 
 
     //color picker
