@@ -26,9 +26,11 @@
         let url = `${endpoint}?`;
 
         // Pagination
-        const { pageNumber, selectedPageSize } = pagination;
+        const { pageNumber, pageSize, isSelectedPageSizeDifferentFromDefault } = pagination;
         if (pageNumber) url += `&pageNumber=${pageNumber}`;
-        //if (selectedPageSize) url += `&pageSize=${selectedPageSize}`;
+        if (pageSize || isSelectedPageSizeDifferentFromDefault) url += `&pageSize=${pageSize}`;
+
+    /*    //if (selectedPageSize) url += `&pageSize=${selectedPageSize}`;
 
 
         // Get the select element
@@ -43,7 +45,11 @@
         // Append pageSize to the URL if a different option is selected
         if (selectedPageSizeValue !== defaultValue) {
             url += `&pageSize=${selectedPageSizeValue}`;
-        }
+        }*/
+
+       /* if (isDifferentFromDefault) {
+            url += `&pageSize=${selectedPageSize}`;
+        }*/
 
         // Sorting
         const { sortByString } = sort;
@@ -52,7 +58,7 @@
         // Filtering
         const { name, color, status, dateOfCreation } = filter;
         if (name) url += `&name=${name}`;
-        if (color) url += `&color=${color}`;
+        //if (color) url += `&color=${color}`;
         if (status) url += `&status=${status}`;
         if (dateOfCreation) url += `&dateOfCreation=${dateOfCreation}`;
 
@@ -115,7 +121,7 @@
     }
 
     // Function to generate pagination links dynamically
-    function generatePaginationLinks(paginationData) {
+    /*function generatePaginationLinks(paginationData) {
         const paginationNav = document.getElementById('paginationNav');
         paginationNav.innerHTML = ''; // Clear existing pagination links
 
@@ -158,6 +164,11 @@
                     <li class="page-item ${i === paginationData.CurrentPage ? 'active' : ''}">
                             <a class="page-link" href="#" onclick="fetchDataCaller({ pagination: { pageNumber: ${i} } })">${i}</a>
                     </li>`;
+
+            paginationNav.innerHTML += `
+            <li class="page-item ${pageNumber === paginationData.CurrentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="handlePerPageSelectChangeListener(${pageNumber})">${pageNumber}</a>
+            </li>`;
         }
 
         // Add ellipsis on the right side if needed
@@ -187,22 +198,141 @@
                     <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
                 </li>`;
         }
+    }*/
+
+
+    function generatePaginationLinks(paginationData) {
+        const paginationNav = document.getElementById('paginationNav');
+        paginationNav.innerHTML = ''; // Clear existing pagination links
+
+        // Check if there is only one page
+        if (paginationData.TotalPages === 1) {
+            return; // Exit the function early
+        }
+
+        // Add Previous page link if available
+        if (paginationData.HasPrevious) {
+            paginationNav.innerHTML += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="handlePerPageSelectChangeListener(${paginationData.CurrentPage - 1})">Previous</a>
+                </li>`;
+        } else {
+            paginationNav.innerHTML += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>`;
+        }
+
+        // Add first page link
+        paginationNav.innerHTML += `
+            <li class="page-item ${1 === paginationData.CurrentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="handlePerPageSelectChangeListener(1)">1</a>
+            </li>`;
+
+        // Add ellipsis if needed
+        if (paginationData.CurrentPage > 4) {
+            paginationNav.innerHTML += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">...</a>
+                </li>`;
+        }
+
+        // Add sequential pages
+        for (let i = Math.max(2, paginationData.CurrentPage - 2); i <= Math.min(paginationData.TotalPages - 1, paginationData.CurrentPage + 2); i++) {
+            paginationNav.innerHTML += `
+                <li class="page-item ${i === paginationData.CurrentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="handlePerPageSelectChangeListener(${i})">${i}</a>
+                </li>`;
+        }
+
+        // Add ellipsis on the right side if needed
+        if (paginationData.TotalPages - paginationData.CurrentPage > 3) {
+            paginationNav.innerHTML += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">...</a>
+                </li>`;
+        }
+
+        // Add last page link
+        paginationNav.innerHTML += `
+            <li class="page-item ${paginationData.TotalPages === paginationData.CurrentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="handlePerPageSelectChangeListener(${paginationData.TotalPages})">${paginationData.TotalPages}</a>
+            </li>`;
+
+        // Add Next page link if available
+        if (paginationData.HasNext) {
+            paginationNav.innerHTML += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="handlePerPageSelectChangeListener(${paginationData.CurrentPage + 1})">Next</a>
+                </li>`;
+        } else {
+            paginationNav.innerHTML += `
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+                </li>`;
+        }
     }
+
 
     //pagination
     // Function to handle dropdown change
-    function handlePerPageSelectChange() {
-        const perPagepageSize = document.getElementById('perPageSelect').value;
-        const options = {
+  /* function handlePerPageSelectChange() {
+        const perPagePageSize = document.getElementById('perPageSelect').value;
+        return {
             pagination: {
-                pageSize: perPagepageSize
+                pageSize: perPagePageSize
             }
         };
-        fetchDataCaller(options);
+    }*/
+
+    function handlePerPageSelectChangeListener(pageNumber) {
+        const perPagePageSize = document.getElementById('perPageSelect').value;
+        if (pageNumber === 0) {
+            fetchDataCaller({ pagination: { pageSize: perPagePageSize } });
+        }else{
+            fetchDataCaller({ pagination: { pageNumber, pageSize: perPagePageSize } });
+        }
+    }
+
+
+
+   /* function handlePerPageSelectChangeListener() {
+        const perPagepageSize = document.getElementById('perPageSelect').value;
+
+        fetchDataCaller({ pagination: { pageSize: perPagepageSize } });
+    }*/
+
+    // Function to handle dropdown change and return selected page size and comparison result
+    function handlePerPageSelectChange() {
+        const perPageSelect = document.getElementById('perPageSelect');
+        const selectedPageSize = perPageSelect.value;
+        const defaultValue = perPageSelect.options[0].value;
+        const isSelectedPageSizeDifferentFromDefault = selectedPageSize !== defaultValue;
+        //return { selectedPageSize, isDifferentFromDefault };
+
+        return {
+            pagination: {
+                pageSize: selectedPageSize,
+                isSelectedPageSizeDifferentFromDefault: isSelectedPageSizeDifferentFromDefault
+            }
+        };
     }
 
     // Event listener for dropdown change
-    document.getElementById('perPageSelect').addEventListener('change', handlePerPageSelectChange);
+    //document.getElementById('perPageSelect').addEventListener('change', handlePerPageSelectChangeListener);
+
+    // Event listener for dropdown change
+    /*document.getElementById('perPageSelect').addEventListener('change', function (event) {
+        const selectedPageNumber = event.target.value; // Get the value of the selected option
+        handlePerPageSelectChangeListener(selectedPageNumber); // Call the method with the selected page number
+    });*/
+
+    document.getElementById('perPageSelect').addEventListener('change', function (event) {
+        const pageNumber = 0; // Set the desired value for pageNumber
+        handlePerPageSelectChangeListener(pageNumber);
+    });
+
+
 
 
     
@@ -242,7 +372,7 @@
         return {
             filter: {
                 name: document.getElementById('filterByName').value,
-                color: document.getElementById('filterByColor').value,
+                color: document.getElementById('color-picker').value,
                 status: document.getElementById('filterByStatus').value,
                 dateOfCreation: document.getElementById('filterByDateOfCreation').value
             }
@@ -262,11 +392,11 @@
         fetchDataCaller(filterOptions);
     }
 
-    function fetchDataCaller(options) {
+   /* function fetchDataCaller(options) {
         if (options.pagination === undefined){
             console.log("pagination is undefined");
 
-            options.pagination = handlePerPageSelectChange();
+            options = handlePerPageSelectChange();
 
             if (options.pagination === undefined) {
                 console.log("=> pagination is undefined");
@@ -275,7 +405,7 @@
         if (options.sort === undefined) {
             console.log("sort is undefined")
 
-            options.sort = updateSortString();
+            options = updateSortString();
 
             if (options.sort === undefined) {
                 console.log("=> sort is undefined");
@@ -284,14 +414,30 @@
         if (options.filter == undefined) {
             console.log("fileter is undefined")
 
-            options.filter = updateFilterOptions()
+            options = updateFilterOptions()
 
             if (options.filter === undefined) {
                 console.log("=> fileter is undefined");
             }
         }    
         fetchData(options);
+    }*/
+
+
+    function fetchDataCaller(options) {
+        if (options.pagination === undefined) {
+            options.pagination = handlePerPageSelectChange().pagination;
+        }
+        if (options.sort === undefined) {
+            options.sort = updateSortString();
+            //options.sort = updateSortString().sort;
+        }
+        if (options.filter === undefined) {
+            options.filter = updateFilterOptions().filter;
+        }
+        fetchData(options);
     }
+
 
 
 
