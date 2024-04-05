@@ -15,19 +15,20 @@ namespace PointOfSaleSystem.Web.Controllers
             return View();
         }
 
-        [Route("FiscalPeriods")]
-        public IActionResult FiscalPeriods()
+        [Route("CreateCard")]
+        public IActionResult CreateCard()
         {
             return View();
         }
 
-        [Route("ActivateSubAccount")]
-        public IActionResult ActivateSubAccount()
+        [Route("CardDetails/{cardId}")]
+        public IActionResult CardDetails(string cardId)
         {
             return View();
         }
-        [Route("DeactivateSubAccount")]
-        public IActionResult DeactivateSubAccount()
+
+        [Route("EditCard/{cardId}")]
+        public IActionResult EditCard(string cardId)
         {
             return View();
         }

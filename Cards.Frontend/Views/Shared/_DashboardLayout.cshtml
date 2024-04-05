@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel=stylesheet href="~/css/style.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Cards</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="loader" class="cs-loader">
+                <div class="cs-loader-inner">
+                    <label>●</label>
+                    <label>●</label>
+                    <label>●</label>
+                    <label>●</label>
+                    <label>●</label>
+                    <label>●</label>
+                </div>
+            </div>
+
+            <a asp-action="CreateCard"  id="createCardBtn">Create Card</a>
+            
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-5">
+        <div class="row">           
+            <!-- Left Section -->
+            <div class="col-md-4 cs-left-section" id="left-section">
+                <!-- Filters Section -->
+                <div class="mb-3 filter-container">
+                    <h5>Filters</h5>
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" id="filterByName" placeholder="Name">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="input-group color-picker-container">
+                                <input type="text" value="Color" id="filterByColor" class="form-control" onclick="document.getElementById('color-picker').click();" readonly/>
+                                <span style="padding:0px" class="form-control">
+                                    <input style="padding:0px;" class="form-control cs-color-picker" type="color" id="color-picker" value="#ff0000">
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <select class="form-select" id="filterByStatus">
+                                <option selected>Status</option>
+                                <option value="1">Todo</option>
+                                <option value="2">In Progress</option>
+                                <option value="3">Done</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="date" class="form-control" id="filterByDateOfCreation">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sort Section -->
+                <div class="mb-3">
+                    <h5>Sort By</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="sortOption" value="name" id="sortByName">
+                                <label class="form-check-label" for="sortByName">Name<span class="ascending-label">(asc)</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="sortOption" value="name desc" id="sortByNameDesc">
+                                <label class="form-check-label" for="sortByNameDesc">Desc</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="sortOption" value="color" id="sortByColor">
+                                <label class="form-check-label" for="sortByColor">Color<span class="ascending-label">(asc)</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="sortOption" value="color desc" id="sortByColorDesc">
+                                <label class="form-check-label" for="sortByColorDesc">Desc</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="sortOption" value="status" id="sortByStatus">
+                                <label class="form-check-label" for="sortByStatus">Status<span class="ascending-label">(asc)</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="sortOption" value="status desc" id="sortByStatusDesc">
+                                <label class="form-check-label" for="sortByStatusDesc">Desc</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="sortOption" value="dateOfCreation" id="sortByDateOfCreation">
+                                <label class="form-check-label" for="sortByDateOfCreation">Date<span class="ascending-label">(asc)</span></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="sortOption" value="dateOfCreation desc" id="sortByDateDesc">
+                                <label class="form-check-label" for="sortByDateDesc">Desc</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section -->
+            <div class="col-md-8 right-section">                
+                <div class="mb-3">
+                    <div class="row justify-content-end">
+                        <div class="col-md-3">
+                            <button class="cs-toggleFilterSection btn btn-primary bi bi-sliders" id="toggleFilterSection"> Filters</button>
+                            <a class="btn btn-success" asp-action="CreateCard"><i class="fas fa-plus"></i> Create New</a>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="cs-paginationInfo" id="paginationInfo"></div>
+                        </div>
+                        <div class="col-md-4 text-start">             
+                            <select class="form-select" id="perPageSelect">
+                                <option value="" selected>Cards Per Page</option>
+                            </select>
+                        </div>                      
+                    </div>
+                </div>              
+
+                <div>
+                    <!-- Cards Section -->
+                    <div class="card mb-3 card-container">
+                        @RenderBody()
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center" id="paginationNav"></ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/ea8afe6f2d.js" crossorigin="anonymous"></script>
+    <script src="~/js/sweetalert/sweetalert.min.js"></script>
+    
+
+</body>
+</html>

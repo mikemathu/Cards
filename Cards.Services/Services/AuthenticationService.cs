@@ -81,6 +81,9 @@ namespace Cards.Services.Services
             if (!string.IsNullOrEmpty(_appUser.Email))
                 claims.Add(new Claim(ClaimTypes.Email, _appUser.Email));
 
+            if (!string.IsNullOrEmpty(_appUser.Id))
+                claims.Add(new Claim("AppUserId", _appUser.Id));
+
             if (!string.IsNullOrEmpty(_appUser.RoleId))
             {
                 var role = await _roleManager.FindByIdAsync(_appUser.RoleId);
