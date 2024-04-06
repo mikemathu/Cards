@@ -40,14 +40,15 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     //app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(s =>
+    {
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Card API v1");
+    });
 }
 app.UseExceptionHandler("/Home/Error");
 
-app.UseSwagger();
-app.UseSwaggerUI(s =>
-{
-    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Card API v1");
-});
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Website Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel=stylesheet href="~/css/style.css">
 </head>
 
@@ -72,9 +71,9 @@
                         <div class="col-md-12">
                             <select class="form-select" id="filterByStatus">
                                 <option selected>Status</option>
-                                <option value="1">Todo</option>
-                                <option value="2">In Progress</option>
-                                <option value="3">Done</option>
+                                <option value="Todo">Todo</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Done">Done</option>
                             </select>
                         </div>
                         <div class="col-md-12">
@@ -138,7 +137,7 @@
                 <div class="mb-3">
                     <div class="row justify-content-end">
                         <div class="col-md-3">
-                            <button class="cs-toggleFilterSection btn btn-primary bi bi-sliders" id="toggleFilterSection"> Filters</button>
+                            <button class="cs-toggleFilterSection btn btn-primary" id="toggleFilterSection"><i class="fa-solid fa-sliders"></i>  Filters</button>
                             <a class="btn btn-success" asp-action="CreateCard"><i class="fas fa-plus"></i> Create New</a>
                         </div>
                         <div class="col-md-5">
@@ -160,6 +159,7 @@
                 </div>
                 <!-- Pagination -->
                 <nav aria-label="Page navigation example">
+                    <ul id="currentPage"</ul>
                     <ul class="pagination justify-content-center" id="paginationNav"></ul>
                 </nav>
             </div>
