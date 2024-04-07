@@ -1,33 +1,30 @@
-﻿@model Cards.Domain.Entities.Card
-
-@{
+﻿@{
     ViewData["Title"] = "Edit Card";
 }
+@model Cards.Domain.Entities.Card
+
 
 <h1>Edit Service Point</h1>
 <hr />
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="EditServicePoint">
+        <form asp-action="EditCard">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" disabled />
+                <input asp-for="Name" id="Name" class="form-control" disabled />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <input asp-for="Description" id="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
-                <input asp-for="Color" class="form-control" />
+                <input asp-for="Color" id="Color" class="form-control" />
                 <span asp-validation-for="Color" class="text-danger"></span>
-            </div
-          @*   <div class="form-group">
-                <input type="hidden" asp-for="Id" value="@Model.Id" class="form-control" />
-            </div> *@
+            </div>
             <div class="form-group">
                 <a asp-action="ViewServicePoints" class="btn btn-dark">Back to List</a> &nbsp;
                 <input type="submit" value="Save Changes" class="btn btn-warning" />
@@ -35,6 +32,7 @@
         </form>
     </div>
 </div>
+<script type="module" src="~/js/Home/EditCard.js"></script>
 
 @* @section Scripts {
     @{

@@ -2,12 +2,17 @@
     Layout = "_DashboardLayout";
     ViewBag.Title = "Dashboard";
 }
+  
 
-<div id="cardContainer"></div>
+    <!-- Cards Section -->
+    <div class="card mb-3 card-container">
+        <div class="dashboard-section" id="cardContainer"></div>
+    </div>
 
 <form id="cardDeleteForm">
     <input type="hidden" id="cardId" name="cardId" />
 </form>
+
 
 <script type="module" src="~/js/Home/Dashboard.js"></script>
 <script type="module" src="~/js/Home/DeleteCard.js"></script>

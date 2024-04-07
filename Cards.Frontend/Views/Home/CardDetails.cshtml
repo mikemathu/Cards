@@ -1,48 +1,5 @@
-﻿@model Cards.Domain.Entities.Card
-
-@* <h1>Card Details</h1>
-<div class="hide-card-details">
-    <form asp-controller="Home" asp-action="CardDetails" method="post">
-        <div>
-            <label asp-for="Name">Name:</label>
-            <input asp-for="Name" id="cardDetailName" readonly />
-        </div>
-        <div>
-            <label asp-for="Description">Description:</label>
-            <textarea asp-for="Description" id="cardDetailDescription" readonly></textarea>
-        </div>
-        <div>
-            <label asp-for="Color">Color:</label>
-            <input asp-for="Color" id="cardDetailColor" type="color" readonly />
-        </div>
-    </form>
-</div> *@
-
-
-
-@{
-    ViewData["Title"] = "Service Point Details";
-}
-
-@* <h1>Details of @Model.Name</h1> *@
-
-<table>
-    <tr>
-        <th>Id</th>
-        <td>@Html.DisplayFor(model => model.Name)</td>
-    </tr>
-    <tr>
-        <th>Name</th>
-        <td>@Html.DisplayFor(model => model.Description)</td>
-    </tr>
-    <tr>
-        <th>ServiceProviderId</th>
-        <td>@Html.DisplayFor(model => model.Color)</td>
-    </tr>
+﻿<!--  Card Details -->
+<table id="cardTable">
+    <tbody id="cardTableBody"></tbody>
 </table>
-
-<br />
-@* <div>
-    <a asp-action="ViewServicePoints" class="btn btn-dark">Back to List</a>
-    <a asp-action="EditServicePoint" class="btn btn-warning" asp-route-id="@Model.CardId">Edit</a>
-</div> *@
+<script type="module" src="~/js/Home/CardDetails.js"></script>

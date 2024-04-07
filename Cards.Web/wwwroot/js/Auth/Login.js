@@ -32,10 +32,9 @@ async function handleFormSubmit(event) {
         const userData = await response.json();
 
         localStorage.setItem('token', userData.token);
-        sessionStorage.setItem('token', userData.token);
 
         // Redirect the user to a logged-in area or perform any other necessary actions
-        window.location.href = "/Home/Dashboard"; // Redirect to the dashboard
+        window.location.href = "/"; // Redirect to the dashboard
 
     } catch (error) {
         console.error('Error:', error);

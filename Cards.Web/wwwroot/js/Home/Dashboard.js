@@ -1,28 +1,12 @@
-import { generateUrlWithUserId } from "../Shared/common.js";
+import { setEndpointAndToken } from "../Shared/common.js";
+import { fetchCardDetails } from "./CardDetails.js";
+import { fetchCardDetailsForEditing } from "./EditCard.js";
+import { deleteCard } from "./DeleteCard.js";
+
 
 fetchData({});
 
-function setEndpointAndToken() {
 
-    const token = sessionStorage.getItem('token');
-
-    const decodedToken = token ? JSON.parse(atob(token.split('.')[1])) : null;
-
-    var endpoint = '';
-
-    if (decodedToken && decodedToken.role === 'admin') {
-        endpoint = 'all';
-    } else {
-        endpoint = 'forUser';
-    }
-
-    let apiUrl = generateUrlWithUserId(endpoint, token)
-
-    return {
-        token: token,
-        apiUrl: apiUrl
-    };
-}
 
 
 /* ====================================================================
@@ -32,9 +16,6 @@ function setEndpointAndToken() {
 ======================================================================= */
 function fetchData({ pagination = {}, sort = {}, filter = {} }) {
     document.getElementById('loader').style.display = 'block';
-
- /*   const token = sessionStorage.getItem('token');
-    let apiUrl = generateUrlWithUserId(endpoint, token);*/
 
     var { token, apiUrl, } = setEndpointAndToken();
 
@@ -89,8 +70,8 @@ function fetchData({ pagination = {}, sort = {}, filter = {} }) {
                                     <p class="card-text">Created By: ${card.createdByAppUser}</p>
                                     <p class="card-text">Status: ${card.status}</p>
                                     <p class="card-text">Date of Creation: ${new Date(card.dateOfCreation).toLocaleString()}</p>
-                                    <a class="btn btn-warning" href="/Home/EditCard/${card.cardId}" asp-action="EditServicePoint" asp-route-id="@item.Id"><i class="fas fa-pencil-alt"></i></a>
-                                    <a class="btn btn-info" href="/Home/CardDetails/${card.cardId}"><i class="fa-solid fa-circle-info"></i></a>
+                                    <a class="btn btn-warning"  data-id="${card.cardId}"><i class="fas fa-pencil-alt"></i></a>
+                                    <a class="btn btn-info" data-id="${card.cardId}" ><i class="fa-solid fa-circle-info"></i></a>
                                     <button data-id="${card.cardId}" data-name="${card.name}" class="btn btn-danger deleteBtn" type="button"> <i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
@@ -211,7 +192,7 @@ function generatePaginationLinks(paginationData) {
     }
 }
 
-// Event listener for dropdown change
+/*// Event listener for dropdown change
 document.getElementById('perPageSelect').addEventListener('change', function (event) {
     const pageNumber = 0;
     handlePerPageSelectChangeListener(pageNumber);
@@ -224,6 +205,16 @@ function handlePerPageSelectChangeListener(pageNumber) {
     } else {
         fetchDataCaller({ pagination: { pageNumber, pageSize: perPagePageSize } });
     }
+}*/
+
+// Event listener for dropdown change
+document.getElementById('perPageSelect').addEventListener('change', function (event) {
+    handlePerPageSelectChangeListener();
+});
+
+function handlePerPageSelectChangeListener() {
+    const perPagePageSize = document.getElementById('perPageSelect').value;
+    fetchDataCaller({ pagination: { pageSize: perPagePageSize } });
 }
 
 //  Select the paginationNav element
@@ -256,13 +247,12 @@ document.getElementById('paginationNav').addEventListener('click', function (eve
 
 
 // Event listener for dropdown change
-document.getElementById('perPageSelect').addEventListener('change', function (event) {
-    const perPagepageSize = event.target.value;
-    handlePerPageSelectChange({ pagination: { pageSize: perPagepageSize } });
-});
+/*document.getElementById('perPageSelect').addEventListener('change', function (event) {
+    handlePerPageSelectChange();
+});*/
 
 // Function to handle dropdown change and return selected page size and comparison result
-function handlePerPageSelectChange() {
+function handlePaginationOnPerPageSelectChange() {
     const perPageSelect = document.getElementById('perPageSelect');
     const selectedPageSize = perPageSelect.value;
     const defaultValue = perPageSelect.options[0].value;
@@ -437,7 +427,7 @@ document.addEventListener('click', function (event) {
 ======================================================================= */
 function fetchDataCaller(options) {
     if (options.pagination === undefined) {
-        options.pagination = handlePerPageSelectChange().pagination;
+        options.pagination = handlePaginationOnPerPageSelectChange().pagination;
     }
     if (options.sort === undefined) {
         options.sort = updateSortString();
@@ -448,3 +438,36 @@ function fetchDataCaller(options) {
     }
     fetchData(options);
 }
+
+
+//Card Edit and Card Details Event Listeners
+document.getElementById('cardContainer').addEventListener('click', function (event) {
+    console.log("card container clicked");
+
+    // Check if the clicked element is one of the buttons
+    if (event.target.matches('.btn-warning')) {
+        console.log("btn-warning clicked");
+        // If the clicked button is the edit button, extract the card ID from its data-id attribute
+        const cardId = event.target.getAttribute('data-id');
+        // Redirect to the edit card page
+        window.location.href = `/Home/EditCard/${cardId}`;
+        fetchCardDetailsForEditing(cardId);
+    } else if (event.target.matches('.btn-info')) {
+
+        console.log("btn-info clicked");
+        const cardId = event.target.getAttribute('data-id');
+        window.location.href = `https://localhost:7265/Home/CardDetails/${cardId}`;
+        fetchCardDetails(cardId);
+
+    } else if (event.target.matches('.deleteBtn')) {
+        console.log("deleteBtn");
+        // If the clicked button is the delete button, extract the card ID from its data-id attribute
+        const cardId = event.target.getAttribute('data-id');
+        const cardName = event.target.getAttribute('data-name');
+        deleteCard(cardId, cardName);
+        // Perform delete operation or show confirmation dialog
+        // Example: confirmDelete(cardId, cardName);
+        // Replace confirmDelete with your delete operation
+    }
+});
+

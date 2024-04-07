@@ -1,4 +1,29 @@
-export function generateUrlWithUserId(endpoint, token) {
+export function setEndpointAndToken(cardId = null) {
+    const token = localStorage.getItem('token');
+    const decodedToken = token ? JSON.parse(atob(token.split('.')[1])) : null;
+
+    let endpoint = '';
+
+    if (cardId === null) {
+        if (decodedToken && decodedToken.role === 'admin') {
+            endpoint = 'all';
+        } else {
+            endpoint = 'forUser';
+        }
+    } else {
+        endpoint = cardId.toString();
+    }
+
+    let apiUrl = generateUrlWithUserId(endpoint, token);
+
+    return {
+        token: token,
+        apiUrl: apiUrl
+    };
+}
+
+
+function generateUrlWithUserId(endpoint, token) {
     const decodedToken = JSON.parse(atob(token.split('.')[1]));
 
     if (decodedToken && decodedToken.AppUserId) {
@@ -45,6 +70,9 @@ export function makePostRequest(requestMethod, apiUrl, data, token) {
                 if (response.status === 422) throw new Error("One or more mandatory fields are not submitted.");
                 if (response.status === 500) throw new Error("Server error. Pleace try again later.");
             }
+
+            document.getElementById('loader').style.display = 'none';
+
             return response.json();
         })
         .catch(error => {
@@ -83,6 +111,8 @@ export function makeGetRequest(requestMethod, apiUrl, token) {
                 if (response.status === 422) throw new Error("One or more mandatory fields are not submitted.");
                 if (response.status === 500) throw new Error("Server error. Pleace try again later.");
             }
+            document.getElementById('loader').style.display = 'none';
+
             return response.json();
         })
         .catch(error => {

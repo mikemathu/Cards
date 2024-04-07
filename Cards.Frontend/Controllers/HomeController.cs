@@ -8,7 +8,6 @@ namespace PointOfSaleSystem.Web.Controllers
     //[Authorize]
     public class HomeController : Controller
     {
-        [Route("Dashboard")]
         [Route("/")]
         public IActionResult Dashboard()
         {
@@ -29,22 +28,6 @@ namespace PointOfSaleSystem.Web.Controllers
 
         [Route("EditCard/{cardId}")]
         public IActionResult EditCard(string cardId)
-        {
-            return View();
-        }
-
-        [Route("JournalVouchers")]
-        public IActionResult JournalVouchers()
-        {
-            return View();
-        }
-        [Route("GetAllAccountsAsync")]
-        public IActionResult GetAllAccountsAsync()
-        {
-            return View();
-        }
-        [Route("Taxes")]
-        public IActionResult Taxes()
         {
             return View();
         }
