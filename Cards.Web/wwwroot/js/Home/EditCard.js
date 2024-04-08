@@ -37,6 +37,7 @@ export function fetchCardDetailsForEditing(cardId) {
             // Populate form fields with fetched data
             document.getElementById('Name').value = cardData.name;
             document.getElementById('Description').value = cardData.description;
+            document.getElementById('Status').value = cardData.status;
             document.getElementById('Color').value = cardData.color;
 
             // Add cs-hidden class to all elements with the class name "dashboard-section"
@@ -56,3 +57,32 @@ export function fetchCardDetailsForEditing(cardId) {
             showErrorToast(error.message);
         });
 }
+
+const createCardForm = document.getElementById('editCardForm');
+createCardForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const cardId = window.location.pathname.split('/').pop();
+
+    var { token, apiUrl, } = setEndpointAndToken(cardId);
+
+    if (apiUrl.endsWith('?')) {
+        apiUrl = apiUrl.slice(0, -1);
+    }
+
+    // Get form data
+    const cardData = {
+        Name: document.getElementById("Name").value,
+        Description: document.getElementById("Description").value,
+        Status: document.getElementById("Status").value,
+        Color: document.getElementById("Color").value
+    };
+
+    makePostRequest("PUT", apiUrl, cardData, token)
+        .then(data => {
+            showErrorToast("Card Updated successfully");
+        })
+        .catch(error => {
+            showErrorToast(error.message);
+        });
+});

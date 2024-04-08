@@ -2,7 +2,7 @@
     Layout = "_DashboardLayout";
     ViewBag.Title = "Dashboard";
 }
-@model Cards.Domain.Entities.Card
+@model Cards.Services.Dtos.CardForUpdateDto
   
 
 <!-- Cards Section -->
@@ -24,7 +24,7 @@
 
 <div class="row cs-card-createform-container cs-hidden" id="card-createform">
     <h1>Create Card</h1>
-    <form class="cs-createCard" >
+    <form class="cs-createCard" id="createCardForm">
         <div class="mb-3">
             <label asp-for="Name" class="form-label">Name</label>
             <input asp-for="Name" class="form-control" id="cardName" required />
@@ -47,33 +47,12 @@
     </form>
 </div>
 
-@* <div class="row cs-card-createform-container cs-hidden" id="card-createform">
-    <h1>Create Card</h1>
-    <form class="cs-createCard">
-        <div class="mb-3">
-            <label  class="form-label">Name</label>
-            <input  class="form-control" id="cardName" required />
-        </div>
-        <div class="mb-3">
-            <label for="Description" class="form-label">Description</label>
-            <textarea class="form-control" id="cardDescription" rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="Color" class="form-label">Color</label>
-            <input  type="color" class="form-control" id="cardColor" value="#00FF00" />
-        </div>
-        <a class="btn btn-dark backtoCards">Back</a>
-        <button id="createCard" class="btn btn-primary ladda-button my-button" data-style="expand-right">Submit</button>
-
-    </form>
-</div> *@
-
 <div class="cs-hidden" id="cardEditTable">
     <h1>Edit Card</h1>
     <hr />
     <div class="row">
         <div class="col-md-12">
-            <form asp-action="EditCard">
+            <form id="editCardForm">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
@@ -84,6 +63,10 @@
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" id="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Status" class="control-label"></label>
+                    <input id="Status" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label asp-for="Color" class="control-label"></label>

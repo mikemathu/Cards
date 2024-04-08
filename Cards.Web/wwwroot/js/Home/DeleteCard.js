@@ -24,7 +24,6 @@ export function deleteCard(cardId, cardName) {
             makePostRequest("DELETE", apiUrl, cardId, token)
                 .then(data => {
                     console.log('DELETE request successful');
-                    filterDataOptions();
                 })
                 .catch(error => {
                     showErrorToast(error.message);

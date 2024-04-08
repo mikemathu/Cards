@@ -6,7 +6,8 @@ import { setEndpointAndToken } from "../Shared/common.js";
 import { filterDataOptions } from "./Dashboard.js";
 import { backButtonClick } from "../Shared/common.js";
 
-const createCardForm = document.querySelector('.cs-createCard');
+//const createCardForm = document.querySelector('.cs-createCard');
+const createCardForm = document.getElementById('createCardForm');
 createCardForm.addEventListener('submit', function (event) {
     event.preventDefault();
     console.log("1. inside createCard event listener");
@@ -25,12 +26,9 @@ createCardForm.addEventListener('submit', function (event) {
         Description: document.getElementById("cardDescription").value,
         Color: document.getElementById("cardColor").value
     };
-    console.log("2. inside createCard event listener");
 
     makePostRequest("POST", apiUrl, cardData, token)
-        .then(data => {
-            // Redirect to the newly created card page with all data
-            //window.location.href = `/Home/CardDetails/${data.cardId}`;
+        .then(data => {;
             showErrorToast("Card created successfully");
             console.log("success");
             filterDataOptions();

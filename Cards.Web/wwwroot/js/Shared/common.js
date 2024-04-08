@@ -80,9 +80,10 @@ export function makePostRequest(requestMethod, apiUrl, data, token) {
 
             document.getElementById('loader').style.display = 'none';
 
-            if (requestMethod === "DELETE") {
-                console.log('DELETE request successful');
+            if (requestMethod === "DELETE" || requestMethod === "PUT") {
+                console.log('DELETE/updated request successful');
                 filterDataOptions();
+                backButtonClick();
                 return;
             }
 
@@ -153,6 +154,7 @@ export function backButtonClick() {
     }
     document.getElementById('cardEditTable').classList.add('cs-hidden');
     document.getElementById('cardTable').classList.add('cs-hidden');
+    document.getElementById('card-createform').classList.add('cs-hidden');
 
     // Construct the new URL
     const newUrl = `https://localhost:7265`;
