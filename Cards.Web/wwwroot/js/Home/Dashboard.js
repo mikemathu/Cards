@@ -63,16 +63,16 @@ function fetchData({ pagination = {}, sort = {}, filter = {} }) {
     .then(data => {
         // Generate HTML for each card object in the data array
         const cardHtml = data.map(card => `
-                            <div class="card mb-3" style="background-color: ${card.color}">
+                            <div class="card mb-3" id="card" style="background-color: ${card.color}">
                                 <div class="card-body">
                                     <h5 class="card-title">${card.name}</h5>
                                     <p class="card-text">${card.description}</p>
                                     <p class="card-text">Created By: ${card.createdByAppUser}</p>
                                     <p class="card-text">Status: ${card.status}</p>
                                     <p class="card-text">Date of Creation: ${new Date(card.dateOfCreation).toLocaleString()}</p>
-                                    <a class="btn btn-warning"  data-id="${card.cardId}"><i class="fas fa-pencil-alt"></i></a>
-                                    <a class="btn btn-info" data-id="${card.cardId}" ><i class="fa-solid fa-circle-info"></i></a>
-                                    <button data-id="${card.cardId}" data-name="${card.name}" class="btn btn-danger deleteBtn" type="button"> <i class="fa-solid fa-trash"></i></button>
+                                    <a class="btn btn-warning fas fa-pencil-alt"  data-id="${card.cardId}"></a>
+                                    <a class="btn btn-info fa-solid fa-circle-info" data-id="${card.cardId}" ></a>
+                                    <button data-id="${card.cardId}" data-name="${card.name}" class="btn btn-danger deleteBtn fa-solid fa-trash" type="button"></button>
                                 </div>
                             </div>
                         `).join('');
@@ -80,10 +80,15 @@ function fetchData({ pagination = {}, sort = {}, filter = {} }) {
         // Insert the generated HTML into the cardContainer element
         document.getElementById('cardContainer').innerHTML = cardHtml;
         document.getElementById('loader').style.display = 'none';
+
+       /* const dashboardSections = document.getElementsByClassName('dashboard-section');
+        for (let i = 0; i < dashboardSections.length; i++) {
+            dashboardSections[i].classList.remove('cs-hidden');
+        }*/
   
     })
     .catch(error => {
-        console.error('There was a problem fetching the data:', error);
+        //console.error('There was a problem fetching the data:', error);
         document.getElementById('loader').style.display = 'none';
     }); 
 }
@@ -208,9 +213,18 @@ function handlePerPageSelectChangeListener(pageNumber) {
 }*/
 
 // Event listener for dropdown change
-document.getElementById('perPageSelect').addEventListener('change', function (event) {
+/*document.getElementById('perPageSelect').addEventListener('change', function (event) {
     handlePerPageSelectChangeListener();
-});
+});*/
+
+const perPageSelect = document.getElementById('perPageSelect');
+
+if (perPageSelect !== null) {
+    perPageSelect.addEventListener('change', function (event) {
+        handlePerPageSelectChangeListener();
+    });
+}
+
 
 function handlePerPageSelectChangeListener() {
     const perPagePageSize = document.getElementById('perPageSelect').value;
@@ -218,30 +232,36 @@ function handlePerPageSelectChangeListener() {
 }
 
 //  Select the paginationNav element
-document.getElementById('paginationNav').addEventListener('click', function (event) {
+//document.getElementById('paginationNav').addEventListener('click', function (event) {
+const paginationNav = document.getElementById('paginationNav');
 
-    //  Check if the clicked element is an anchor tag
-    if (event.target.tagName === 'A') {
-        event.preventDefault(); // Prevent default behavior of anchor tags
-        var pageNumber;
-        const currentPage = document.getElementById('currentPage').value;
+if (paginationNav !== null) {
+    paginationNav.addEventListener('click', function (event) {
 
-        if (event.target.textContent === "Next") {
-            pageNumber = parseInt(currentPage) + 1;
-        } else if (event.target.textContent === "Previous") {
-            pageNumber = parseInt(currentPage) - 1;
-        } else {
-            pageNumber = parseInt(event.target.textContent);
+        //  Check if the clicked element is an anchor tag
+        if (event.target.tagName === 'A') {
+            event.preventDefault(); // Prevent default behavior of anchor tags
+            var pageNumber;
+            const currentPage = document.getElementById('currentPage').value;
+    
+            if (event.target.textContent === "Next") {
+                pageNumber = parseInt(currentPage) + 1;
+            } else if (event.target.textContent === "Previous") {
+                pageNumber = parseInt(currentPage) - 1;
+            } else {
+                pageNumber = parseInt(event.target.textContent);
+            }
+    
+            const perPagePageSize = document.getElementById('perPageSelect').value;
+            if (pageNumber === 0) {
+                fetchDataCaller({ pagination: { pageSize: perPagePageSize } });
+            } else {
+                fetchDataCaller({ pagination: { pageNumber, pageSize: perPagePageSize } });
+            }
         }
+    });
+}
 
-        const perPagePageSize = document.getElementById('perPageSelect').value;
-        if (pageNumber === 0) {
-            fetchDataCaller({ pagination: { pageSize: perPagePageSize } });
-        } else {
-            fetchDataCaller({ pagination: { pageNumber, pageSize: perPagePageSize } });
-        }
-    }
-});
 
 
 
@@ -309,12 +329,15 @@ function generateDropdownOptions(paginationData) {
     const perPageSelect = document.getElementById('perPageSelect');
     const pageCount = Math.ceil(paginationData.TotalCount / paginationData.PageSize);
 
-    for (let i = 1; i <= pageCount; i++) {
-        const option = document.createElement('option');
-        option.value = paginationData.PageSize * i;
-        option.textContent = `Show ${paginationData.PageSize * i}`;
-        perPageSelect.appendChild(option);
+    if (perPageSelect !== null) {
+        for (let i = 1; i <= pageCount; i++) {
+            const option = document.createElement('option');
+            option.value = paginationData.PageSize * i;
+            option.textContent = `Show ${paginationData.PageSize * i}`;
+            perPageSelect.appendChild(option);
+        }
     }
+   
 }
 
   
@@ -360,13 +383,21 @@ function updateSortString() {
 
 // Add event listeners to filter input fields
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('filterByName').addEventListener('input', filterDataOptions);
-    document.getElementById('color-picker').addEventListener('input', filterDataOptions);
-    document.getElementById('filterByStatus').addEventListener('change', filterDataOptions);
-    document.getElementById('filterByDateOfCreation').addEventListener('change', filterDataOptions);
+    const filterByName = document.getElementById('filterByName');
+    const colorPicker = document.getElementById('color-picker')
+    const filterByStatus = document.getElementById('filterByStatus');
+    const filterByDateOfCreation = document.getElementById('filterByDateOfCreation');
+
+    if (filterByName !== null && colorPicker !== null &&
+        filterByStatus !== null && filterByDateOfCreation !== null) {
+        filterByName.addEventListener('input', filterDataOptions);
+        colorPicker.addEventListener('input', filterDataOptions);
+        filterByStatus.addEventListener('change', filterDataOptions);
+        filterByDateOfCreation.addEventListener('change', filterDataOptions);
+        }
 });
 
-function filterDataOptions() {
+export function filterDataOptions() {
     const filterOptions = updateFilterOptions();
     fetchDataCaller(filterOptions);
 }
@@ -394,10 +425,14 @@ const filterByColorInput = document.getElementById('filterByColor');
 const colorPickerInput = document.getElementById('color-picker');
 
 // Add event listener to color picker input field
-colorPickerInput.addEventListener('input', function () {
-    // Update the value of the filterByColor input field with the selected color
-    filterByColorInput.value = colorPickerInput.value;
-});
+
+if (colorPickerInput !== null) {
+    colorPickerInput.addEventListener('input', function () {
+        // Update the value of the filterByColor input field with the selected color
+        filterByColorInput.value = colorPickerInput.value;
+    });
+}
+
 
 
 /* ====================================================================
@@ -408,9 +443,12 @@ colorPickerInput.addEventListener('input', function () {
 const toggleButton = document.getElementById('toggleFilterSection');
 const filterSection = document.getElementById('left-section');
 
-toggleButton.addEventListener('click', function (event) {
-    filterSection.classList.toggle('show');
-});
+if (toggleButton !== null) {
+    toggleButton.addEventListener('click', function (event) {
+        filterSection.classList.toggle('show');
+    });
+}
+
 
 document.addEventListener('click', function (event) {
     const isClickInsideFilterSection = filterSection.contains(event.target) || event.target === toggleButton;
@@ -440,34 +478,74 @@ function fetchDataCaller(options) {
 }
 
 
-//Card Edit and Card Details Event Listeners
-document.getElementById('cardContainer').addEventListener('click', function (event) {
-    console.log("card container clicked");
+/* ====================================================================
 
-    // Check if the clicked element is one of the buttons
-    if (event.target.matches('.btn-warning')) {
-        console.log("btn-warning clicked");
-        // If the clicked button is the edit button, extract the card ID from its data-id attribute
-        const cardId = event.target.getAttribute('data-id');
-        // Redirect to the edit card page
-        window.location.href = `/Home/EditCard/${cardId}`;
-        fetchCardDetailsForEditing(cardId);
-    } else if (event.target.matches('.btn-info')) {
+                Card Edit and Card Details Event Listeners
 
-        console.log("btn-info clicked");
-        const cardId = event.target.getAttribute('data-id');
-        window.location.href = `https://localhost:7265/Home/CardDetails/${cardId}`;
-        fetchCardDetails(cardId);
+======================================================================= */
 
-    } else if (event.target.matches('.deleteBtn')) {
-        console.log("deleteBtn");
-        // If the clicked button is the delete button, extract the card ID from its data-id attribute
-        const cardId = event.target.getAttribute('data-id');
-        const cardName = event.target.getAttribute('data-name');
-        deleteCard(cardId, cardName);
-        // Perform delete operation or show confirmation dialog
-        // Example: confirmDelete(cardId, cardName);
-        // Replace confirmDelete with your delete operation
+// Select the "Create Card" button
+const createCardBtn = document.getElementById('createCardBtn');
+createCardBtn.addEventListener('click', createCardBtnClick);
+
+
+// Function to be called when the "Create Card" button is clicked
+function createCardBtnClick() {
+    // Prevent default behavior of anchor tag
+    //event.preventDefault();
+
+    // Add cs-hidden class to all elements with the class name "dashboard-section"
+    const dashboardSections = document.getElementsByClassName('dashboard-section');
+    for (let i = 0; i < dashboardSections.length; i++) {
+        dashboardSections[i].classList.add('cs-hidden');
     }
-});
+    document.getElementById('card-createform').classList.remove('cs-hidden');
+
+    // Construct the new URL
+    const newUrl = `https://localhost:7265/Home/CreateCard/`;
+
+    // Update the URL in the address bar
+    window.history.pushState({ path: newUrl }, '', newUrl);
+}
+
+// Add click event listener to the "Create Card" button
+
+
+
+//edit, view card and delete card event listeners
+const cardContainer = document.getElementById('cardContainer');
+
+if (cardContainer !== null) {
+    cardContainer.addEventListener('click', function (event) {
+        console.log("card container clicked");
+
+        // Check if the clicked element is one of the buttons
+        if (event.target.matches('.btn-warning')) {
+            console.log("btn-warning clicked");
+            // If the clicked button is the edit button, extract the card ID from its data-id attribute
+            const cardId = event.target.getAttribute('data-id');
+            // Redirect to the edit card page
+            fetchCardDetailsForEditing(cardId);
+            //window.location.href = `/Home/EditCard/${cardId}`;
+        } else if (event.target.matches('.btn-info')) {
+
+            console.log("btn-info clicked");
+            const cardId = event.target.getAttribute('data-id');
+            fetchCardDetails(cardId);
+
+            //window.location.href = `/Home/CardDetails/${cardId}`;
+
+        } else if (event.target.matches('.deleteBtn')) {
+            console.log("deleteBtn");
+            // If the clicked button is the delete button, extract the card ID from its data-id attribute
+            const cardId = event.target.getAttribute('data-id');
+            const cardName = event.target.getAttribute('data-name');
+            deleteCard(cardId, cardName);
+            // Perform delete operation or show confirmation dialog
+            // Example: confirmDelete(cardId, cardName);
+            // Replace confirmDelete with your delete operation
+        }
+    });
+}
+
 

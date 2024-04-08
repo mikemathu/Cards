@@ -2,17 +2,106 @@
     Layout = "_DashboardLayout";
     ViewBag.Title = "Dashboard";
 }
+@model Cards.Domain.Entities.Card
   
 
-    <!-- Cards Section -->
-    <div class="card mb-3 card-container">
-        <div class="dashboard-section" id="cardContainer"></div>
-    </div>
+<!-- Cards Section -->
+<div class="card mb-3 card-container">
+    <div class="dashboard-section" id="cardContainer"></div>
+</div>
 
-<form id="cardDeleteForm">
-    <input type="hidden" id="cardId" name="cardId" />
-</form>
+<!--  Card Details -->
+<div></div>
+@* <table class="cs-hidden" id="cardTable">
+    <tbody id="cardTableBody"></tbody>
+</table> *@
+<div class="cs-hidden" id="cardTable">
+    <table >
+        <tbody id="cardTableBody"></tbody>
+    </table>
+    <a class="btn btn-dark backtoCards">Back</a>
+</div>
+
+<div class="row cs-card-createform-container cs-hidden" id="card-createform">
+    <h1>Create Card</h1>
+    <form class="cs-createCard" >
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" class="form-control" id="cardName" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control" id="cardDescription" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Color" class="form-label">Color</label>
+            <input asp-for="Color" type="color" class="form-control" id="cardColor" value="#00FF00" />
+            <span asp-validation-for="Color" class="text-danger"></span>
+        </div>
+        <a class="btn btn-dark backtoCards">Back</a>
+        <button id="createCard" class="btn btn-primary ladda-button my-button" data-style="expand-right">Submit</button>
+
+
+    </form>
+</div>
+
+@* <div class="row cs-card-createform-container cs-hidden" id="card-createform">
+    <h1>Create Card</h1>
+    <form class="cs-createCard">
+        <div class="mb-3">
+            <label  class="form-label">Name</label>
+            <input  class="form-control" id="cardName" required />
+        </div>
+        <div class="mb-3">
+            <label for="Description" class="form-label">Description</label>
+            <textarea class="form-control" id="cardDescription" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="Color" class="form-label">Color</label>
+            <input  type="color" class="form-control" id="cardColor" value="#00FF00" />
+        </div>
+        <a class="btn btn-dark backtoCards">Back</a>
+        <button id="createCard" class="btn btn-primary ladda-button my-button" data-style="expand-right">Submit</button>
+
+    </form>
+</div> *@
+
+<div class="cs-hidden" id="cardEditTable">
+    <h1>Edit Card</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="EditCard">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" id="Name" class="form-control" disabled />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" id="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Color" class="control-label"></label>
+                    <input asp-for="Color" id="Color" class="form-control" />
+                    <span asp-validation-for="Color" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <a class="btn btn-dark backtoCards">Back</a>
+                    &nbsp;
+                    <input type="submit" value="Save Changes" class="btn btn-warning" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 <script type="module" src="~/js/Home/Dashboard.js"></script>
+<script type="module" src="~/js/Home/CreateCard.js"></script>
+
 <script type="module" src="~/js/Home/DeleteCard.js"></script>

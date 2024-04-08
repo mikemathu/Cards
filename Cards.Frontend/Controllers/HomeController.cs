@@ -17,19 +17,19 @@ namespace PointOfSaleSystem.Web.Controllers
         [Route("CreateCard")]
         public IActionResult CreateCard()
         {
-            return View();
+            return View("Dashboard");
         }
 
         [Route("CardDetails/{cardId}")]
         public IActionResult CardDetails(string cardId)
         {
-            return View();
+            return View("Dashboard");
         }
 
-        [Route("EditCard/{cardId}")]
+        [Route("CardEdit/{cardId}")]
         public IActionResult EditCard(string cardId)
         {
-            return View();
+            return View("Dashboard");
         }
     }
 }

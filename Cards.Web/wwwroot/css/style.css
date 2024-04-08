@@ -180,14 +180,16 @@ CreateCards file
 
 ******************************/
 
-.card-createform-container {
+.cs-card-createform-container {
     padding: 10vh 10vw;
 }
 .cs-createCard {
     padding-top: 10vh;
 }
 
-
+.cs-hidden{
+    display: none;
+}
 
 @media (max-width: 991px) {
     /********************************

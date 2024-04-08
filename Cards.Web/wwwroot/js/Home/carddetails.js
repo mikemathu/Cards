@@ -1,32 +1,21 @@
 ﻿//document.addEventListener('DOMContentLoaded', loadCardDetails);
 import { setEndpointAndToken } from "../Shared/common.js";
-import { makeGetRequest } from "../Shared/common.js";
+import { makePostRequest } from "../Shared/common.js";
 import { showErrorToast } from "../Shared/common.js";
+import { handlePopState } from "../Shared/common.js";
+import { handleDOMContentLoadedState } from "../Shared/common.js";
+import { backButtonClick } from "../Shared/common.js";
 
-// Event listener for popstate event
-// Function to handle popstate event
-function handlePopState(event) {
-    console.log("popstate");
-    if (event.state && event.state.path) {
-        console.log("inside if statement popstate");
-        // Extract cardId from the URL
-        const cardId = event.state.path.split('/').pop();
-        // Fetch and display card details
-        fetchCardDetails(cardId);
-    }
-}
 
-// Add event listener for popstate event
 window.addEventListener('popstate', handlePopState);
-
-// Check URL and trigger actions on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function () {
-    // Extract cardId from the current URL
-    const cardId = window.location.pathname.split('/').pop();
-    // Fetch and display card details
-    fetchCardDetails(cardId);
+    handleDOMContentLoadedState();
 });
 
+const backButtons = document.querySelectorAll('.backtoCards');
+backButtons.forEach(button => {
+    button.addEventListener('click', backButtonClick);
+});
 export function fetchCardDetails(cardId) {
 
     var { token, apiUrl, } = setEndpointAndToken(cardId);
@@ -37,7 +26,7 @@ export function fetchCardDetails(cardId) {
     }       
 
 
-    makeGetRequest("GET", apiUrl, token)
+    makePostRequest("GET", apiUrl,'' ,token)
         .then(cardData => {
             const tableBody = document.getElementById('cardTableBody');
 
@@ -75,7 +64,7 @@ export function fetchCardDetails(cardId) {
            
 
 
-      /*      // Add cs-hidden class to all elements with the class name "dashboard-section"
+            // Add cs-hidden class to all elements with the class name "dashboard-section"
             const dashboardSections = document.getElementsByClassName('dashboard-section');
             for (let i = 0; i < dashboardSections.length; i++) {
                 dashboardSections[i].classList.add('cs-hidden');
@@ -86,7 +75,7 @@ export function fetchCardDetails(cardId) {
             const newUrl = `https://localhost:7265/Home/CardDetails/${cardData.cardId}`;
 
             // Update the URL in the address bar
-            window.history.pushState({ path: newUrl }, '', newUrl);*/
+            window.history.pushState({ path: newUrl }, '', newUrl);
 
         })
         .catch(error => {

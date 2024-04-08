@@ -28,9 +28,6 @@
                 </div>
             </div>
 
-            <a asp-action="CreateCard"  id="createCardBtn">Create Card</a>
-            
-
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
@@ -46,12 +43,21 @@
             </div>
         </div>
     </nav>
-
+    <!-- Bootstrap 5 toast container -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+        <div id="errorToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+            <div class="toast-header bg-danger text-white">
+                <strong class="me-auto">Error</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="errorMessage"></div>
+        </div>
+    </div>
     <!-- Main Content -->
     <div class="container-fluid mt-5">
         <div class="row">
             <!-- Left Section -->
-            <div class="col-md-4 cs-left-section" id="left-section">
+            <div class="col-md-4 cs-left-section dashboard-section" id="left-section">
                 <!-- Filters Section -->
                 <div class="mb-3 filter-container">
                     <h5>Filters</h5>
@@ -134,11 +140,11 @@
 
             <!-- Right Section -->
             <div class="col-md-8 right-section">
-                <div class="mb-3">
+                <div class="mb-3 dashboard-section">
                     <div class="row justify-content-end">
                         <div class="col-md-3">
                             <button class="cs-toggleFilterSection btn btn-primary" id="toggleFilterSection"><i class="fa-solid fa-sliders"></i>  Filters</button>
-                            <a class="btn btn-success" asp-action="CreateCard"><i class="fas fa-plus"></i> Create New</a>
+                            <a class="btn btn-success" id="createCardBtn"><i class="fas fa-plus"></i> Create New</a>
                         </div>
                         <div class="col-md-5">
                             <div class="cs-paginationInfo" id="paginationInfo"></div>
@@ -155,7 +161,7 @@
                         @RenderBody()
                 @* </div> *@
                 <!-- Pagination -->
-                <nav aria-label="Page navigation example">
+                <nav aria-label="Page navigation example" class="dashboard-section">
                     <ul id="currentPage"</ul>
                     <ul class="pagination justify-content-center" id="paginationNav"></ul>
                 </nav>
