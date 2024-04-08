@@ -1,4 +1,32 @@
-﻿/********************************
+﻿textarea {
+    resize: none;
+}
+h1 {
+    font-size: 24px;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+td.color-cell {
+    background-color: #fff;
+}
+/********************************
 
 
 _DashboardLayout file
@@ -183,16 +211,115 @@ CreateCards file
 .cs-card-createform-container {
     padding: 10vh 10vw;
 }
+
 .cs-createCard {
-    padding-top: 10vh;
+    padding-top: 5vh;
 }
 
-.cs-hidden{
+.cs-hidden {
     display: none;
 }
 
+/********************************
+
+
+Common styles for forms
+
+
+******************************/
+
+
+.cs-card-createform-container,
+.cs-cardEditTable,
+.cs-cardTable {
+    margin: 20px auto;
+    /* padding: 20px;*/
+    border-radius: 5px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-control,
+.form-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-dark {
+    background-color: #343a40;
+}
+
+.btn-dark:hover {
+    background-color: #23272b;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+}
+
+.btn-warning:hover {
+    background-color: #ffca2c;
+}
+
+.backtoCards {
+    background-color: #007bff;
+}
+
+.backtoCards:hover {
+    background-color: #0056b3;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.mb-3 {
+    margin-bottom: 20px;
+}
+
+/*create form*/
+.cs-card-createform-container {
+    padding: 0px;
+}
+
+/*edit form*/
+.form-group {
+    margin-bottom: 20px;
+}
+
+.control-label {
+    font-weight: bold;
+}
+
+.cs-editCardForm {
+    padding-left: 0px;
+}
+
 @media (max-width: 991px) {
-    /********************************
+ /********************************
 
 
 _DashboardLayout file

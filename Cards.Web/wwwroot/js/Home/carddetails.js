@@ -1,6 +1,6 @@
 ﻿//document.addEventListener('DOMContentLoaded', loadCardDetails);
 import { setEndpointAndToken } from "../Shared/common.js";
-import { makePostRequest } from "../Shared/common.js";
+import { makeRequest } from "../Shared/common.js";
 import { showErrorToast } from "../Shared/common.js";
 import { handlePopState } from "../Shared/common.js";
 import { handleDOMContentLoadedState } from "../Shared/common.js";
@@ -26,7 +26,7 @@ export function fetchCardDetails(cardId) {
     }       
 
 
-    makePostRequest("GET", apiUrl,'' ,token)
+    makeRequest("GET", apiUrl,'' ,token)
         .then(cardData => {
             const tableBody = document.getElementById('cardTableBody');
 

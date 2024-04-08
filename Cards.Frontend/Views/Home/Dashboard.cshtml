@@ -10,20 +10,12 @@
     <div class="dashboard-section" id="cardContainer"></div>
 </div>
 
-<!--  Card Details -->
-<div></div>
-@* <table class="cs-hidden" id="cardTable">
-    <tbody id="cardTableBody"></tbody>
-</table> *@
-<div class="cs-hidden" id="cardTable">
-    <table >
-        <tbody id="cardTableBody"></tbody>
-    </table>
-    <a class="btn btn-dark backtoCards">Back</a>
-</div>
 
+
+<!--  Create Card Table -->
 <div class="row cs-card-createform-container cs-hidden" id="card-createform">
     <h1>Create Card</h1>
+    <hr />
     <form class="cs-createCard" id="createCardForm">
         <div class="mb-3">
             <label asp-for="Name" class="form-label">Name</label>
@@ -41,32 +33,47 @@
             <span asp-validation-for="Color" class="text-danger"></span>
         </div>
         <a class="btn btn-dark backtoCards">Back</a>
-        <button id="createCard" class="btn btn-primary ladda-button my-button" data-style="expand-right">Submit</button>
+        <button id="createCard" class="btn btn-warning ladda-button my-button" data-style="expand-right">Submit</button>
 
 
     </form>
 </div>
 
-<div class="cs-hidden" id="cardEditTable">
+<!--  Card Details -->
+<div class="cs-hidden cs-cardTable" id="cardTable">
+    <h1>Card Detail</h1>
+    <hr />
+    <table>
+        <tbody id="cardTableBody"></tbody>
+    </table>
+    <a class="btn btn-dark backtoCards">Back</a>
+</div>
+
+<!--  Edit Card Table -->
+<div class="cs-hidden cs-cardEditTable" id="cardEditTable">
     <h1>Edit Card</h1>
     <hr />
-    <div class="row">
+    <div class="row cs-editCardForm">
         <div class="col-md-12">
             <form id="editCardForm">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" id="Name" class="form-control" disabled />
+                    <input asp-for="Name" id="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" id="Description" class="form-control" />
+                    <textarea asp-for="Description" class="form-control" id="Description" rows="3"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="Status" class="control-label"></label>
-                    <input id="Status" class="form-control" />
+                    <label for="Status" class="control-label">Status</label>
+                    <select id="Status" class="form-select">
+                        <option value="Todo">Todo</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Done">Done</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label asp-for="Color" class="control-label"></label>

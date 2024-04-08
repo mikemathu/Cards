@@ -1,5 +1,5 @@
 import { setEndpointAndToken } from "../Shared/common.js";
-import { makePostRequest } from "../Shared/common.js";
+import { makeRequest } from "../Shared/common.js";
 import { showErrorToast } from "../Shared/common.js";
 import { filterDataOptions } from "./Dashboard.js";
 
@@ -21,9 +21,9 @@ export function deleteCard(cardId, cardName) {
     }).then((confirm) => {
         if (confirm) {
 
-            makePostRequest("DELETE", apiUrl, cardId, token)
+            makeRequest("DELETE", apiUrl, cardId, token)
                 .then(data => {
-                    console.log('DELETE request successful');
+                    showErrorToast("Card Deleted successfully");
                 })
                 .catch(error => {
                     showErrorToast(error.message);

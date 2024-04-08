@@ -1,6 +1,6 @@
 ﻿//document.addEventListener('DOMContentLoaded', loadCardDetails);
 import { setEndpointAndToken } from "../Shared/common.js";
-import { makePostRequest } from "../Shared/common.js";
+import { makeRequest } from "../Shared/common.js";
 import { showErrorToast } from "../Shared/common.js";
 import { handlePopState } from "../Shared/common.js";
 import { handleDOMContentLoadedState } from "../Shared/common.js";
@@ -32,13 +32,21 @@ export function fetchCardDetailsForEditing(cardId) {
     }       
 
 
-    makePostRequest("GET", apiUrl, '', token)
+    makeRequest("GET", apiUrl, '', token)
         .then(cardData => {
             // Populate form fields with fetched data
             document.getElementById('Name').value = cardData.name;
             document.getElementById('Description').value = cardData.description;
-            document.getElementById('Status').value = cardData.status;
             document.getElementById('Color').value = cardData.color;
+
+            // Set selected value for Status dropdown
+            const statusDropdown = document.getElementById('Status');
+            for (let i = 0; i < statusDropdown.options.length; i++) {
+                if (statusDropdown.options[i].value === cardData.status) {
+                    statusDropdown.selectedIndex = i;
+                    break;
+                }
+            }
 
             // Add cs-hidden class to all elements with the class name "dashboard-section"
             const dashboardSections = document.getElementsByClassName('dashboard-section');
@@ -78,7 +86,7 @@ createCardForm.addEventListener('submit', function (event) {
         Color: document.getElementById("Color").value
     };
 
-    makePostRequest("PUT", apiUrl, cardData, token)
+    makeRequest("PUT", apiUrl, cardData, token)
         .then(data => {
             showErrorToast("Card Updated successfully");
         })

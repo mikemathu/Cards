@@ -1,6 +1,6 @@
 ﻿
 //import { generateUrlWithUserId } from "../Shared/common.js";
-import { makePostRequest } from "../Shared/common.js";
+import { makeRequest } from "../Shared/common.js";
 import { showErrorToast } from "../Shared/common.js";
 import { setEndpointAndToken } from "../Shared/common.js";
 import { filterDataOptions } from "./Dashboard.js";
@@ -27,7 +27,7 @@ createCardForm.addEventListener('submit', function (event) {
         Color: document.getElementById("cardColor").value
     };
 
-    makePostRequest("POST", apiUrl, cardData, token)
+    makeRequest("POST", apiUrl, cardData, token)
         .then(data => {;
             showErrorToast("Card created successfully");
             console.log("success");

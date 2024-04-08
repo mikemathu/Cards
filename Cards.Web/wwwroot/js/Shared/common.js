@@ -55,7 +55,7 @@ function parseJwt(token) {
 }*/
 
 
-export function makePostRequest(requestMethod, apiUrl, data, token) {
+export function makeRequest(requestMethod, apiUrl, data, token) {
 
     document.getElementById('loader').style.display = 'block';
 
