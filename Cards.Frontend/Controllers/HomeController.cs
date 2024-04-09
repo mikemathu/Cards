@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PointOfSaleSystem.Web.Controllers
@@ -30,6 +31,14 @@ namespace PointOfSaleSystem.Web.Controllers
         public IActionResult EditCard(string cardId)
         {
             return View("Dashboard");
+        }
+
+
+        [HttpGet("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return LocalRedirect("/");
         }
     }
 }

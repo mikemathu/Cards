@@ -3,10 +3,10 @@ import { fetchCardDetails } from "./CardDetails.js";
 import { fetchCardDetailsForEditing } from "./EditCard.js";
 import { deleteCard } from "./DeleteCard.js";
 
+const baseURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+
 
 fetchData({});
-
-
 
 
 /* ====================================================================
@@ -21,7 +21,6 @@ function fetchData({ pagination = {}, sort = {}, filter = {} }) {
 
     apiUrl += constructQueryParams(pagination, sort, filter);
 
-    // Remove leading '&' if there are query parameters
     if (apiUrl.endsWith('?')) {
         apiUrl = apiUrl.slice(0, -1);
     }
@@ -45,8 +44,7 @@ function fetchData({ pagination = {}, sort = {}, filter = {} }) {
         // Get pagination data from response headers
         const paginationData = JSON.parse(response.headers.get('X-Pagination'));
   
-        // Update UI with pagination info
-        // Calculate 'from' and 'to' dynamically based on pagination data
+        //Calculate 'from' and 'to' dynamically based on pagination data
         const { CurrentPage, PageSize, TotalCount } = paginationData;
         const from = (CurrentPage - 1) * PageSize + 1;
         const to = Math.min(CurrentPage * PageSize, TotalCount);
@@ -79,17 +77,11 @@ function fetchData({ pagination = {}, sort = {}, filter = {} }) {
   
         // Insert the generated HTML into the cardContainer element
         document.getElementById('cardContainer').innerHTML = cardHtml;
-        document.getElementById('loader').style.display = 'none';
-
-       /* const dashboardSections = document.getElementsByClassName('dashboard-section');
-        for (let i = 0; i < dashboardSections.length; i++) {
-            dashboardSections[i].classList.remove('cs-hidden');
-        }*/
-  
+        document.getElementById('loader').style.display = 'none';  
     })
     .catch(error => {
-        //console.error('There was a problem fetching the data:', error);
         document.getElementById('loader').style.display = 'none';
+        showErrorToast(error.message);
     }); 
 }
 
@@ -197,26 +189,6 @@ function generatePaginationLinks(paginationData) {
     }
 }
 
-/*// Event listener for dropdown change
-document.getElementById('perPageSelect').addEventListener('change', function (event) {
-    const pageNumber = 0;
-    handlePerPageSelectChangeListener(pageNumber);
-});
-
-function handlePerPageSelectChangeListener(pageNumber) {
-    const perPagePageSize = document.getElementById('perPageSelect').value;
-    if (pageNumber === 0) {
-        fetchDataCaller({ pagination: { pageSize: perPagePageSize } });
-    } else {
-        fetchDataCaller({ pagination: { pageNumber, pageSize: perPagePageSize } });
-    }
-}*/
-
-// Event listener for dropdown change
-/*document.getElementById('perPageSelect').addEventListener('change', function (event) {
-    handlePerPageSelectChangeListener();
-});*/
-
 const perPageSelect = document.getElementById('perPageSelect');
 
 if (perPageSelect !== null) {
@@ -232,7 +204,6 @@ function handlePerPageSelectChangeListener() {
 }
 
 //  Select the paginationNav element
-//document.getElementById('paginationNav').addEventListener('click', function (event) {
 const paginationNav = document.getElementById('paginationNav');
 
 if (paginationNav !== null) {
@@ -240,7 +211,8 @@ if (paginationNav !== null) {
 
         //  Check if the clicked element is an anchor tag
         if (event.target.tagName === 'A') {
-            event.preventDefault(); // Prevent default behavior of anchor tags
+            event.preventDefault(); 
+
             var pageNumber;
             const currentPage = document.getElementById('currentPage').value;
     
@@ -261,15 +233,6 @@ if (paginationNav !== null) {
         }
     });
 }
-
-
-
-
-
-// Event listener for dropdown change
-/*document.getElementById('perPageSelect').addEventListener('change', function (event) {
-    handlePerPageSelectChange();
-});*/
 
 // Function to handle dropdown change and return selected page size and comparison result
 function handlePaginationOnPerPageSelectChange() {
@@ -298,7 +261,6 @@ document.addEventListener('DOMContentLoaded', function () {
         apiUrl = apiUrl.slice(0, -1);
     }
 
-
     fetch(apiUrl, {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -318,8 +280,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     })
     .catch(error => {
-        console.error('There was a problem fetching the initial data:', error);
-        document.getElementById('loader').style.display = 'none';;
+        document.getElementById('loader').style.display = 'none';
+        showErrorToast(error.message);
     });
 });
 
@@ -354,7 +316,8 @@ document.querySelectorAll('input[name="sortOption"]').forEach(checkbox => {
         fetchDataCaller({ sort: { sortByString: sortString } });
     });
 });
-    // A function to update the sorting values based on the checked checkboxes
+
+// A function to update the sorting values based on the checked checkboxes
 function updateSortString() {
     const options = {
         sort: {
@@ -425,7 +388,6 @@ const filterByColorInput = document.getElementById('filterByColor');
 const colorPickerInput = document.getElementById('color-picker');
 
 // Add event listener to color picker input field
-
 if (colorPickerInput !== null) {
     colorPickerInput.addEventListener('input', function () {
         // Update the value of the filterByColor input field with the selected color
@@ -448,7 +410,6 @@ if (toggleButton !== null) {
         filterSection.classList.toggle('show');
     });
 }
-
 
 document.addEventListener('click', function (event) {
     const isClickInsideFilterSection = filterSection.contains(event.target) || event.target === toggleButton;
@@ -476,8 +437,6 @@ function fetchDataCaller(options) {
     }
     fetchData(options);
 }
-
-
 /* ====================================================================
 
                 Card Edit and Card Details Event Listeners
@@ -491,9 +450,6 @@ createCardBtn.addEventListener('click', createCardBtnClick);
 
 // Function to be called when the "Create Card" button is clicked
 function createCardBtnClick() {
-    // Prevent default behavior of anchor tag
-    //event.preventDefault();
-
     // Add cs-hidden class to all elements with the class name "dashboard-section"
     const dashboardSections = document.getElementsByClassName('dashboard-section');
     for (let i = 0; i < dashboardSections.length; i++) {
@@ -501,15 +457,13 @@ function createCardBtnClick() {
     }
     document.getElementById('card-createform').classList.remove('cs-hidden');
 
-    // Construct the new URL
-    const newUrl = `https://localhost:7265/Home/CreateCard/`;
+    // Construct the create card URL
+    const createCardUrl = `${baseURL}/Home/CreateCard/`;
+
 
     // Update the URL in the address bar
-    window.history.pushState({ path: newUrl }, '', newUrl);
+    window.history.pushState({ path: createCardUrl }, '', createCardUrl);
 }
-
-// Add click event listener to the "Create Card" button
-
 
 
 //edit, view card and delete card event listeners
@@ -517,35 +471,24 @@ const cardContainer = document.getElementById('cardContainer');
 
 if (cardContainer !== null) {
     cardContainer.addEventListener('click', function (event) {
-        console.log("card container clicked");
 
         // Check if the clicked element is one of the buttons
         if (event.target.matches('.btn-warning')) {
-            console.log("btn-warning clicked");
-            // If the clicked button is the edit button, extract the card ID from its data-id attribute
+
             const cardId = event.target.getAttribute('data-id');
-            // Redirect to the edit card page
             fetchCardDetailsForEditing(cardId);
-            //window.location.href = `/Home/EditCard/${cardId}`;
+
         } else if (event.target.matches('.btn-info')) {
 
-            console.log("btn-info clicked");
             const cardId = event.target.getAttribute('data-id');
             fetchCardDetails(cardId);
 
-            //window.location.href = `/Home/CardDetails/${cardId}`;
-
         } else if (event.target.matches('.deleteBtn')) {
-            console.log("deleteBtn");
-            // If the clicked button is the delete button, extract the card ID from its data-id attribute
+
             const cardId = event.target.getAttribute('data-id');
             const cardName = event.target.getAttribute('data-name');
             deleteCard(cardId, cardName);
-            // Perform delete operation or show confirmation dialog
-            // Example: confirmDelete(cardId, cardName);
-            // Replace confirmDelete with your delete operation
+
         }
     });
 }
-
-

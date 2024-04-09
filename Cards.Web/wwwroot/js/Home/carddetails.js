@@ -1,10 +1,11 @@
-﻿//document.addEventListener('DOMContentLoaded', loadCardDetails);
-import { setEndpointAndToken } from "../Shared/common.js";
+﻿import { setEndpointAndToken } from "../Shared/common.js";
 import { makeRequest } from "../Shared/common.js";
 import { showErrorToast } from "../Shared/common.js";
 import { handlePopState } from "../Shared/common.js";
 import { handleDOMContentLoadedState } from "../Shared/common.js";
 import { backButtonClick } from "../Shared/common.js";
+
+const baseURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
 
 
 window.addEventListener('popstate', handlePopState);
@@ -23,8 +24,7 @@ export function fetchCardDetails(cardId) {
     // Remove leading '?' if there are query parameters
     if (apiUrl.endsWith('?')) {
         apiUrl = apiUrl.slice(0, -1);
-    }       
-
+    }    
 
     makeRequest("GET", apiUrl,'' ,token)
         .then(cardData => {
@@ -32,20 +32,20 @@ export function fetchCardDetails(cardId) {
 
             tableBody.innerHTML = `
             <tr>
-            <th>Card ID:</th>
-            <td>${cardData.cardId}</td>
+                <td>Card ID:</td>
+                <td>${cardData.cardId}</td>
             </tr>
             <tr>
-            <td><b>Name:</b></td>
-            <td>${cardData.name}</td>
+                <td><b>Name:</b></td>
+                <td>${cardData.name}</td>
             </tr>
             <tr>
-            <td><b>Description:</b></td>
-            <td>${cardData.description}</td>
+                <td><b>Description:</b></td>
+                <td>${cardData.description}</td>
             </tr>
             <tr>
-            <td><b>Date of Creation:</b></td>
-            <td>${new Date(cardData.dateOfCreation).toLocaleString()}</td>
+                <td><b>Date of Creation:</b></td>
+                <td>${new Date(cardData.dateOfCreation).toLocaleString()}</td>
             </tr>
             <tr>
                 <td><b>Status:</b></td>
@@ -59,10 +59,7 @@ export function fetchCardDetails(cardId) {
                 <td><b>Color:</b></td>
                 <td style="background-color: ${cardData.color};"></td>
             </tr>
-        `;
-            // Redirect to a new page
-           
-
+        `;          
 
             // Add cs-hidden class to all elements with the class name "dashboard-section"
             const dashboardSections = document.getElementsByClassName('dashboard-section');
@@ -71,20 +68,14 @@ export function fetchCardDetails(cardId) {
             }
             document.getElementById('cardTable').classList.remove('cs-hidden');
 
-            // Construct the new URL
-            const newUrl = `https://localhost:7265/Home/CardDetails/${cardData.cardId}`;
+            // Construct the Card Details URL
+            const cardDetailsURL = `${baseURL}/Home/CardDetails/${cardData.cardId}/`;
 
             // Update the URL in the address bar
-            window.history.pushState({ path: newUrl }, '', newUrl);
+            window.history.pushState({ path: cardDetailsURL }, '', cardDetailsURL);
 
         })
         .catch(error => {
             showErrorToast(error.message);
         });
-
-
-
-
-
-
 }

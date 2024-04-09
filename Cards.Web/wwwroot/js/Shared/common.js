@@ -2,6 +2,8 @@ import { filterDataOptions } from "../Home/Dashboard.js";
 import { fetchCardDetailsForEditing } from "../Home/EditCard.js";
 import { fetchCardDetails } from "../Home/CardDetails.js";
 
+const baseURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+
 export function setEndpointAndToken(cardId = null) {
     const token = localStorage.getItem('token');
     const decodedToken = token ? JSON.parse(atob(token.split('.')[1])) : null;
@@ -34,25 +36,13 @@ function generateUrlWithUserId(endpoint, token) {
 
     if (decodedToken && decodedToken.AppUserId) {
 
-        const baseURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
         const url = `${baseURL}/api/appUsers/${decodedToken.AppUserId}/cards/${endpoint}?`;
-        //const url2 = `${baseURL}/api/appUsers/${decodedToken.AppUserId}/cards/${endpoint}`;
 
-
-        //var url = `https:// localhost:7265/api/appUsers/${decodedToken.AppUserId}/cards/${endpoint}`;
         return url;
     } else {
-        throw new Error('ID not found in token');
+        throw new Error('Something went wrong');
     }
 }
-/*
-function parseJwt(token) {
-    try {
-        return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
-        return null;
-    }
-}*/
 
 
 export function makeRequest(requestMethod, apiUrl, data, token) {
@@ -64,7 +54,7 @@ export function makeRequest(requestMethod, apiUrl, data, token) {
         method: requestMethod,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            ...(token !== null ? { 'Authorization': `Bearer ${token}` } : {})
         },
         body: requestMethod !== "GET" ? JSON.stringify(data) : undefined
     })
@@ -81,7 +71,6 @@ export function makeRequest(requestMethod, apiUrl, data, token) {
             document.getElementById('loader').style.display = 'none';
 
             if (requestMethod === "DELETE" || requestMethod === "PUT") {
-                console.log('DELETE/updated request successful');
                 filterDataOptions();
                 backButtonClick();
                 return;
@@ -106,16 +95,12 @@ export function showErrorToast(message) {
 }
 
 export function handlePopState(event) {
-    console.log("popstate");
     if (event.state && event.state.path) {
-        console.log("inside if statement popstate");
-        // Extract cardId from the URL
+
         const cardId = event.state.path.split('/').pop();
 
-        // Check if the current URL contains "Home/EditCard"
         const isEditPage = window.location.pathname.includes('Home/EditCard');
 
-        // Check if the current URL contains "Home/CardDetails"
         const isDetailsPage = window.location.pathname.includes('Home/CardDetails');
 
         if (isEditPage && cardId !== "") {
@@ -129,10 +114,8 @@ export function handlePopState(event) {
 export function handleDOMContentLoadedState() {
     const cardId = window.location.pathname.split('/').pop();
 
-    // Check if the current URL contains "Home/EditCard"
     const isEditPage = window.location.pathname.includes('Home/CardEdit');
 
-    // Check if the current URL contains "Home/CardDetails"
     const isDetailsPage = window.location.pathname.includes('Home/CardDetails');
 
     if (isEditPage && cardId !== "") {
@@ -142,13 +125,10 @@ export function handleDOMContentLoadedState() {
     }
 }
 
-//export function backButtonClick(event) {
 export function backButtonClick() {
-    // Prevent default behavior of anchor tag
-    //event.preventDefault();
 
-    // Add cs-hidden class to all elements with the class name "dashboard-section"
     const dashboardSections = document.getElementsByClassName('dashboard-section');
+
     for (let i = 0; i < dashboardSections.length; i++) {
         dashboardSections[i].classList.remove('cs-hidden');
     }
@@ -157,10 +137,10 @@ export function backButtonClick() {
     document.getElementById('card-createform').classList.add('cs-hidden');
 
     // Construct the new URL
-    const newUrl = `https://localhost:7265`;
+    const homeURL = `${baseURL}`;
 
     // Update the URL in the address bar
-    window.history.pushState({ path: newUrl }, '', newUrl);
+    window.history.pushState({ path: homeURL }, '', homeURL);
 }
 
 

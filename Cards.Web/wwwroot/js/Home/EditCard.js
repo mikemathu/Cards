@@ -1,21 +1,19 @@
-﻿//document.addEventListener('DOMContentLoaded', loadCardDetails);
-import { setEndpointAndToken } from "../Shared/common.js";
+﻿import { setEndpointAndToken } from "../Shared/common.js";
 import { makeRequest } from "../Shared/common.js";
 import { showErrorToast } from "../Shared/common.js";
 import { handlePopState } from "../Shared/common.js";
 import { handleDOMContentLoadedState } from "../Shared/common.js";
 import { backButtonClick } from "../Shared/common.js";
 
+const baseURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+
 // Add event listener for popstate event
 window.addEventListener('popstate', handlePopState);
 
 document.addEventListener('DOMContentLoaded', function () {
-
     handleDOMContentLoadedState();
 });
 
-// Select the button with the class "backtoCards"
-// Select all elements with the class "backtoCards"
 const backButtons = document.querySelectorAll('.backtoCards');
 // Loop through each back button and add click event listener
 backButtons.forEach(button => {
@@ -29,8 +27,7 @@ export function fetchCardDetailsForEditing(cardId) {
     // Remove leading '?' if there are query parameters
     if (apiUrl.endsWith('?')) {
         apiUrl = apiUrl.slice(0, -1);
-    }       
-
+    }      
 
     makeRequest("GET", apiUrl, '', token)
         .then(cardData => {
@@ -56,10 +53,10 @@ export function fetchCardDetailsForEditing(cardId) {
             document.getElementById('cardEditTable').classList.remove('cs-hidden');
 
             // Construct the new URL
-            const newUrl = `https://localhost:7265/Home/CardEdit/${cardData.cardId}`;
+            const cardEditURL = `${baseURL}/Home/CardEdit/${cardData.cardId}/`;
 
             // Update the URL in the address bar
-            window.history.pushState({ path: newUrl }, '', newUrl);
+            window.history.pushState({ path: cardEditURL }, '', cardEditURL);
         })
         .catch(error => {
             showErrorToast(error.message);
@@ -67,30 +64,34 @@ export function fetchCardDetailsForEditing(cardId) {
 }
 
 const createCardForm = document.getElementById('editCardForm');
-createCardForm.addEventListener('submit', function (event) {
-    event.preventDefault();
 
-    const cardId = window.location.pathname.split('/').pop();
+if (createCardForm !== null) {
+    createCardForm.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-    var { token, apiUrl, } = setEndpointAndToken(cardId);
+        const cardId = window.location.pathname.split('/').pop();
 
-    if (apiUrl.endsWith('?')) {
-        apiUrl = apiUrl.slice(0, -1);
-    }
+        var { token, apiUrl, } = setEndpointAndToken(cardId);
 
-    // Get form data
-    const cardData = {
-        Name: document.getElementById("Name").value,
-        Description: document.getElementById("Description").value,
-        Status: document.getElementById("Status").value,
-        Color: document.getElementById("Color").value
-    };
+        if (apiUrl.endsWith('?')) {
+            apiUrl = apiUrl.slice(0, -1);
+        }
 
-    makeRequest("PUT", apiUrl, cardData, token)
-        .then(data => {
-            showErrorToast("Card Updated successfully");
-        })
-        .catch(error => {
-            showErrorToast(error.message);
-        });
-});
+        // Get form data
+        const cardData = {
+            Name: document.getElementById("Name").value,
+            Description: document.getElementById("Description").value,
+            Status: document.getElementById("Status").value,
+            Color: document.getElementById("Color").value
+        };
+
+        makeRequest("PUT", apiUrl, cardData, token)
+            .then(data => {
+                showErrorToast("Card Updated successfully");
+            })
+            .catch(error => {
+                showErrorToast(error.message);
+            });
+    });
+}
+
