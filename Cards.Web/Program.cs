@@ -5,20 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var presentationAssembly = typeof(PresentationAssemblyReference).Assembly;
-//var frontendAssembly = typeof(FrontendAssemblyReference).Assembly;
 
 builder.Services.AddMvc()
-    .AddApplicationPart(presentationAssembly);
-    //.AddApplicationPart(frontendAssembly);
+    .AddApplicationPart(typeof(PresentationAssemblyReference).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 
-builder.Services.Configure<ApiBehaviorOptions>(options =>
-{
-    options.SuppressModelStateInvalidFilter = true;
-});
+builder.Services.ConfigureApiBehaviorOptions();
 
 builder.Services.ConfigureCors();
 builder.Services.ConfigureNpgsqlContext(builder.Configuration);
@@ -48,10 +42,10 @@ if (app.Environment.IsDevelopment())
 }
 app.UseExceptionHandler("/Home/Error");
 
-
-
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+app.UseCardsFrontendStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();

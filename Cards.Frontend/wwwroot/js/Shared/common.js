@@ -1,4 +1,5 @@
 import { filterDataOptions } from "../Home/Dashboard.js";
+import { createCardBtnClick } from "../Home/Dashboard.js";
 import { fetchCardDetailsForEditing } from "../Home/EditCard.js";
 import { fetchCardDetails } from "../Home/CardDetails.js";
 
@@ -93,37 +94,29 @@ export function showErrorToast(message) {
     var toast = new bootstrap.Toast(errorToast);
     toast.show();
 }
-
-export function handlePopState(event) {
-    if (event.state && event.state.path) {
-
-        const cardId = event.state.path.split('/').pop();
-
-        const isEditPage = window.location.pathname.includes('Home/EditCard');
-
-        const isDetailsPage = window.location.pathname.includes('Home/CardDetails');
-
-        if (isEditPage && cardId !== "") {
-            fetchCardDetailsForEditing(cardId);
-        } else if (isDetailsPage && cardId !== "") {
-            fetchCardDetails(cardId);
-        }
-
-    }
-}
 export function handleDOMContentLoadedState() {
     const cardId = window.location.pathname.split('/').pop();
+
+    const isCreatePage = window.location.pathname.includes('Home/CreateCard');
 
     const isEditPage = window.location.pathname.includes('Home/CardEdit');
 
     const isDetailsPage = window.location.pathname.includes('Home/CardDetails');
 
-    if (isEditPage && cardId !== "") {
+    if (isCreatePage) {
+        createCardBtnClick();
+    }else if (isEditPage && cardId !== "") {
         fetchCardDetailsForEditing(cardId);
     } else if (isDetailsPage && cardId !== "") {
         fetchCardDetails(cardId);
     }
 }
+
+const backButtons = document.querySelectorAll('.cs-backtoCards');
+// Loop through each back button and add click event listener
+backButtons.forEach(button => {
+    button.addEventListener('click', backButtonClick);
+});
 
 export function backButtonClick() {
 
@@ -141,6 +134,11 @@ export function backButtonClick() {
 
     // Update the URL in the address bar
     window.history.pushState({ path: homeURL }, '', homeURL);
+
+    const backButtonwithRefresh = document.getElementById('backtoCardsAndFresh');
+    if (backButtonwithRefresh !== null) {
+        filterDataOptions();
+    }
 }
 
 

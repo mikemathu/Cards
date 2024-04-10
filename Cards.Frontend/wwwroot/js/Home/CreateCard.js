@@ -1,13 +1,18 @@
 ﻿import { makeRequest } from "../Shared/common.js";
 import { showErrorToast } from "../Shared/common.js";
 import { setEndpointAndToken } from "../Shared/common.js";
-import { filterDataOptions } from "./Dashboard.js";
-import { backButtonClick } from "../Shared/common.js";
+import { fetchCardDetails } from "./CardDetails.js";
+import { handleDOMContentLoadedState } from "../Shared/common.js";
 
-const createCardForm = document.querySelector('.cs-createCard');
+document.addEventListener('DOMContentLoaded', function () {
+    handleDOMContentLoadedState();
+});
+
+const createCardForm = document.getElementById('createCardForm');
 
 if (createCardForm !== null) {
-    createCardForm.addEventListener('submit', function () {
+    createCardForm.addEventListener('submit', function (event) {
+        event.preventDefault();
 
         const cardId = 0;
 
@@ -28,8 +33,13 @@ if (createCardForm !== null) {
             .then(data => {
                 ;
                 showErrorToast("Card created successfully");
-                filterDataOptions();
-                backButtonClick();
+
+                const backButton = document.querySelector('.cardDetailsBackBtn');
+                if (backButton !== null) {
+                    backButton.id = 'backtoCardsAndFresh';
+                }
+
+                fetchCardDetails(data.cardId);
             })
             .catch(error => {
                 showErrorToast(error.message);

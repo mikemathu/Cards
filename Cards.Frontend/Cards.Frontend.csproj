@@ -13,4 +13,7 @@
 	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
 
+	<ItemGroup>
+		<EmbeddedResource Include="wwwroot/**/**/*" Pack="true" />
+	</ItemGroup>
 </Project>

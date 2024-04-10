@@ -1,23 +1,12 @@
 ﻿import { setEndpointAndToken } from "../Shared/common.js";
 import { makeRequest } from "../Shared/common.js";
 import { showErrorToast } from "../Shared/common.js";
-import { handlePopState } from "../Shared/common.js";
 import { handleDOMContentLoadedState } from "../Shared/common.js";
-import { backButtonClick } from "../Shared/common.js";
 
 const baseURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
 
-// Add event listener for popstate event
-window.addEventListener('popstate', handlePopState);
-
 document.addEventListener('DOMContentLoaded', function () {
     handleDOMContentLoadedState();
-});
-
-const backButtons = document.querySelectorAll('.backtoCards');
-// Loop through each back button and add click event listener
-backButtons.forEach(button => {
-    button.addEventListener('click', backButtonClick);
 });
 
 export function fetchCardDetailsForEditing(cardId) {
@@ -53,7 +42,7 @@ export function fetchCardDetailsForEditing(cardId) {
             document.getElementById('cardEditTable').classList.remove('cs-hidden');
 
             // Construct the new URL
-            const cardEditURL = `${baseURL}/Home/CardEdit/${cardData.cardId}/`;
+            const cardEditURL = `${baseURL}/Home/CardEdit/${cardData.cardId}`;
 
             // Update the URL in the address bar
             window.history.pushState({ path: cardEditURL }, '', cardEditURL);
@@ -78,7 +67,7 @@ if (createCardForm !== null) {
         }
 
         // Get form data
-        const cardData = {
+        var cardData = {
             Name: document.getElementById("Name").value,
             Description: document.getElementById("Description").value,
             Status: document.getElementById("Status").value,

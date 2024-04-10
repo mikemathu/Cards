@@ -364,7 +364,7 @@ export function filterDataOptions() {
     const filterOptions = updateFilterOptions();
     fetchDataCaller(filterOptions);
 }
-function updateFilterOptions() {
+export function updateFilterOptions() {
     //color value
     const defaultColor = document.getElementById('color-picker').defaultValue;
     const colorValue = document.getElementById('color-picker').value !== defaultColor ? document.getElementById('color-picker').value : undefined
@@ -449,7 +449,7 @@ createCardBtn.addEventListener('click', createCardBtnClick);
 
 
 // Function to be called when the "Create Card" button is clicked
-function createCardBtnClick() {
+export function createCardBtnClick() {
     // Add cs-hidden class to all elements with the class name "dashboard-section"
     const dashboardSections = document.getElementsByClassName('dashboard-section');
     for (let i = 0; i < dashboardSections.length; i++) {
@@ -458,7 +458,7 @@ function createCardBtnClick() {
     document.getElementById('card-createform').classList.remove('cs-hidden');
 
     // Construct the create card URL
-    const createCardUrl = `${baseURL}/Home/CreateCard/`;
+    const createCardUrl = `${baseURL}/Home/CreateCard`;
 
 
     // Update the URL in the address bar

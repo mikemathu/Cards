@@ -29,7 +29,7 @@ td.color-cell {
 /********************************
 
 
-_DashboardLayout file
+_LayoutDashboard file
 
 
 ******************************/
@@ -284,11 +284,11 @@ Common styles for forms
     background-color: #ffca2c;
 }
 
-.backtoCards {
+.cs-backtoCards {
     background-color: #007bff;
 }
 
-.backtoCards:hover {
+.cs-backtoCards:hover {
     background-color: #0056b3;
 }
 
@@ -322,7 +322,7 @@ Common styles for forms
  /********************************
 
 
-_DashboardLayout file
+_LayoutDashboard file
 
 
 ******************************/

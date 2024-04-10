@@ -1,5 +1,6 @@
 ﻿using Cards.Domain.Contracts;
 using Cards.Domain.Entities;
+using Cards.Frontend;
 using Cards.Persistence;
 using Cards.Persistence.Repositories;
 using Cards.Services;
@@ -7,23 +8,33 @@ using Cards.Services.Abstraction;
 using Cards.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 namespace Cards.Web.Extensions
 {
     public static class ServiceExtensions
-    {
+    {        
+        public static void ConfigureApiBehaviorOptions(this IServiceCollection services)
+        {
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+        }
         public static void ConfigureCors(this IServiceCollection services) =>
-     services.AddCors(options =>
-     {
-         options.AddPolicy("CorsPolicy", builder =>
-         builder.AllowAnyOrigin()
-         .AllowAnyMethod()
-         .AllowAnyHeader());
-     });
+             services.AddCors(options =>
+             {
+                 options.AddPolicy("CorsPolicy", builder =>
+                 builder.AllowAnyOrigin()
+                 .AllowAnyMethod()
+                 .AllowAnyHeader());
+             });
         public static void ConfigureNpgsqlContext(this IServiceCollection services, IConfiguration configuration) =>
             services.AddDbContextPool<RepositoryDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
@@ -60,8 +71,7 @@ namespace Cards.Web.Extensions
             })
             .AddEntityFrameworkStores<RepositoryDbContext>()
             .AddDefaultTokenProviders();
-        }
-
+        }     
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
@@ -131,5 +141,18 @@ namespace Cards.Web.Extensions
                  });
             });
         }
+        public static void UseCardsFrontendStaticFiles(this IApplicationBuilder app)
+        {
+
+            var embeddedFileProvider = new EmbeddedFileProvider(
+                typeof(FrontendAssemblyReference).GetTypeInfo().Assembly, "Cards.Frontend.wwwroot");
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = embeddedFileProvider
+            });
+        }
+
+
     }
 }

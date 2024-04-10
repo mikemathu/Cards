@@ -1,22 +1,14 @@
-﻿import { setEndpointAndToken } from "../Shared/common.js";
+﻿import { filterDataOptions } from "./Dashboard.js";
+import { setEndpointAndToken } from "../Shared/common.js";
 import { makeRequest } from "../Shared/common.js";
 import { showErrorToast } from "../Shared/common.js";
-import { handlePopState } from "../Shared/common.js";
 import { handleDOMContentLoadedState } from "../Shared/common.js";
-import { backButtonClick } from "../Shared/common.js";
 
 const baseURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
-
-
-window.addEventListener('popstate', handlePopState);
 document.addEventListener('DOMContentLoaded', function () {
     handleDOMContentLoadedState();
 });
 
-const backButtons = document.querySelectorAll('.backtoCards');
-backButtons.forEach(button => {
-    button.addEventListener('click', backButtonClick);
-});
 export function fetchCardDetails(cardId) {
 
     var { token, apiUrl, } = setEndpointAndToken(cardId);
@@ -66,10 +58,11 @@ export function fetchCardDetails(cardId) {
             for (let i = 0; i < dashboardSections.length; i++) {
                 dashboardSections[i].classList.add('cs-hidden');
             }
+            document.getElementById('card-createform').classList.add('cs-hidden');
             document.getElementById('cardTable').classList.remove('cs-hidden');
 
             // Construct the Card Details URL
-            const cardDetailsURL = `${baseURL}/Home/CardDetails/${cardData.cardId}/`;
+            const cardDetailsURL = `${baseURL}/Home/CardDetails/${cardData.cardId}`;
 
             // Update the URL in the address bar
             window.history.pushState({ path: cardDetailsURL }, '', cardDetailsURL);
