@@ -1,4 +1,4 @@
-import { setEndpointAndToken } from "../Shared/common.js";
+import { setEndpointAndToken } from "../Shared/Home/common.js";
 import { fetchCardDetails } from "./CardDetails.js";
 import { fetchCardDetailsForEditing } from "./EditCard.js";
 import { deleteCard } from "./DeleteCard.js";
@@ -491,4 +491,16 @@ if (cardContainer !== null) {
 
         }
     });
+}
+
+//logout
+const logoutBtn = document.getElementById('logoutBtn');
+
+if (logoutBtn !== null) {
+    logoutBtn.addEventListener('click', logout);
+}
+function logout() {
+    localStorage.removeItem('token');
+
+    window.location.href = '/Auth/Login';
 }

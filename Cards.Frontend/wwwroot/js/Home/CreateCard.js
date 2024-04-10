@@ -1,8 +1,8 @@
-﻿import { makeRequest } from "../Shared/common.js";
-import { showErrorToast } from "../Shared/common.js";
-import { setEndpointAndToken } from "../Shared/common.js";
+﻿import { makeRequest } from "../Shared/Home/common.js";
+import { showErrorToast } from "../Shared/Home/common.js";
+import { setEndpointAndToken } from "../Shared/Home/common.js";
 import { fetchCardDetails } from "./CardDetails.js";
-import { handleDOMContentLoadedState } from "../Shared/common.js";
+import { handleDOMContentLoadedState } from "../Shared/Home/common.js";
 
 document.addEventListener('DOMContentLoaded', function () {
     handleDOMContentLoadedState();

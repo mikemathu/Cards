@@ -1,6 +1,6 @@
-import { setEndpointAndToken } from "../Shared/common.js";
-import { makeRequest } from "../Shared/common.js";
-import { showErrorToast } from "../Shared/common.js";
+import { setEndpointAndToken } from "../Shared/Home/common.js";
+import { makeRequest } from "../Shared/Home/common.js";
+import { showErrorToast } from "../Shared/Home/common.js";
 
 
 export function deleteCard(cardId, cardName) {

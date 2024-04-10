@@ -1,7 +1,7 @@
-import { filterDataOptions } from "../Home/Dashboard.js";
-import { createCardBtnClick } from "../Home/Dashboard.js";
-import { fetchCardDetailsForEditing } from "../Home/EditCard.js";
-import { fetchCardDetails } from "../Home/CardDetails.js";
+import { filterDataOptions } from "../../Home/Dashboard.js";
+import { createCardBtnClick } from "../../Home/Dashboard.js";
+import { fetchCardDetailsForEditing } from "../../Home/EditCard.js";
+import { fetchCardDetails } from "../../Home/CardDetails.js";
 
 const baseURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
 
