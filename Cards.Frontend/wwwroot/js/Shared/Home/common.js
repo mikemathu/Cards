@@ -138,6 +138,11 @@ export function backButtonClick() {
     const backButtonwithRefresh = document.getElementById('backtoCardsAndFresh');
     if (backButtonwithRefresh !== null) {
         filterDataOptions();
+
+         const backButton = document.querySelector('.cardDetailsBackBtn');
+         if (backButton) {
+             backButton.removeAttribute("id");
+         }
     }
 }
 

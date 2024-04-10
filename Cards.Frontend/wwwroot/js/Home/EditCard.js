@@ -2,6 +2,7 @@
 import { makeRequest } from "../Shared/Home/common.js";
 import { showErrorToast } from "../Shared/Home/common.js";
 import { handleDOMContentLoadedState } from "../Shared/Home/common.js";
+import { fetchCardDetails } from "./CardDetails.js";
 
 const baseURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
 
@@ -77,6 +78,13 @@ if (createCardForm !== null) {
         makeRequest("PUT", apiUrl, cardData, token)
             .then(data => {
                 showErrorToast("Card Updated successfully");
+
+                const backButton = document.querySelector('.cardDetailsBackBtn');
+                if (backButton !== null) {
+                    backButton.id = 'backtoCardsAndFresh';
+                }
+
+                fetchCardDetails(cardId);
             })
             .catch(error => {
                 showErrorToast(error.message);

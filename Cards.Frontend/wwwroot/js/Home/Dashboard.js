@@ -1,4 +1,5 @@
 import { setEndpointAndToken } from "../Shared/Home/common.js";
+import { showErrorToast } from "../Shared/Home/common.js";
 import { fetchCardDetails } from "./CardDetails.js";
 import { fetchCardDetailsForEditing } from "./EditCard.js";
 import { deleteCard } from "./DeleteCard.js";
@@ -58,16 +59,25 @@ function fetchData({ pagination = {}, sort = {}, filter = {} }) {
   
         return response.json();
     })
-    .then(data => {
+        .then(data => {
+            if (data.length === 0) {
+                document.getElementById('cardContainer').innerHTML = 'No data to show';
+
+                document.getElementById('cardContainer').classList.add('text-alignCentre');
+                document.getElementById('paginationInfo').classList.add('cs-hidden');
+                document.getElementById('paginationNav').classList.add('cs-hidden');
+
+                document.getElementById('loader').style.display = 'none';  
+                return;
+            }
         // Generate HTML for each card object in the data array
         const cardHtml = data.map(card => `
                             <div class="card mb-3" id="card" style="background-color: ${card.color}">
                                 <div class="card-body">
                                     <h5 class="card-title">${card.name}</h5>
-                                    <p class="card-text">${card.description}</p>
-                                    <p class="card-text">Created By: ${card.createdByAppUser}</p>
                                     <p class="card-text">Status: ${card.status}</p>
                                     <p class="card-text">Date of Creation: ${new Date(card.dateOfCreation).toLocaleString()}</p>
+
                                     <a class="btn btn-warning fas fa-pencil-alt"  data-id="${card.cardId}"></a>
                                     <a class="btn btn-info fa-solid fa-circle-info" data-id="${card.cardId}" ></a>
                                     <button data-id="${card.cardId}" data-name="${card.name}" class="btn btn-danger deleteBtn fa-solid fa-trash" type="button"></button>
@@ -75,9 +85,14 @@ function fetchData({ pagination = {}, sort = {}, filter = {} }) {
                             </div>
                         `).join('');
   
-        // Insert the generated HTML into the cardContainer element
-        document.getElementById('cardContainer').innerHTML = cardHtml;
-        document.getElementById('loader').style.display = 'none';  
+            //Insert the generated HTML into the cardContainer element
+            const cardContainer =  document.getElementById('cardContainer').innerHTML = cardHtml;
+
+            document.getElementById('cardContainer').classList.remove('text-alignCentre');
+            document.getElementById('paginationInfo').classList.remove('cs-hidden');
+            document.getElementById('paginationNav').classList.remove('cs-hidden');
+
+            document.getElementById('loader').style.display = 'none';  
     })
     .catch(error => {
         document.getElementById('loader').style.display = 'none';

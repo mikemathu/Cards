@@ -189,12 +189,11 @@ _LayoutDashboard file
 }
 
 /*Cards Section*/
-.card-container {
+.card {
     border-radius: 0px;
     transition: box-shadow 0.3s ease;
 }
-
-.card-container:hover {
+.card:hover {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -216,8 +215,12 @@ CreateCards file
     padding-top: 5vh;
 }
 
+/*appending classes*/
 .cs-hidden {
     display: none;
+}
+.text-alignCentre{
+    text-align: center;
 }
 
 /********************************
