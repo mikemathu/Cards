@@ -25,7 +25,11 @@ namespace Cards.Persistence.Extensions
                         cardQuery = cardQuery.Where(card => card.StatusId == (string)key.Value);
                         break;
                     case "DateOfCreation":
-                        cardQuery = cardQuery.Where(card => card.DateOfCreation == (DateTime)key.Value);
+                        //cardQuery = cardQuery.Where(card => card.DateOfCreation == (DateTime)key.Value);
+                        DateTime selectedDate = ((DateTime)key.Value).Date;
+                        DateTime startDate = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, 0, 0, 0, DateTimeKind.Utc);
+                        DateTime endDate = new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, 23, 59, 59, DateTimeKind.Utc);
+                        cardQuery = cardQuery.Where(card => card.DateOfCreation >= startDate && card.DateOfCreation <= endDate);
                         break;
                     default:
                         break;

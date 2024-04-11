@@ -113,7 +113,7 @@ function constructQueryParams(pagination, sort, filter) {
     if (sortByString) queryParams += `&orderBy=${sortByString}`;
 
     // Filtering
-    const { name, color, status, dateOfCreation } = filter;
+    var { name, color, status, dateOfCreation } = filter;
     if (name) queryParams += `&name=${name}`;
     if (color) {
         color = encodeURIComponent(color);
@@ -121,9 +121,7 @@ function constructQueryParams(pagination, sort, filter) {
     }
     if (status) queryParams += `&status=${status}`;
     if (dateOfCreation) queryParams += `&dateOfCreation=${dateOfCreation}`;
-
-   
-
+ 
     return queryParams;
 }
 
@@ -361,19 +359,39 @@ function updateSortString() {
 
 // Add event listeners to filter input fields
 document.addEventListener('DOMContentLoaded', () => {
+
+    let delayTimer;
+
     const filterByName = document.getElementById('filterByName');
-    const colorPicker = document.getElementById('color-picker')
+    const colorPicker = document.getElementById('color-picker');
     const filterByStatus = document.getElementById('filterByStatus');
     const filterByDateOfCreation = document.getElementById('filterByDateOfCreation');
 
     if (filterByName !== null && colorPicker !== null &&
         filterByStatus !== null && filterByDateOfCreation !== null) {
-        filterByName.addEventListener('input', filterDataOptions);
-        colorPicker.addEventListener('input', filterDataOptions);
+
         filterByStatus.addEventListener('change', filterDataOptions);
-        filterByDateOfCreation.addEventListener('change', filterDataOptions);
-        }
+        filterByDateOfCreation.addEventListener('input', filterDataOptions);
+      
+        filterByName.addEventListener('input', () => {
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(delayedFilterDataOptions, 1500);
+        });
+        colorPicker.addEventListener('input', () => {
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(delayedFilterDataOptions, 1500);
+        });  
+        colorPicker.addEventListener('click', () => {
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(delayedFilterDataOptions, 1500);
+        });
+    }
 });
+
+// Event listener for filterByName with a delay
+function delayedFilterDataOptions() {
+    filterDataOptions();
+} 
 
 export function filterDataOptions() {
     const filterOptions = updateFilterOptions();
@@ -381,8 +399,8 @@ export function filterDataOptions() {
 }
 export function updateFilterOptions() {
     //color value
-    const defaultColor = document.getElementById('color-picker').defaultValue;
-    const colorValue = document.getElementById('color-picker').value !== defaultColor ? document.getElementById('color-picker').value : undefined
+    const defaultColor = document.getElementById('filterByColor').defaultValue;
+    const colorValue = document.getElementById('filterByColor').value !== defaultColor ? document.getElementById('filterByColor').value : undefined;
 
     //status calue
     const statusValue = document.getElementById('filterByStatus').value !== "Status" ? document.getElementById('filterByStatus').value : undefined;
@@ -405,8 +423,13 @@ const colorPickerInput = document.getElementById('color-picker');
 // Add event listener to color picker input field
 if (colorPickerInput !== null) {
     colorPickerInput.addEventListener('input', function () {
-        // Update the value of the filterByColor input field with the selected color
         filterByColorInput.value = colorPickerInput.value;
+    });
+}
+// Add event listener to filterByColor input field to clear data
+if (filterByColorInput !== null) {
+    filterByColorInput.addEventListener('click', function () {
+        filterByColorInput.value = '';
     });
 }
 
