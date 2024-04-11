@@ -145,8 +145,3 @@ export function backButtonClick() {
          }
     }
 }
-
-
-
-
-

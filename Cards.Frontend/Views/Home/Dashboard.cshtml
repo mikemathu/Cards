@@ -2,15 +2,12 @@
     Layout = "_LayoutDashboard";
     ViewBag.Title = "Dashboard";
 }
-@model Cards.Services.Dtos.CardForUpdateDto
-  
+@model Cards.Services.Dtos.CardForUpdateDto  
 
 <!-- Cards Section -->
 <div class="card mb-3 card-container">
     <div class="dashboard-section" id="cardContainer"></div>
 </div>
-
-
 
 <!--  Create Card Table -->
 <div class="row cs-card-createform-container cs-hidden" id="card-createform">
@@ -90,8 +87,6 @@
     </div>
 </div>
 
-
 <script type="module" src="~/js/Home/Dashboard.js"></script>
 <script type="module" src="~/js/Home/CreateCard.js"></script>
-
 <script type="module" src="~/js/Home/DeleteCard.js"></script>
