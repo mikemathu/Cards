@@ -1,21 +1,20 @@
+using Cards.Presentation;
 using Cards.Web;
 using Cards.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers()
-.AddApplicationPart(Assembly.Load(new AssemblyName("Cards.Presentation")));
+
+builder.Services.AddMvc()
+    .AddApplicationPart(typeof(PresentationAssemblyReference).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 
-builder.Services.Configure<ApiBehaviorOptions>(options =>
-{
-    options.SuppressModelStateInvalidFilter = true;
-});
+builder.Services.ConfigureApiBehaviorOptions();
 
+builder.Services.ConfigureCors();
 builder.Services.ConfigureNpgsqlContext(builder.Configuration);
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureCardService();
@@ -35,16 +34,18 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     //app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(s =>
+    {
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Card API v1");
+    });
 }
 app.UseExceptionHandler("/Home/Error");
 
-app.UseSwagger();
-app.UseSwaggerUI(s =>
-{
-    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Card API v1");
-});
-
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+app.UseCardsFrontendStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();

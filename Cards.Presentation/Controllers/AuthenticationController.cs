@@ -87,5 +87,6 @@ namespace Cards.Presentation.Controllers
 
             return Ok(new { Token = token });
         }
+
     }
 }

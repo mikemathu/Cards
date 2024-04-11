@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "_LayoutDashboard";
+    ViewBag.Title = "Dashboard";
+}
+@model Cards.Services.Dtos.CardForUpdateDto
+  
+
+<!-- Cards Section -->
+<div class="card mb-3 card-container">
+    <div class="dashboard-section" id="cardContainer"></div>
+</div>
+
+
+
+<!--  Create Card Table -->
+<div class="row cs-card-createform-container cs-hidden" id="card-createform">
+    <h1>Create Card</h1>
+    <hr />
+    <form class="cs-createCard" id="createCardForm">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" class="form-control" id="cardName" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control" id="cardDescription" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Color" class="form-label">Color</label>
+            <input asp-for="Color" type="color" class="form-control" id="cardColor" value="#00FF00" />
+            <span asp-validation-for="Color" class="text-danger"></span>
+        </div>
+        <a class="btn btn-dark cs-backtoCards">Back</a>
+        <button id="createCard" class="btn btn-warning ladda-button my-button" data-style="expand-right">Submit</button>
+
+
+    </form>
+</div>
+
+<!--  Card Details -->
+<div class="cs-hidden cs-cardTable" id="cardTable">
+    <h1>Card Detail</h1>
+    <hr />
+    <table>
+        <tbody id="cardTableBody"></tbody>
+    </table>
+    <a class="btn btn-dark cs-backtoCards cardDetailsBackBtn">Back</a>
+</div>
+
+<!--  Edit Card Table -->
+<div class="cs-hidden cs-cardEditTable" id="cardEditTable">
+    <h1>Edit Card</h1>
+    <hr />
+    <div class="row cs-editCardForm">
+        <div class="col-md-12">
+            <form id="editCardForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" id="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" id="Description" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Status" class="control-label">Status</label>
+                    <select id="Status" class="form-select">
+                        <option value="Todo">Todo</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Done">Done</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Color" class="control-label"></label>
+                    <input asp-for="Color" id="Color" class="form-control" />
+                    <span asp-validation-for="Color" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <a class="btn btn-dark cs-backtoCards">Back</a>
+                    &nbsp;
+                    <input type="submit" value="Save Changes" class="btn btn-warning" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="module" src="~/js/Home/Dashboard.js"></script>
+<script type="module" src="~/js/Home/CreateCard.js"></script>
+
+<script type="module" src="~/js/Home/DeleteCard.js"></script>

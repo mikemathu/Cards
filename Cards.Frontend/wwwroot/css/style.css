@@ -1,0 +1,362 @@
+﻿textarea {
+    resize: none;
+}
+h1 {
+    font-size: 24px;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+td.color-cell {
+    background-color: #fff;
+}
+/********************************
+
+
+_LayoutDashboard file
+
+
+******************************/
+
+
+
+/*Navigation Bar*/
+.cs-loader {
+    position: absolute;
+    top: 9%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -9999;
+}
+
+.cs-loader-inner {
+    transform: translateY(-50%);
+    top: -4%;
+    position: absolute;
+    width: calc(100% - 10px);
+    padding: 0 100px;
+    text-align: center;
+}
+
+.cs-loader-inner label {
+    font-size: 20px;
+    opacity: 0;
+    display: inline-block;
+}
+
+@keyframes lol {
+    0% {
+        opacity: 0;
+        transform: translateX(-300px);
+    }
+
+    33% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+
+    66% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(300px);
+    }
+}
+
+@-webkit-keyframes lol {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(-300px);
+    }
+
+    33% {
+        opacity: 1;
+        -webkit-transform: translateX(0px);
+    }
+
+    66% {
+        opacity: 1;
+        -webkit-transform: translateX(0px);
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: translateX(300px);
+    }
+}
+
+.cs-loader-inner label:nth-child(6) {
+    -webkit-animation: lol 3s infinite ease-in-out;
+    animation: lol 3s infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(5) {
+    -webkit-animation: lol 3s 100ms infinite ease-in-out;
+    animation: lol 3s 100ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(4) {
+    -webkit-animation: lol 3s 200ms infinite ease-in-out;
+    animation: lol 3s 200ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(3) {
+    -webkit-animation: lol 3s 300ms infinite ease-in-out;
+    animation: lol 3s 300ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(2) {
+    -webkit-animation: lol 3s 400ms infinite ease-in-out;
+    animation: lol 3s 400ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(1) {
+    -webkit-animation: lol 3s 500ms infinite ease-in-out;
+    animation: lol 3s 500ms infinite ease-in-out;
+}
+
+/*Left Section*/
+.row {
+    padding-left: 7vw;
+}
+
+.cs-left-section {
+    width: 30vw;
+    padding: 32px 45px 60px 15px;
+}
+
+.row .cs-left-section h5 {
+    padding-left: 20%;
+}
+
+
+
+/*Filters Section*/
+.filter-container .form-control {
+    border-radius: 0;
+}
+.color-picker-container {
+    display: flex;
+    align-items: stretch;
+}
+.cs-color-picker {
+    height: 100%; /* make the color picker button match the height of the input field */
+    border-radius: 0 4px 4px 0;
+}
+
+
+/*Sort Section*/
+.ascending-label {
+    font-size: smaller;
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.5); /* Faded color */
+}
+
+/*Right Section*/
+.right-section {
+    width: 60vw;
+    padding: 32px 15px 0px 0px;
+}
+
+.cs-toggleFilterSection {
+    display: none;
+}
+
+.cs-paginationInfo {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 0px;
+}
+
+/*Cards Section*/
+.card {
+    border-radius: 0px;
+    transition: box-shadow 0.3s ease;
+}
+.card:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/********************************
+
+
+CreateCards file
+
+
+******************************/
+
+.cs-card-createform-container {
+    padding: 10vh 10vw;
+}
+
+.cs-createCard {
+    padding-top: 5vh;
+}
+
+/*appending classes*/
+.cs-hidden {
+    display: none;
+}
+.text-alignCentre{
+    text-align: center;
+}
+
+/********************************
+
+
+Common styles for forms
+
+
+******************************/
+
+
+.cs-card-createform-container,
+.cs-cardEditTable,
+.cs-cardTable {
+    margin: 20px auto;
+    /* padding: 20px;*/
+    border-radius: 5px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-control,
+.form-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-dark {
+    background-color: #343a40;
+}
+
+.btn-dark:hover {
+    background-color: #23272b;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+}
+
+.btn-warning:hover {
+    background-color: #ffca2c;
+}
+
+.cs-backtoCards {
+    background-color: #007bff;
+}
+
+.cs-backtoCards:hover {
+    background-color: #0056b3;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.mb-3 {
+    margin-bottom: 20px;
+}
+
+/*create form*/
+.cs-card-createform-container {
+    padding: 0px;
+}
+
+/*edit form*/
+.form-group {
+    margin-bottom: 20px;
+}
+
+.control-label {
+    font-weight: bold;
+}
+
+.cs-editCardForm {
+    padding-left: 0px;
+}
+
+@media (max-width: 991px) {
+ /********************************
+
+
+_LayoutDashboard file
+
+
+******************************/
+    /* Left Section*/
+    .cs-left-section {
+        position: fixed;
+        left: -250px; /* Initially hidden */
+        width: 250px; /* Width of the sidebar */
+        height: 100vh; /* Full height of the viewport */
+        background-color: #f8f9fa; /* Sidebar background color */
+        padding: 20px;
+        transition: left 0.3s ease; /* Smooth transition */
+        z-index: 1000; /* Ensure the sidebar appears above other content */
+        overflow-y: auto; /* Enable vertical scrollbar when content exceeds height */
+    }
+
+    .cs-left-section.show {
+        left: 0; /* Display the sidebar */
+    }
+
+
+
+    /*Right Section*/
+    .right-section {
+        width: 80vw;
+    }
+
+    .cs-toggleFilterSection {
+        display: block;
+        margin-bottom: 10px;
+        padding: 6px 30px;
+    }
+}
+

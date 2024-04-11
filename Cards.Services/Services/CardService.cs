@@ -55,7 +55,10 @@ namespace Cards.Services.Services
                 cardQueryFilters.Add("StatusId", cardFilterParameters.StatusId);
 
             if (cardFilterParameters.DateOfCreation != null)
+            {
+                var startDate = cardFilterParameters.DateOfCreation;
                 cardQueryFilters.Add("DateOfCreation", cardFilterParameters.DateOfCreation);
+            }
 
             return cardQueryFilters;
         }
