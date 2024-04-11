@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace PointOfSaleSystem.Web.Controllers
 {
@@ -34,7 +33,6 @@ namespace PointOfSaleSystem.Web.Controllers
         {
             return View("Dashboard");
         }
-
 
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()

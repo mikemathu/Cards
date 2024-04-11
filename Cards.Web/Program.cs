@@ -1,7 +1,6 @@
 using Cards.Presentation;
 using Cards.Web;
 using Cards.Web.Extensions;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
