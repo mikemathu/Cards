@@ -681,6 +681,17 @@ Method 2
 ### User Login
 {{baseUrl}}/Auth/Login
 
+| Admin Login Credentials  |                     |
+|--------------------------|---------------------|
+| email                    | admin@gmail.com     |
+| password                 | adminP@ssword1      |
+
+
+| Member Login Credentials |                      |
+|--------------------------|----------------------|
+| email                    | kev@gmail.com        |
+| password                 | kevP@ssword1         |
+
 <img src="https://github.com/mikemathu/Cards/blob/master/AppData/UI%20Login.PNG">
 
 
