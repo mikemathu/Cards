@@ -674,3 +674,17 @@ Method 2
 	}
 ]
 ```
+
+
+## UI
+
+### User Login
+{{baseUrl}}/Auth/Login
+
+<img src="https://github.com/mikemathu/Cards/blob/master/AppData/UI%20Login.PNG">
+
+
+## Swagger page
+{{baseUrl}}/swagger/index.html
+
+<img src="https://github.com/mikemathu/Cards/blob/master/AppData/swagger%20Ui.PNG">
