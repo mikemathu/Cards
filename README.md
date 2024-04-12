@@ -1,10 +1,12 @@
 # Cards RESTful web API service
 
 ## Architecture
+
 This project is a web API built using ASP.NET Core and follows the principles of Onion Architecture for better separation of concerns and maintainability.
-<img src="https://github.com/mikemathu/Cards/blob/master/AppData/Onion Architecture.PNG">
-<img src="https://github.com/mikemathu/Cards/blob/master/AppData/Onion Architecture.PNG">
-s
+Onion Architecture
+<img src="https://github.com/mikemathu/Cards/blob/master/AppData/onion%20architecture.PNG">
+<img src="https://github.com/mikemathu/Cards/blob/master/AppData/code%20architecture.PNG">
+
 ## Class Libraries
 
 ### 1. Cards.Domain
@@ -92,7 +94,7 @@ Method 1
 Method 2
 
 - Use pgAdmin to create an empty database named **Cards**. 
-- Import the **[Cards.sql](./Logicea%20Coding%20Challenge.postman_collection.json)** file from the **AppData** directory of this project.
+- Import the **[Cards.sql](https://github.com/mikemathu/Cards/blob/master/AppData/Cards.sql)** file from the **AppData** directory of this project.
 
 
 
@@ -101,8 +103,8 @@ Method 2
 - Set the Startup Item in your IDE to **https** and start the server.
 
 ### Configure an API client for interacting with the API
-
-- [Postman Collection](./Logicea%20Coding%20Challenge.postman_collection.json)
+-- Open Insomnia (or another tool) and import the **[Cards.json](https://github.com/mikemathu/Cards/blob/master/AppData/Cards.json)** file from the `AppData` directory of this project.
+- [Postman Collection](https://github.com/mikemathu/Cards/blob/master/AppData/Cards.json)
 
 
 ## Authentication Endpoints
