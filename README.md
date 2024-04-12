@@ -1,13 +1,10 @@
-# Cards RESTful web service
+# Cards RESTful web API service
 
 ## Architecture
-Onion Architecture
-<img src="https://github.com/mikemathu/Cards/blob/master/AppData/Onion Architecture.PNG">
-
-# Cards Web API
-
 This project is a web API built using ASP.NET Core and follows the principles of Onion Architecture for better separation of concerns and maintainability.
-
+<img src="https://github.com/mikemathu/Cards/blob/master/AppData/Onion Architecture.PNG">
+<img src="https://github.com/mikemathu/Cards/blob/master/AppData/Onion Architecture.PNG">
+s
 ## Class Libraries
 
 ### 1. Cards.Domain
