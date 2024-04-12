@@ -27,10 +27,10 @@ This project is a web API built using ASP.NET Core and follows the principles of
 
 - Contains business logic and application services.
 - **Directories**:
-  - `Abstraction`: Interfaces or abstract classes defining service contracts that `Services`. Also acts as intermediary between `Cards.Services` and `Cards.Presentation` layer.
+  - `Abstraction`: Interfaces or abstract classes defining service contracts that `Services` implement. Also acts as intermediary between `Cards.Services` and `Cards.Presentation` layer.
   - `Dtos`: Data transfer objects used for transferring data between`Cards.Services` and `Cards.Presentation` layer.
-  - `Services`: Implementations of `Abstraction` application services, containing the core business logic.
-  - `MappingProfiles.cs`: AutoMapper mapping profiles for mapping between domain entities and DTOs.
+  - `Services`: Implementations of `Abstraction` application services. Containing the core business logic.
+  - `MappingProfiles.cs`: AutoMapper mapping profiles for mapping between `Cards.Domain` `Entities` and `Cards.Services` `DTOs`.
 
 ### 3. Cards.Presentation
 
@@ -43,7 +43,7 @@ This project is a web API built using ASP.NET Core and follows the principles of
 
 - Responsible for data persistence concerns.
 - **Directories**:
-  - `Configurations`: Entity configurations for mapping domain entities to the database schema.
+  - `Configurations`: Entity configurations for mapping `Cards.Domain` `Entities` to the database schema.
   - `Extensions`: Extension methods relevant to persistence operations.
   - `Migrations`: Database migration scripts for managing schema changes.
   - `Repositories`: Implementations of `Contracts` interfaces defined in the `Cards.Domain` layer.
