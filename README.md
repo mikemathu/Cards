@@ -312,7 +312,7 @@ Method 2
 | appUserId                        | Query String   | -         | Yes      | App User ID                                                  |
 
 #### Sample Request
-{{baseUrl}}/api/appUsers/kev5f943-112f-4d49-888d-c671e210b8b8/cards/all
+{{baseUrl}}/api/appUsers/admin46d-9e9f-44d3-8425-263ba67509aa/cards/all
 
 #### Sample Response
 ```json
@@ -467,7 +467,7 @@ Method 2
 | Content-Type = Application/json  | Header         | -         | Yes      | -                                                            |
 | authorization                    | Bearer Token   | -         | Yes      | Token used to check authorization of user to use the API.    |
 | appUserId                        | Query String   | -         | Yes      | App User ID                                                  |
-| orderBy                          | Query String   | -         | Yes      | Order query string parameters                                |
+| orderBy                          | Query String   | -         | No       | Order query string parameters                                |
 
 #### Sample Request
 {{baseUrl}}/api/appUsers/admin46d-9e9f-44d3-8425-263ba67509aa/cards/all?orderBy=name,color,status%20desc,dateOfCreation%20desc
@@ -646,7 +646,7 @@ Method 2
 | color                            | Query String   | -         | No       | Card color                                                   |
 | status                           | Query String   | -         | No       | Card status                                                  |
 | dateOfCreation                   | Query String   | -         | No       | Card Date of Creation                                        |
-| orderBy                          | Query String   | -         | Yes      | Order query string parameters                                |
+| orderBy                          | Query String   | -         | No       | Order query string parameters                                |
 
 #### Sample Request
 {{baseUrl}}/api/appUsers/admin46d-9e9f-44d3-8425-263ba67509aa/cards/all?pageNumber=1&pageSize=2&name=System%20Installation&color=%23FF7F50&status=%20todo&dateOfCreation=2024-01-15&orderBy=name,color,status%20desc,dateOfCreation%20desc
