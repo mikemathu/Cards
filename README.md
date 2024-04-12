@@ -3,8 +3,11 @@
 ## Architecture
 
 This project is a web API built using ASP.NET Core and follows the principles of Onion Architecture for better separation of concerns and maintainability.
-Onion Architecture
+
+## Onion Architecture
 <img src="https://github.com/mikemathu/Cards/blob/master/AppData/onion%20architecture.PNG">
+
+## Code Files
 <img src="https://github.com/mikemathu/Cards/blob/master/AppData/code%20architecture.PNG">
 
 ## Class Libraries
